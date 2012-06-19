@@ -9,14 +9,33 @@
 
 
     <%= f.inputs "Basic Info" do %>
+    
       <div>What kind of entity is it? Where does it live and on what does it survive? What "style" or "brand" identifies it, how might it be classified? Is this project unlike any other or one of a clearly defined species?</div>
 
       <%= f.input :name, :as => :string %>
       <%= f.input :url, :as => :string %>
-      
-      <%= f.input :uploaded_logo, :as=> :file, :hint => @bird.logo.nil? ? "" : image_tag(@bird.logo.asset.url())  %>
-   
-       <div id="media_file_uploader">&nbsp;</div>
+ 
+      <li class="file input optional" id="bird_uploaded_logo_input">
+        <label class="label" for="bird_uploaded_logo">Uploaded logo</label>
+        <div style="margin:0.5em 0 0 20%">
+          <%= image_tag(@bird.logo.asset.url()) unless @bird.logo.nil? %>
+          <input id="bird_uploaded_logo" name="bird[uploaded_logo]" type="file" />
+        </div>
+      </li>
+
+      <li class="file input optional" id="images_input">
+        <label class="label" for="bird_images">Other Files</label>
+        <div style="margin:0.5em 0 0 20%">
+          <div id="media_files">
+            <%= render :partial => "admin/assets/form", :locals => {:assets => @bird.images, :attached_to => @bird } %>
+          </div>
+          <% if @bird.new_record? %>
+            <em>You will be able to add images after saving</em>
+          <% else %>
+            <div id="media_file_uploader"></div>
+          <% end %>
+        </div>
+      </li>
    
       <%= f.input :habitat %>
       <%= f.input :genus_type, :label => "Classification" %>

@@ -1,5 +1,12 @@
 BoiCms20::Application.routes.draw do
+
   ActiveAdmin.routes(self)
+
+  namespace :admin do
+    resources :birds do
+      resources :assets
+    end
+  end 
 
   devise_for :admin_users, ActiveAdmin::Devise.config
 
@@ -42,6 +49,8 @@ BoiCms20::Application.routes.draw do
   #       get 'recent', :on => :collection
   #     end
   #   end
+
+
 
   # Sample resource route within a namespace:
   #   namespace :admin do
