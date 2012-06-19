@@ -1,0 +1,77 @@
+  <script>
+    <%- session_key = Rails.application.config.session_options[:key] -%>
+    BOI_SESSION_KEY = "<%= session_key %>";
+    BOI_SESSION_VAL = '<%= cookies[session_key] %>';
+  </script>  
+  
+
+ <%= semantic_form_for [:admin, @bird], :html => {:multipart => true} do |f| %>
+
+
+    <%= f.inputs "Basic Info" do %>
+      <div>What kind of entity is it? Where does it live and on what does it survive? What "style" or "brand" identifies it, how might it be classified? Is this project unlike any other or one of a clearly defined species?</div>
+
+      <%= f.input :name, :as => :string %>
+      <%= f.input :url, :as => :string %>
+      
+      <%= f.input :uploaded_logo, :as=> :file, :hint => @bird.logo.nil? ? "" : image_tag(@bird.logo.asset.url())  %>
+   
+       <div id="media_file_uploader">&nbsp;</div>
+   
+      <%= f.input :habitat %>
+      <%= f.input :genus_type, :label => "Classification" %>
+      <%= f.input :brand, :hint => "Describe how the brand / logo / visual identity is positioned." %>
+      <%= f.input :foritself, :label=>"Is it self-aware?", :hint => "Is the project in question aware of itself as an entity? Does it actively promote a sense of belonging, community or participation? Or is it identified by a second order observation of people, behavior, or designed to display \"emergent\" behavior, or the effects of collective behavior? "%>
+
+    <%end%>
+ 
+ 
+     <%= f.inputs "Structure" do %>
+      <div>One working hypothesis in this project is that in any instance of participation (real or imagined) there are two kinds of organizations: formally organized, funded or legally sanctioned entities (Formal Social Enterprises or FSEs) and informally organized, more or less open, and fluid publics (Organized Publics or OPs). Cases that do not appear to have this dyadic structure could possibly reduce to familiar organizational forms (e.g. a corporation and its market of consumers; a mass media journalistic organization and its reading public, an acephalous social movement etc.). Information in this section should help outline the basic size, extent and relationship of these two entities.</div>
+
+      <%= f.input :fse_name %>
+      <%= f.input :fse_org_style %>
+    <%end%>
+
+
+     <%= f.inputs "Ontogeny" do %>
+      <div>Ontogeny covers the historical formation of the Bird. Many entities in this database are changing quickly, so this is a place to record the changes each case has been through from its origin to now. When was it founded, does it still exist, what stages has it gone through (either self-described or discovered through research/interview). In particular, how is the FSE/OP relationship related to its formation (did it start as an OP and create an FSE as it grew, or start as an FSE and try to magic an OP into existence, or neither?)</div>
+
+      <%= f.input :formation %>
+      <%= f.input :history %>
+      
+    <%end%>
+    
+    
+ 
+     <%= f.inputs "Behavior" do %>
+      <div>This section asks for detailed information on what the Bird does: what "resource" is provided, for whom and why? Is it making a product, providing a service, or something else entirely? What are the stated or unstated goals of the project, and which tasks are designed to achieve these goals? How are the tasks organized, are they tightly or loosely structured? Are there clear comparable metrics for completion of a task? A key goal of this section is to articulate what level of meaningful participation people are engaging in with the project. Are they mere clickworkers or "Turkers" or are they meaningfully and deeply engaged in both the solving of a problem and the definition of what the problem is?</div>
+
+      <%= f.input :resource %>
+      <%= f.input :availability %>
+      
+    <%end%>   
+    
+    
+    <%= f.inputs "Mating" do %>
+      <div>This section asks for information about how this Bird relates to others and to the ecology around it. Are they (or were they) bought/acquired by some other Bird, is there a funding relationship or a "client" relationship which allows them to exist. How do they sustain (and reproduce) themselves as a project?</div>
+      
+    <%end%> 
+    
+    
+    <%= f.inputs "Summary" do %>
+      <div>The summary should give an simple introduction. One sentence to describe what the bird is and what it does; a paragraph describing its ontogeny and structure, and a paragraph summarizing its behavior and mating. One can also add information here that is not elicited by these questions, but seems important in order to understand the bird. Other kinds of information that may also be appropriate her: analytical or theoretical assessments, questions, and ideas or suggestions for transforming the schema in based on something revealed by this bird.</div>
+      
+    <%end%>
+    
+    
+    <%= f.inputs "Metadata" do %>
+      <div>This section asks for information about how this Bird relates to others and to the ecology around it. Are they (or were they) bought/acquired by some other Bird, is there a funding relationship or a "client" relationship which allows them to exist. How do they sustain (and reproduce) themselves as a project?</div>
+      
+      <%= f.input :summary %>
+      
+    <%end%> 
+         
+    <%= f.buttons %>
+         
+<% end %>

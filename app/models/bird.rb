@@ -4,7 +4,7 @@ class Bird < ActiveRecord::Base
   belongs_to :fse_org_style, :class_name => "OrgStyle", :foreign_key => "fse_org_style_id"
   belongs_to :op_org_style, :class_name => "OrgStyle", :foreign_key => "op_org_style_id"
 
-  belongs_to :updated_by, :class_name => "User", :foreign_key => "updated_by_id"
+  belongs_to :updated_by, :class_name => "AdminUser", :foreign_key => "updated_by_id"
 
   has_one :logo, 
     :class_name => "Asset", 
