@@ -8,7 +8,7 @@ BoiCms20::Application.routes.draw do
     end
   end 
 
-  devise_for :admin_users, ActiveAdmin::Devise.config
+  devise_for :users, ActiveAdmin::Devise.config
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

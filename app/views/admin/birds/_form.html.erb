@@ -100,7 +100,7 @@
       <div class="fieldset_hint">This section asks for information about how this Bird relates to others and to the ecology around it. Are they (or were they) bought/acquired by some other Bird, is there a funding relationship or a "client" relationship which allows them to exist. How do they sustain (and reproduce) themselves as a project?</div>
       <%= f.input :birder_credits, :hint => "Indicate authorial credit(s) for this entry" %>
       
-      <input id="bird_updated_by_id" name="bird[updated_by_id]" type="hidden" value="<%= current_admin_user.id %>">      
+      <input id="bird_updated_by_id" name="bird[updated_by_id]" type="hidden" value="<%= current_user.id %>">      
     <%end%> 
          
     <%= f.buttons %>

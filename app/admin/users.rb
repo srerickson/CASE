@@ -1,4 +1,4 @@
-ActiveAdmin.register AdminUser do
+ActiveAdmin.register User do
 
   menu :priority => 10
 
