@@ -5,19 +5,19 @@ ActiveAdmin.setup do |config|
   # Set the title that is displayed on the main layout
   # for each of the active admin pages.
   #
-  config.site_title = "Boi Cms20"
+  config.site_title = "Birds of the Internet"
 
   # Set the link url for the title. For example, to take
   # users to your main site. Defaults to no link.
   #
-  # config.site_title_link = "/"
+  config.site_title_link = "/admin"
 
   # Set an optional image to be displayed for the header
   # instead of a string (overrides :site_title)
   #
   # Note: Recommended image height is 21px to properly fit in the header
   #
-  # config.site_title_image = "/images/logo.png"
+  #config.site_title_image = "/images/dodo-40px.png"
 
   # == Default Namespace
   #
@@ -34,7 +34,8 @@ ActiveAdmin.setup do |config|
   #   config.default_namespace = false
   #
   # Default:
-  # config.default_namespace = :admin
+  config.default_namespace = :admin
+  
   #
   # You can customize the settings for each namespace by using
   # a namespace block. For example, to change the site title
@@ -120,6 +121,8 @@ ActiveAdmin.setup do |config|
   #
   # To load a stylesheet:
   config.register_stylesheet 'vendor/uploadify.css'
+  config.register_stylesheet 'admin.css'
+
 
   #
   # You can provide an options hash for more control, which is passed along to stylesheet_link_tag():

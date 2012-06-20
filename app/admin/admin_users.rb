@@ -1,5 +1,7 @@
 ActiveAdmin.register AdminUser do
 
+  menu :priority => 10
+
   index do
     column :email;
     column :created_at;

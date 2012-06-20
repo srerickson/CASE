@@ -9,20 +9,20 @@
 
 
     <%= f.inputs "Basic Info" do %>
-    
-      <div>What kind of entity is it? Where does it live and on what does it survive? What "style" or "brand" identifies it, how might it be classified? Is this project unlike any other or one of a clearly defined species?</div>
-
+      <div class="fieldset_hint">What kind of entity is it? Where does it live and on what does it survive? What "style" or "brand" identifies it, how might it be classified? Is this project unlike any other or one of a clearly defined species?</div>
       <%= f.input :name, :as => :string %>
-      <%= f.input :url, :as => :string %>
+      <%= f.input :url, :as => :string, :label => "URL" %>
  
+      <!-- mamual input for logo upload--!>
       <li class="file input optional" id="bird_uploaded_logo_input">
-        <label class="label" for="bird_uploaded_logo">Uploaded logo</label>
+        <label class="label" for="bird_uploaded_logo">Logo</label>
         <div style="margin:0.5em 0 0 20%">
           <%= image_tag(@bird.logo.asset.url()) unless @bird.logo.nil? %>
           <input id="bird_uploaded_logo" name="bird[uploaded_logo]" type="file" />
         </div>
       </li>
 
+      <!-- mamual input for file upload--!>
       <li class="file input optional" id="images_input">
         <label class="label" for="bird_images">Other Files</label>
         <div style="margin:0.5em 0 0 20%">
@@ -46,49 +46,61 @@
  
  
      <%= f.inputs "Structure" do %>
-      <div>One working hypothesis in this project is that in any instance of participation (real or imagined) there are two kinds of organizations: formally organized, funded or legally sanctioned entities (Formal Social Enterprises or FSEs) and informally organized, more or less open, and fluid publics (Organized Publics or OPs). Cases that do not appear to have this dyadic structure could possibly reduce to familiar organizational forms (e.g. a corporation and its market of consumers; a mass media journalistic organization and its reading public, an acephalous social movement etc.). Information in this section should help outline the basic size, extent and relationship of these two entities.</div>
-
-      <%= f.input :fse_name %>
-      <%= f.input :fse_org_style %>
+      <div class="fieldset_hint">One working hypothesis in this project is that in any instance of participation (real or imagined) there are two kinds of organizations: formally organized, funded or legally sanctioned entities (Formal Social Enterprises or FSEs) and informally organized, more or less open, and fluid publics (Organized Publics or OPs). Cases that do not appear to have this dyadic structure could possibly reduce to familiar organizational forms (e.g. a corporation and its market of consumers; a mass media journalistic organization and its reading public, an acephalous social movement etc.). Information in this section should help outline the basic size, extent and relationship of these two entities.</div>
+      <%= f.input :fse_name, :label => "FSE Name", :hint => "What is the name of the formally organized or legally recognized entity (FSE)? Note how this differs from the name applied to the organized public or project (e.g. Linux / Linux foundation; Wikipedia, Wikimedia)?" %>
+      <%= f.input :fse_org_style, :label => "FSE Organization Style" %>
+      <%= f.input :fse_owner_founder, :label => "FSE Founders / Owners" %>
+      <%= f.input :fse_significant_member, :label => "FSE Significant Members" %>
+      <%= f.input :fse_mission_statement, :label => "FSE Mission Statement" %>
+      <%= f.input :op_name, :label => "OP Name", :hint=>"What is the name of the organized public (OP)? Is it different from that of the formal organization? (E.g. Linux / Linux Foundation)?" %>
+      <%= f.input :op_org_style, :label => "OP Organization Style" %>
+      <%= f.input :op_vip_founders, :label => "OP Founders/VIPs" %>
+      <%= f.input :op_typical_member, :label => "OP Typical Member" %>     
     <%end%>
 
 
      <%= f.inputs "Ontogeny" do %>
-      <div>Ontogeny covers the historical formation of the Bird. Many entities in this database are changing quickly, so this is a place to record the changes each case has been through from its origin to now. When was it founded, does it still exist, what stages has it gone through (either self-described or discovered through research/interview). In particular, how is the FSE/OP relationship related to its formation (did it start as an OP and create an FSE as it grew, or start as an FSE and try to magic an OP into existence, or neither?)</div>
-
-      <%= f.input :formation %>
-      <%= f.input :history %>
-      
+      <div class="fieldset_hint">Ontogeny covers the historical formation of the Bird. Many entities in this database are changing quickly, so this is a place to record the changes each case has been through from its origin to now. When was it founded, does it still exist, what stages has it gone through (either self-described or discovered through research/interview). In particular, how is the FSE/OP relationship related to its formation (did it start as an OP and create an FSE as it grew, or start as an FSE and try to magic an OP into existence, or neither?)</div>
+      <%= f.input :formation, :hint => "How did the entity form? From OP to FSE or the opposite?" %>
+      <%= f.input :history, :hint => "Historicize the entity. Give a brief description of the stages it has been through from founding to current form" %>
+      <%= f.input :lifespan, :hint => "Does the project still exist, is it endangered, extinct? Has it been outcompeted by similar entities? What were the causes of its death?" %>
     <%end%>
     
     
  
      <%= f.inputs "Behavior" do %>
-      <div>This section asks for detailed information on what the Bird does: what "resource" is provided, for whom and why? Is it making a product, providing a service, or something else entirely? What are the stated or unstated goals of the project, and which tasks are designed to achieve these goals? How are the tasks organized, are they tightly or loosely structured? Are there clear comparable metrics for completion of a task? A key goal of this section is to articulate what level of meaningful participation people are engaging in with the project. Are they mere clickworkers or "Turkers" or are they meaningfully and deeply engaged in both the solving of a problem and the definition of what the problem is?</div>
+      <div class="fieldset_hint">This section asks for detailed information on what the Bird does: what "resource" is provided, for whom and why? Is it making a product, providing a service, or something else entirely? What are the stated or unstated goals of the project, and which tasks are designed to achieve these goals? How are the tasks organized, are they tightly or loosely structured? Are there clear comparable metrics for completion of a task? A key goal of this section is to articulate what level of meaningful participation people are engaging in with the project. Are they mere clickworkers or "Turkers" or are they meaningfully and deeply engaged in both the solving of a problem and the definition of what the problem is?</div>
+      <%= f.input :resource, :hint => "What is the resource provided? Who is it provided to (OP, FSE or beyond?), on whose behalf is it provided?" %>
+      <%= f.input :availability, :hint => "What is the Availability of the resource? Is it licensed? Sold? what are the Terms of Service?" %>
+      <%= f.input :participation, :label => "Goals", :hint => "Who participates in the setting or changing of the goals? FSE, OP, Both, Neither?" %>
+      <%= f.input :tasks, :hint => "Is there a clear statement of what the project does? Are tasks clearly defined? What constitutes participation and how does one know if one is done or not? Who gets to participate?" %>
+      <%= f.input :modularity, :hint => "What is the level of investment necessary for the task (i.e. how hard is any given task to accomplish?)" %>
+      <%= f.input :granularity, :hint => "What is the Granularity of the Tasks?" %>
+      <%= f.input :metrics, :hint => "How are tasks measured? What constitutes completion of a task?" %>
 
-      <%= f.input :resource %>
-      <%= f.input :availability %>
-      
     <%end%>   
     
     
     <%= f.inputs "Mating" do %>
-      <div>This section asks for information about how this Bird relates to others and to the ecology around it. Are they (or were they) bought/acquired by some other Bird, is there a funding relationship or a "client" relationship which allows them to exist. How do they sustain (and reproduce) themselves as a project?</div>
-      
+      <div class="fieldset_hint">This section asks for information about how this Bird relates to others and to the ecology around it. Are they (or were they) bought/acquired by some other Bird, is there a funding relationship or a "client" relationship which allows them to exist. How do they sustain (and reproduce) themselves as a project?</div>
+      <%= f.input :alliances, :hint => "Describe partnerships (mutual goals or compatibilities) and/or alliances (membership in a larger network)" %>     
+      <%= f.input :clients, :hint => "Describe the project clients (on whose behalf does the entity provide services)?" %>     
+      <%= f.input :sponsors, :hint => "Describe the project sponsors, i.e. entities that either directly fund it (sponsors, owners, acquirers)?" %>     
+      <%= f.input :elites, :hint => "Describe those people who have special forms of access to an entity based on their authority? Charismatic authority, legitimate authority, regulatory authority, political authority, etc?" %>     
     <%end%> 
     
     
     <%= f.inputs "Summary" do %>
-      <div>The summary should give an simple introduction. One sentence to describe what the bird is and what it does; a paragraph describing its ontogeny and structure, and a paragraph summarizing its behavior and mating. One can also add information here that is not elicited by these questions, but seems important in order to understand the bird. Other kinds of information that may also be appropriate her: analytical or theoretical assessments, questions, and ideas or suggestions for transforming the schema in based on something revealed by this bird.</div>
-      
+      <div class="fieldset_hint">The summary should give an simple introduction. One sentence to describe what the bird is and what it does; a paragraph describing its ontogeny and structure, and a paragraph summarizing its behavior and mating. One can also add information here that is not elicited by these questions, but seems important in order to understand the bird. Other kinds of information that may also be appropriate her: analytical or theoretical assessments, questions, and ideas or suggestions for transforming the schema in based on something revealed by this bird.</div>
+      <%= f.input :summary %>
     <%end%>
     
     
     <%= f.inputs "Metadata" do %>
-      <div>This section asks for information about how this Bird relates to others and to the ecology around it. Are they (or were they) bought/acquired by some other Bird, is there a funding relationship or a "client" relationship which allows them to exist. How do they sustain (and reproduce) themselves as a project?</div>
+      <div class="fieldset_hint">This section asks for information about how this Bird relates to others and to the ecology around it. Are they (or were they) bought/acquired by some other Bird, is there a funding relationship or a "client" relationship which allows them to exist. How do they sustain (and reproduce) themselves as a project?</div>
+      <%= f.input :birder_credits, :hint => "Indicate authorial credit(s) for this entry" %>
       
-      <%= f.input :summary %>
-      
+      <input id="bird_updated_by_id" name="bird[updated_by_id]" type="hidden" value="<%= current_admin_user.id %>">      
     <%end%> 
          
     <%= f.buttons %>

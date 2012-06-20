@@ -1,13 +1,21 @@
 <% assets.each_with_index do |ass, i| %>
 
-  <%= image_tag ass.asset.url("sq50") %>
-  <%= link_to  admin_bird_asset_path(attached_to, ass) , 
+  <p>
+    <% if ass.is_image? %>
+      <%= image_tag ass.asset.url("sq50"), :height=>"20px" %>
+    <% else %>
+      <%= image_tag "doc-icon.png" %>
+    <% end %>
+    <%= link_to ass.asset_file_name, ass.asset.url() %>
+    <%= link_to  admin_bird_asset_path(attached_to, ass), 
         :method => :delete, :remote=> true, 
-        :confirm => "Are you sure you want to delete the image?", 
+        :confirm => "Are you sure you want to delete the file #{ass.asset_file_name} ?", 
         :alt => "delete",
         :class => "remote-delete"  do %>
-    <img src="/images/red-x.png" style="position:relative;top:-28px;margin-right:10px;"/>
-  <% end %>
+        <img src="/images/red-x.png" />
+    <% end %>
+
+  <p>
 <% end %>
 
 <script type="text/javascript">

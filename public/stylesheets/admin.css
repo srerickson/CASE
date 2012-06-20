@@ -1,0 +1,28 @@
+#header {
+/*  padding: 9px 100px; */
+}
+li#dashboard {
+  display:none !important;
+}
+
+
+form fieldset legend span {
+  font-size:1.2em;
+}
+
+
+li.text.input textarea {
+  height:120px;
+}
+
+li.input {
+  border-top:solid #E6E6E6 1px;
+}
+
+fieldset.inputs div.fieldset_hint {
+  font-size: 0.98em;
+  color: #666;
+  padding:5px;
+  margin: 25px 20%;
+  border:dotted #CDCDCD 1px;
+}
