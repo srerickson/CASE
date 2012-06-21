@@ -6,6 +6,8 @@ class Bird < ActiveRecord::Base
 
   belongs_to :updated_by, :class_name => "User", :foreign_key => "updated_by_id"
 
+  has_many :user_evaluations
+
   has_one :logo, 
     :class_name => "Asset", 
     :as => "attached_to", 

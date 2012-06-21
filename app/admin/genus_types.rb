@@ -1,7 +1,6 @@
 ActiveAdmin.register GenusType do
 
-  menu :label => "Classifications"  
-  menu :parent => "Birds"
+  menu :parent => "Birds", :label => "Classifications"
 
   
 end

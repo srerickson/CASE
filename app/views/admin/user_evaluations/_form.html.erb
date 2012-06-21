@@ -1,0 +1,27 @@
+  <script>
+    <%- session_key = Rails.application.config.session_options[:key] -%>
+    BOI_SESSION_KEY = "<%= session_key %>";
+    BOI_SESSION_VAL = '<%= cookies[session_key] %>';
+  </script>  
+  
+
+<%= semantic_form_for [:admin, @user_evaluation], :html => {:multipart => true} do |f| %>
+
+  <% if @user_evaluation.new_record? %>
+    
+    <%= f.inputs "Evaluation Setup" do %>
+      <%= f.input :evaluation_set, :label => "Select the Evaluation Set", :include_blank => false %>
+      <%= f.input :bird, :label => "Select the Case to Evaluate", :collection => Bird.order(:name), :include_blank => false %>
+      <%= f.input :user_id, :as => :hidden, :value => current_user.id %>
+      <%= f.input :complete, :as => :hidden, :value => false %>      
+      <li class="input">
+        <%= f.submit "Continue" %>
+        <%# f.actions :cancel %>
+      </li>
+    <% end %>
+  
+  <%else %>
+
+  <% end %>
+
+<% end %>

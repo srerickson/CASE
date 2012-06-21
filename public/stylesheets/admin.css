@@ -19,10 +19,23 @@ li.input {
   border-top:solid #E6E6E6 1px;
 }
 
+li.input.hidden{
+  border:none;
+  height:1px;
+  padding:0px;
+  margin:0px;
+}
+
 fieldset.inputs div.fieldset_hint {
   font-size: 0.98em;
   color: #666;
   padding:5px;
   margin: 25px 20%;
   border:dotted #CDCDCD 1px;
+}
+
+
+div.evaluation_questions a.button {
+  font-size:0.95em;
+  padding:3px 10px 3px;
 }
