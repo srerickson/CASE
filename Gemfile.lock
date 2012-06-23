@@ -137,7 +137,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activeadmin
+  activeadmin (= 0.4.4)
   capistrano
   mysql2 (~> 0.2.6)
   paperclip

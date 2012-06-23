@@ -8,8 +8,9 @@
 <%= semantic_form_for [:admin, @user_evaluation], :html => {:multipart => true} do |f| %>
 
   <% if @user_evaluation.new_record? %>
-    
-    <%= f.inputs "Evaluation Setup" do %>
+
+    <%#  This is the form for setting up a case evaluation %> 
+    <%= f.inputs "Case Evaluation Setup" do %>
       <%= f.input :evaluation_set, :label => "Select the Evaluation Set", :include_blank => false %>
       <%= f.input :bird, :label => "Select the Case to Evaluate", :collection => Bird.order(:name), :include_blank => false %>
       <%= f.input :user_id, :as => :hidden, :value => current_user.id %>
@@ -21,6 +22,26 @@
     <% end %>
   
   <%else %>
+    
+    <%#  This is the form is for doing the evaluation %> 
+    <%= f.inputs "Evaluation of #{@user_evaluation.bird.name}" do %>
+      <%= f.input :evaluation_set_id, :as => :hidden, :value => @user_evaluation.evaluation_set_id %>
+      <%= f.input :bird_id, :as => :hidden, :value => @user_evaluation.bird.id %>
+      <%= f.input :user_id, :as => :hidden, :value => current_user.id %>
+      <%= f.input :complete, :as => :hidden, :value => false %>   
+      
+      <%= f.semantic_fields_for :user_evaluation_answers do |a| %>
+        <%= a.input :answer, :as => :select, :collection => ["YES", "NO", "N/A"], 
+                    :label => "#{a.object.evaluation_question.position}. #{a.object.evaluation_question.question}",
+                    :wrapper_html => {:class => "question"} %>
+        <%= a.input :comment, :as => :string, :wrapper_html => {:class => "comment"} %>
+      <% end %>
+         
+      <li class="input" style="clear:both;">
+        <%= f.submit "Save" %>
+        <%# f.actions :cancel %>
+      </li>
+    <% end %>    
 
   <% end %>
 

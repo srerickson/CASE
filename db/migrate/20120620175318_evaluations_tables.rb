@@ -5,6 +5,7 @@ class EvaluationsTables < ActiveRecord::Migration
       t.string      :name
       t.boolean     :locked
       t.integer     :owner_id
+      t.text        :instructions
       t.timestamps
     end
 
@@ -25,7 +26,7 @@ class EvaluationsTables < ActiveRecord::Migration
 
     create_table "user_evaluation_answers" do |t|
       t.integer     :user_evaluation_id, :null => false
-      t.integer     :question_id, :null => false
+      t.integer     :evaluation_question_id, :null => false
       t.text        :answer
       t.text        :comment
       t.timestamps

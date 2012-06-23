@@ -21,7 +21,7 @@ li.input {
 
 li.input.hidden{
   border:none;
-  height:1px;
+  height:0px;
   padding:0px;
   margin:0px;
 }
@@ -35,7 +35,82 @@ fieldset.inputs div.fieldset_hint {
 }
 
 
+/** Evaluation Set Form **/
+
+
+form.evaluation_set li.position, 
+form.evaluation_set li.question {
+  width:70%;
+  float:left;
+  margin:0 3px;
+  padding:10px 0; 
+  border:none;
+}
+
+form.evaluation_set li.position {
+  width: 15%;
+  clear:both;
+}
+
+form.evaluation_set li.position label {
+  width:auto;
+  margin:5px;
+}
+
+form.evaluation_set li.position input {
+  width: 50px;
+  border: 1px solid #C9D0D6;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  font-size: 0.95em;
+  font-family: Helvetica, Arial, sans-serif;
+  outline: none;
+  padding: 8px 10px 7px;
+}
+
+form.evaluation_set li.question label {
+  margin:5px;
+  width:10%;
+}
+
+form.evaluation_set li.question input {
+  width:85%
+}
+
+form.evaluation_set fieldset.has_many_fields a.button {
+  margin:5px 10px;
+}
+
+
+/**  User Evaluations Forms **/
+
 div.evaluation_questions a.button {
   font-size:0.95em;
   padding:3px 10px 3px;
 }
+
+form.user_evaluation li.question,
+form.user_evaluation li.comment
+ {
+  width: 48%;
+  float:left;
+  margin:0 3px;
+  padding:10px 0;
+}
+
+form.user_evaluation li.question {
+  clear:both;
+}
+
+form.user_evaluation li.question label,
+form.user_evaluation li.comment label {
+  width:100%;
+  display:block;
+  margin:5px;
+}
+
+form.user_evaluation li.question select {
+  margin:5px;
+}
+

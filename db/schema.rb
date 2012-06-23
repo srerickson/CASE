@@ -89,6 +89,7 @@ ActiveRecord::Schema.define(:version => 20120620175318) do
     t.string   "name"
     t.boolean  "locked"
     t.integer  "owner_id"
+    t.text     "instructions"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -115,8 +116,8 @@ ActiveRecord::Schema.define(:version => 20120620175318) do
   end
 
   create_table "user_evaluation_answers", :force => true do |t|
-    t.integer  "user_evaluation_id", :null => false
-    t.integer  "question_id",        :null => false
+    t.integer  "user_evaluation_id",     :null => false
+    t.integer  "evaluation_question_id", :null => false
     t.text     "answer"
     t.text     "comment"
     t.datetime "created_at"

@@ -1,4 +1,4 @@
-ActiveAdmin.register Bird, {:order => :name_asc} do
+ActiveAdmin.register Bird, {:order => :name} do
 
   show :title => :name 
   menu :priority => 1
@@ -14,6 +14,12 @@ ActiveAdmin.register Bird, {:order => :name_asc} do
     column :genus_type
     default_actions
   end
+  
+  controller do
+    def index
+      index!
+    end
+  end   
   
   
 end

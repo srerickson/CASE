@@ -7,7 +7,7 @@ gem 'rails', '3.0.9'
 
 gem 'mysql2', '~> 0.2.6'
 
-gem 'activeadmin'
+gem 'activeadmin', '0.4.4'
 
 gem 'paperclip'
 

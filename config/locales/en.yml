@@ -3,3 +3,8 @@
 
 en:
   hello: "Hello world"
+  titles:
+    controller:
+      admin: 
+        user_evaluations:
+          index: "Your Evaluations"
