@@ -3,14 +3,11 @@ class UserEvaluation < ActiveRecord::Base
   belongs_to :user
   belongs_to :evaluation_set
   belongs_to :bird
+  has_many :evaluation_questions, :through => :evaluation_set
   has_many :user_evaluation_answers, :dependent => :destroy
-  
   accepts_nested_attributes_for :user_evaluation_answers
-  
   validates_presence_of :user, :evaluation_set, :bird  
-  
   before_create :build_answer_records
-  
   
   def build_answer_records
     self.evaluation_set.evaluation_questions.each do |q|

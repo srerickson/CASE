@@ -85,6 +85,18 @@ ActiveRecord::Schema.define(:version => 20120620175318) do
     t.datetime "updated_at"
   end
 
+  create_table "evaluation_results", :force => true do |t|
+    t.integer "bird_id",                               :null => false
+    t.integer "evaluation_question_id",                :null => false
+    t.integer "yes_count",              :default => 0
+    t.integer "no_count",               :default => 0
+    t.integer "na_count",               :default => 0
+    t.text    "yes_comments"
+    t.text    "no_comments"
+    t.text    "na_comments"
+    t.integer "blank_count",            :default => 0
+  end
+
   create_table "evaluation_sets", :force => true do |t|
     t.string   "name"
     t.boolean  "locked"
