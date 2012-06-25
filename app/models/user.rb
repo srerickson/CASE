@@ -1,7 +1,9 @@
 class User < ActiveRecord::Base
 
   has_many :user_evaluations
-
+  has_many :updated_birds, :class_name => "Bird", :foreign_key => "updated_by_id", :order => "updated_at DESC"
+  
+  
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, 

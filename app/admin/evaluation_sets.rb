@@ -29,10 +29,20 @@ ActiveAdmin.register EvaluationSet do
           end
       end
     end
-    panel "Results" do
-      table_for(es.all_results) do
-        
+    
+    panel "Results Summary" do
+      attributes_table_for es do 
+        row "# Evaluations" do
+          es.user_evaluations.size
+        end
+        row "# birds evaluated" do
+          es.birds.size
+        end
       end
+    end
+    
+    panel "Results" do
+      render :partial => "results_by_bird", :locals => {:evaluation_set => es}
     end
   end
 

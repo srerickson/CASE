@@ -37,7 +37,11 @@ class UserEvaluationAnswer < ActiveRecord::Base
   
   private
   
-  # update the evaluation_results table with current   
+  #
+  # Every time an answer to a question is created or saved,
+  # update the appropriate bird/question record in the 
+  # evaluation_results table 
+  #
   def update_results
     b_id = self.user_evaluation.bird_id
     
@@ -60,13 +64,6 @@ class UserEvaluationAnswer < ActiveRecord::Base
     end
     result.update_attributes({:yes_count => yes_count, :no_count => no_count, :na_count => na_count})
     result.save!  
-  end
-  
-  
-  def clear_and_update_results
-    self.answer = nil
-    self.save!
-    update_results
   end
   
 end

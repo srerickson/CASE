@@ -114,3 +114,10 @@ form.user_evaluation li.question select {
   margin:5px;
 }
 
+span.empty_field {
+  color: #BBB;
+  font-size: 0.8em;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+
