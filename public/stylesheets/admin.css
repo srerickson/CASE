@@ -121,3 +121,12 @@ span.empty_field {
   letter-spacing: 0.2em;
 }
 
+
+
+
+
+/* Birds List Table */
+table#birds tr.mouseover, table#birds td.mouseover {
+  background-color:#FFFFCC;
+  cursor:pointer;
+}

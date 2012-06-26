@@ -118,6 +118,10 @@ en:
         human: "Elites"
         description: "Describe those people who have special forms of access to an entity based on their authority? Charismatic authority, legitimate authority, regulatory authority, political authority, etc?"  
 
+      summary:
+        human: "Summary"
+        description: ""
+
       birder_credits:
         human: "Author Credits"
         description: 'Indicate authorial credit(s) for this case study'

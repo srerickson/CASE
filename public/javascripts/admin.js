@@ -1,6 +1,26 @@
 $(document).ready(function(){ 
-  setup_uploadify();
+  if(typeof BOI_SESSION_KEY !== 'undefined'){
+    setup_uploadify();
+  }
+
+  // make table rows of birds list clickable
+  $("table#birds tr").bind({
+    mouseover: function(){
+      $(this).addClass("mouseover")
+      $(this).children("td").addClass("mouseover")
+    }, 
+    mouseout: function(){
+      $(this).removeClass("mouseover")
+      $(this).children("td").removeClass("mouseover")
+    },
+    click: function(){
+      window.location = "/admin/birds/"+$(this).attr("id").split("_")[1]
+    }
+  })
 })
+
+
+
 
 
 function setup_remote_delete_bindings(){
@@ -9,6 +29,8 @@ function setup_remote_delete_bindings(){
       $(this).parents("#media_files").html(data)
     })
 }
+
+
 
 function setup_uploadify(){
   // Create an empty object to store our custom script data
