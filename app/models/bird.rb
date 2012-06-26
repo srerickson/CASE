@@ -1,6 +1,8 @@
 class Bird < ActiveRecord::Base
 
-  default_scope :order => "name ASC"
+  has_paper_trail
+  
+  #default_scope :order => "birds.name ASC"
 
   belongs_to :genus_type
   belongs_to :habitat
@@ -35,24 +37,4 @@ class Bird < ActiveRecord::Base
     f.save
   end
  
-  scope :evaluated_with_evaluation_set, lambda { |es|
-    includes(:user_evaluations).where("user_evaluations.evaluation_set_id = ?", es)
-  }
-  
-  
-  
-#  def as_json(options={})
-#     super(options.merge(
-#      :include => {
-#        :logo => {:methods => [:original_url]},
-#        :images => {:methods => [:original_url]},
-#        :habitat => {},
-#        :genus_type => {},
-#        :fse_org_style => {},
-#        :op_org_style => {}
-#      }
-#    ))
-#  end
-
-
 end
