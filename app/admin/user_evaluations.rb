@@ -26,7 +26,13 @@ ActiveAdmin.register UserEvaluation do
     default_actions      
   end
   
-  form :partial => "form"
+  form do
+    if EvaluationSet.all.count == 0
+      "There are no evaluation question sets yet."
+    else
+      render :partial => "form"
+    end
+  end
   
   action_item :only => :show do
     link_to("New User Evaluation", new_admin_user_evaluation_path )

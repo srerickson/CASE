@@ -37,4 +37,7 @@ class Bird < ActiveRecord::Base
     f.save
   end
  
+  scope :recently_updated, lambda { |n| order("updated_at DESC").limit(n) }
+ 
+ 
 end

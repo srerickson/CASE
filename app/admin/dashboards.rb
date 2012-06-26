@@ -7,13 +7,37 @@ ActiveAdmin::Dashboards.build do
   # == Simple Dashboard Section
   # Here is an example of a simple dashboard section
   #
-  #   section "Recent Posts" do
-  #     ul do
-  #       Post.recent(5).collect do |post|
-  #         li link_to(post.title, admin_post_path(post))
-  #       end
-  #     end
-  #   end
+  
+  section "Your Cases", :priority => 1 do
+    ul do
+      current_user.updated_birds.collect do |b|
+        li do 
+          link_to admin_bird_path(b) do 
+            image_tag(b.logo.asset.url(:sq50)) unless b.logo.nil?
+          end
+          link_to admin_bird_path(b) do 
+            b.name
+          end
+        end
+      end
+    end
+  end    
+  
+  section "Recently Update", :priority => 2 do
+    ul do
+      Bird.recently_updated(10).collect do |b|
+        li do 
+          link_to admin_bird_path(b) do 
+            image_tag(b.logo.asset.url(:sq50)) unless b.logo.nil?
+            b.name
+          end
+        end
+      end
+    end
+  end
+  
+
+  
   
   # == Render Partial Section
   # The block is rendered within the context of the view, so you can
