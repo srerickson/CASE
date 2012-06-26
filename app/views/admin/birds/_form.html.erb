@@ -9,13 +9,16 @@
 
 
     <%= f.inputs "Basic Info" do %>
-      <div class="fieldset_hint">What kind of entity is it? Where does it live and on what does it survive? What "style" or "brand" identifies it, how might it be classified? Is this project unlike any other or one of a clearly defined species?</div>
-      <%= f.input :name, :as => :string %>
-      <%= f.input :url, :as => :string, :label => "URL" %>
+      <div class="fieldset_hint"><%= I18n.translate!("boi_schema.sections.basic_info.description") %></div>
+      
+      <%= f.input :name, :as => :string, 
+        :label => I18n.translate!("boi_schema.fields.name.human") %>
+      <%= f.input :url, :as => :string, 
+        :label => I18n.translate!("boi_schema.fields.url.human") %>
  
       <!-- mamual input for logo upload--!>
       <li class="file input optional" id="bird_uploaded_logo_input">
-        <label class="label" for="bird_uploaded_logo">Logo</label>
+        <label class="label" for="bird_uploaded_logo"><%= I18n.translate!("boi_schema.fields.logo.human") %></label>
         <div style="margin:0.5em 0 0 20%">
           <%= image_tag(@bird.logo.asset.url()) unless @bird.logo.nil? %>
           <input id="bird_uploaded_logo" name="bird[uploaded_logo]" type="file" />
@@ -24,7 +27,9 @@
 
       <!-- mamual input for file upload--!>
       <li class="file input optional" id="images_input">
-        <label class="label" for="bird_images">Other Files</label>
+        <label class="label" for="bird_images">
+          <%= I18n.translate!("boi_schema.fields.images.human") %>
+        </label>
         <div style="margin:0.5em 0 0 20%">
           <div id="media_files">
             <%= render :partial => "admin/assets/form", :locals => {:assets => @bird.images, :attached_to => @bird } %>
@@ -37,56 +42,114 @@
         </div>
       </li>
    
-      <%= f.input :habitat %>
-      <%= f.input :genus_type, :label => "Classification" %>
-      <%= f.input :brand, :hint => "Describe how the brand / logo / visual identity is positioned." %>
-      <%= f.input :foritself, :label=>"Is it self-aware?", :hint => "Is the project in question aware of itself as an entity? Does it actively promote a sense of belonging, community or participation? Or is it identified by a second order observation of people, behavior, or designed to display \"emergent\" behavior, or the effects of collective behavior? "%>
-
+      <%= f.input :habitat, 
+        :label => I18n.translate!("boi_schema.fields.habitat.human"),
+        :hint => I18n.translate!("boi_schema.fields.habitat.description") %>
+        
+      <%= f.input :genus_type, 
+        :label => I18n.translate!("boi_schema.fields.genus_type.human"),
+        :hint => I18n.translate!("boi_schema.fields.genus_type.description") %>
+        
+      <%= f.input :brand, 
+        :label => I18n.translate!("boi_schema.fields.brand.human"),
+        :hint => I18n.translate!("boi_schema.fields.brand.description") %>
+      <%= f.input :foritself,
+        :label => I18n.translate!("boi_schema.fields.foritself.human"),
+        :hint => I18n.translate!("boi_schema.fields.foritself.description") %>
     <%end%>
  
  
      <%= f.inputs "Structure" do %>
-      <div class="fieldset_hint">One working hypothesis in this project is that in any instance of participation (real or imagined) there are two kinds of organizations: formally organized, funded or legally sanctioned entities (Formal Social Enterprises or FSEs) and informally organized, more or less open, and fluid publics (Organized Publics or OPs). Cases that do not appear to have this dyadic structure could possibly reduce to familiar organizational forms (e.g. a corporation and its market of consumers; a mass media journalistic organization and its reading public, an acephalous social movement etc.). Information in this section should help outline the basic size, extent and relationship of these two entities.</div>
-      <%= f.input :fse_name, :label => "FSE Name", :hint => "What is the name of the formally organized or legally recognized entity (FSE)? Note how this differs from the name applied to the organized public or project (e.g. Linux / Linux foundation; Wikipedia, Wikimedia)?" %>
-      <%= f.input :fse_org_style, :label => "FSE Organization Style" %>
-      <%= f.input :fse_owner_founder, :label => "FSE Founders / Owners" %>
-      <%= f.input :fse_significant_member, :label => "FSE Significant Members" %>
-      <%= f.input :fse_mission_statement, :label => "FSE Mission Statement" %>
-      <%= f.input :op_name, :label => "OP Name", :hint=>"What is the name of the organized public (OP)? Is it different from that of the formal organization? (E.g. Linux / Linux Foundation)?" %>
-      <%= f.input :op_org_style, :label => "OP Organization Style" %>
-      <%= f.input :op_vip_founders, :label => "OP Founders/VIPs" %>
-      <%= f.input :op_typical_member, :label => "OP Typical Member" %>     
+      <div class="fieldset_hint"><%= I18n.translate!("boi_schema.sections.structure.description") %></div>
+
+      <%= f.input :fse_name, 
+        :label => I18n.translate!("boi_schema.fields.fse_name.human"), 
+        :hint => I18n.translate!("boi_schema.fields.fse_name.description") %>
+      <%= f.input :fse_org_style, 
+        :label => I18n.translate!("boi_schema.fields.fse_org_style.human"), 
+        :hint => I18n.translate!("boi_schema.fields.fse_org_style.description") %>
+      <%= f.input :fse_owner_founder, 
+        :label => I18n.translate!("boi_schema.fields.fse_owner_founder.human"), 
+        :hint => I18n.translate!("boi_schema.fields.fse_owner_founder.description")%>
+      <%= f.input :fse_significant_member, 
+        :label => I18n.translate!("boi_schema.fields.fse_significant_member.human"), 
+        :hint => I18n.translate!("boi_schema.fields.fse_significant_member.description") %>
+      <%= f.input :fse_mission_statement, 
+        :label => I18n.translate!("boi_schema.fields.fse_mission_statement.human"), 
+        :hint => I18n.translate!("boi_schema.fields.fse_mission_statement.description") %>
+      <%= f.input :op_name, 
+        :label => I18n.translate!("boi_schema.fields.op_name.human"), 
+        :hint => I18n.translate!("boi_schema.fields.op_name.description") %>
+      <%= f.input :op_org_style, 
+        :label => I18n.translate!("boi_schema.fields.op_org_style.human"), 
+        :hint => I18n.translate!("boi_schema.fields.op_org_style.description") %>
+      <%= f.input :op_vip_founders, 
+        :label => I18n.translate!("boi_schema.fields.op_vip_founders.human"), 
+        :hint => I18n.translate!("boi_schema.fields.op_vip_founders.description") %>
+      <%= f.input :op_typical_member, 
+        :label => I18n.translate!("boi_schema.fields.op_typical_member.human"), 
+        :hint => I18n.translate!("boi_schema.fields.op_typical_member.description") %>     
     <%end%>
 
 
      <%= f.inputs "Ontogeny" do %>
-      <div class="fieldset_hint">Ontogeny covers the historical formation of the Bird. Many entities in this database are changing quickly, so this is a place to record the changes each case has been through from its origin to now. When was it founded, does it still exist, what stages has it gone through (either self-described or discovered through research/interview). In particular, how is the FSE/OP relationship related to its formation (did it start as an OP and create an FSE as it grew, or start as an FSE and try to magic an OP into existence, or neither?)</div>
-      <%= f.input :formation, :hint => "How did the entity form? From OP to FSE or the opposite?" %>
-      <%= f.input :history, :hint => "Historicize the entity. Give a brief description of the stages it has been through from founding to current form" %>
-      <%= f.input :lifespan, :hint => "Does the project still exist, is it endangered, extinct? Has it been outcompeted by similar entities? What were the causes of its death?" %>
+      <div class="fieldset_hint"><%= I18n.translate!("boi_schema.sections.ontogeny.description") %></div>
+      
+      <%= f.input :formation, 
+        :label => I18n.translate!("boi_schema.fields.formation.human"), 
+        :hint => I18n.translate!("boi_schema.fields.formation.description") %>
+      <%= f.input :history, 
+        :label => I18n.translate!("boi_schema.fields.history.human"), 
+        :hint => I18n.translate!("boi_schema.fields.history.description") %>
+      <%= f.input :lifespan, 
+        :label => I18n.translate!("boi_schema.fields.lifespan.human"), 
+        :hint => I18n.translate!("boi_schema.fields.lifespan.description") %>
     <%end%>
     
     
  
      <%= f.inputs "Behavior" do %>
-      <div class="fieldset_hint">This section asks for detailed information on what the Bird does: what "resource" is provided, for whom and why? Is it making a product, providing a service, or something else entirely? What are the stated or unstated goals of the project, and which tasks are designed to achieve these goals? How are the tasks organized, are they tightly or loosely structured? Are there clear comparable metrics for completion of a task? A key goal of this section is to articulate what level of meaningful participation people are engaging in with the project. Are they mere clickworkers or "Turkers" or are they meaningfully and deeply engaged in both the solving of a problem and the definition of what the problem is?</div>
-      <%= f.input :resource, :hint => "What is the resource provided? Who is it provided to (OP, FSE or beyond?), on whose behalf is it provided?" %>
-      <%= f.input :availability, :hint => "What is the Availability of the resource? Is it licensed? Sold? what are the Terms of Service?" %>
-      <%= f.input :participation, :label => "Goals", :hint => "Who participates in the setting or changing of the goals? FSE, OP, Both, Neither?" %>
-      <%= f.input :tasks, :hint => "Is there a clear statement of what the project does? Are tasks clearly defined? What constitutes participation and how does one know if one is done or not? Who gets to participate?" %>
-      <%= f.input :modularity, :hint => "What is the level of investment necessary for the task (i.e. how hard is any given task to accomplish?)" %>
-      <%= f.input :granularity, :hint => "What is the Granularity of the Tasks?" %>
-      <%= f.input :metrics, :hint => "How are tasks measured? What constitutes completion of a task?" %>
+      <div class="fieldset_hint"><%=  I18n.translate!("boi_schema.sections.behavior.description") %></div>
+ 
+      <%= f.input :resource, 
+        :label => I18n.translate!("boi_schema.fields.resource.human"), 
+        :hint => I18n.translate!("boi_schema.fields.resource.description") %>
+      <%= f.input :availability, 
+        :label => I18n.translate!("boi_schema.fields.availability.human"), 
+        :hint => I18n.translate!("boi_schema.fields.availability.description") %>
+      <%= f.input :participation, 
+        :label => I18n.translate!("boi_schema.fields.participation.human"), 
+        :hint => I18n.translate!("boi_schema.fields.participation.description") %>
+      <%= f.input :tasks, 
+        :label => I18n.translate!("boi_schema.fields.tasks.human"), 
+        :hint => I18n.translate!("boi_schema.fields.tasks.description") %>
+      <%= f.input :modularity, 
+        :label => I18n.translate!("boi_schema.fields.modularity.human"), 
+        :hint => I18n.translate!("boi_schema.fields.modularity.description") %>
+      <%= f.input :granularity, 
+        :label => I18n.translate!("boi_schema.fields.granularity.human"), 
+        :hint => I18n.translate!("boi_schema.fields.granularity.description") %>
+      <%= f.input :metrics, 
+        :label => I18n.translate!("boi_schema.fields.metrics.human"), 
+        :hint => I18n.translate!("boi_schema.fields.metrics.description") %>
 
     <%end%>   
     
     
     <%= f.inputs "Mating" do %>
-      <div class="fieldset_hint">This section asks for information about how this Bird relates to others and to the ecology around it. Are they (or were they) bought/acquired by some other Bird, is there a funding relationship or a "client" relationship which allows them to exist. How do they sustain (and reproduce) themselves as a project?</div>
-      <%= f.input :alliances, :hint => "Describe partnerships (mutual goals or compatibilities) and/or alliances (membership in a larger network)" %>     
-      <%= f.input :clients, :hint => "Describe the project clients (on whose behalf does the entity provide services)?" %>     
-      <%= f.input :sponsors, :hint => "Describe the project sponsors, i.e. entities that either directly fund it (sponsors, owners, acquirers)?" %>     
-      <%= f.input :elites, :hint => "Describe those people who have special forms of access to an entity based on their authority? Charismatic authority, legitimate authority, regulatory authority, political authority, etc?" %>     
+      <div class="fieldset_hint"><%= I18n.translate!("boi_schema.sections.mating.description") %></div>
+      <%= f.input :alliances, 
+        :label => I18n.translate!("boi_schema.fields.alliances.human"), 
+        :hint => I18n.translate!("boi_schema.fields.alliances.description") %>   
+      <%= f.input :clients, 
+        :label => I18n.translate!("boi_schema.fields.clients.human"), 
+        :hint => I18n.translate!("boi_schema.fields.clients.description") %>
+      <%= f.input :sponsors, 
+        :label => I18n.translate!("boi_schema.fields.sponsors.human"), 
+        :hint => I18n.translate!("boi_schema.fields.sponsors.description") %>
+      <%= f.input :elites, 
+        :label => I18n.translate!("boi_schema.fields.elites.human"), 
+        :hint => I18n.translate!("boi_schema.fields.elites.description") %>     
     <%end%> 
     
     
@@ -97,7 +160,6 @@
     
     
     <%= f.inputs "Metadata" do %>
-      <div class="fieldset_hint">This section asks for information about how this Bird relates to others and to the ecology around it. Are they (or were they) bought/acquired by some other Bird, is there a funding relationship or a "client" relationship which allows them to exist. How do they sustain (and reproduce) themselves as a project?</div>
       <%= f.input :birder_credits, :hint => "Indicate authorial credit(s) for this entry" %>
       
       <input id="bird_updated_by_id" name="bird[updated_by_id]" type="hidden" value="<%= current_user.id %>">      
