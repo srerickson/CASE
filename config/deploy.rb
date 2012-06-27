@@ -1,7 +1,7 @@
 #require 'thinking_sphinx/deploy/capistrano'
 
-set :application, "boi-cms"
-set :repository,  "git://github.com/srerickson/boi-cms.git"
+set :application, "boi-cms-2.0"
+set :repository,  "git://github.com/srerickson/boi-cms-2.0"
 set :deploy_to, "/var/www/#{application}"
 set :deploy_via, :remote_cache
 
@@ -24,7 +24,7 @@ role :db,  "limn.it", :primary => true # This is where Rails migrations will run
 
 after "deploy", "deploy:bundle_gems"
 after "deploy:bundle_gems", "deploy:restart"
-after  "deploy:bundle_gems", "deploy:start_thinking_sphinx"
+#after  "deploy:bundle_gems", "deploy:start_thinking_sphinx"
 
 
 # If you are using Passenger mod_rails uncomment this:
@@ -38,19 +38,6 @@ namespace :deploy do
   task :restart, :roles => :app, :except => { :no_release => true } do
     run "touch #{File.join(current_path,'tmp','restart.txt')}"
   end
-
-  task :symlink_sphinx_indexes, :roles => [:app] do
-    #run "ln -nfs #{shared_path}/db/sphinx #{release_path}/db/sphinx"
-  end
-
-  task :stop_thinking_sphinx, :roles => [:app] do
-    run "cd #{deploy_to}/current && bundle exec rake ts:stop"
-  end
-
-  task :start_thinking_sphinx, :roles => [:app] do
-    run "cd #{deploy_to}/current && bundle exec rake ts:rebuild"
-  end
-
 end
 
 
