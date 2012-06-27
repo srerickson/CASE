@@ -37,7 +37,7 @@ namespace :deploy do
 	end
 	
 	task :restart, :roles => :app do
-	  run "kill -USR2 `cat #{current_path}/tmp/pids/passenger.3000.pid`"
+	  run "touch #{current_path}/tmp/restart.txt"
 	end
 end
 
