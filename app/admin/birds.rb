@@ -16,7 +16,7 @@ ActiveAdmin.register Bird do
 
   index do |f|
     column :logo do |b|
-      b.logo.nil? ? "" : image_tag(b.logo.asset.url(:sq50), :height =>"25px");
+      b.logo.nil? ? "" : image_tag(b.logo.asset.url(:sq50));
     end
     column :name
     column "Habitat", :sortable => false do |b|

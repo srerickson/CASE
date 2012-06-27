@@ -1,4 +1,7 @@
 #require 'thinking_sphinx/deploy/capistrano'
+require 'rvm/capistrano'
+
+set :rvm_ruby_string, '1.9.2@rails3'
 
 set :application, "boi-cms-2.0"
 set :repository,  "git://github.com/srerickson/boi-cms-2.0"
@@ -13,6 +16,9 @@ set :keep_releases, 5
 
 set :user, "capistrano"
 set :use_sudo, false
+
+set :bundle_without,  [:development]
+
 
 role :web, "limn.it"                          # Your HTTP server, Apache/etc
 role :app, "limn.it"                          # This may be the same as your `Web` server
