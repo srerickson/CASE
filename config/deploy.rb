@@ -23,16 +23,24 @@ role :db,  "limn.it", :primary => true # This is where Rails migrations will run
 #before "deploy:update_code", "deploy:stop_thinking_sphinx"
 
 after "deploy", "deploy:bundle_gems"
-after "deploy:bundle_gems", "deploy:restart"
+after "deploy:bundle_gems", "deploy:link_database_config"
+
+after "deploy:link_database_config", "deploy:restart"
 #after  "deploy:bundle_gems", "deploy:start_thinking_sphinx"
 
 
 # If you are using Passenger mod_rails uncomment this:
 namespace :deploy do
+
   task :bundle_gems do 
     run "ln -s #{deploy_to}/shared/vendor/gems #{deploy_to}/current/vendor/gems"
-    run "cd #{deploy_to}/current && bundle install vendor/gems"
+    run "cd #{deploy_to}/current && bundle install --path=vendor/gems"
   end
+  
+  task :link_database_config do
+    run "ln -s #{deploy_to}/shared/config/database.yml #{deploy_to}/current/config/"
+  end
+  
   task :start do ; end
   task :stop do ; end
   task :restart, :roles => :app, :except => { :no_release => true } do
