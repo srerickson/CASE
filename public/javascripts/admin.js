@@ -4,7 +4,7 @@ $(document).ready(function(){
   }
 
   // make table rows of birds list clickable
-  $("table#birds tr").bind({
+  $("table#birds tr, table.birds_list tr").bind({
     mouseover: function(){
       $(this).addClass("mouseover")
       $(this).children("td").addClass("mouseover")

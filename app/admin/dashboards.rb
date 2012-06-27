@@ -9,28 +9,30 @@ ActiveAdmin::Dashboards.build do
   #
   
   section "Your Cases", :priority => 1 do
-    ul do
+    table(:class => "birds_list") do 
       current_user.updated_birds.collect do |b|
-        li do 
-          link_to admin_bird_path(b) do 
-            image_tag(b.logo.asset.url(:sq50)) unless b.logo.nil?
+        tr(:id => "bird_#{b.id}")do
+          td(:width=>"25%") do
+            div(:style=>"height:20px") do 
+              link_to(image_tag(b.logo.asset.url(:sq300),:height=>"20px"), admin_bird_path(b)) unless b.logo.nil?
+            end
           end
-          link_to admin_bird_path(b) do 
-            b.name
-          end
+          td b.name
         end
       end
     end
   end    
   
-  section "Recently Update", :priority => 2 do
-    ul do
+  section "Recently Updated", :priority => 2 do
+    table(:class => "birds_list") do 
       Bird.recently_updated(10).collect do |b|
-        li do 
-          link_to admin_bird_path(b) do 
-            image_tag(b.logo.asset.url(:sq50)) unless b.logo.nil?
-            b.name
+        tr(:id => "bird_#{b.id}")do
+          td(:width=>"25%") do
+            div(:style=>"height:20px") do 
+              link_to(image_tag(b.logo.asset.url(:sq100),:height=>"20px"), admin_bird_path(b)) unless b.logo.nil?
+            end
           end
+          td b.name
         end
       end
     end

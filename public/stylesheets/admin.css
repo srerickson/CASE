@@ -122,11 +122,32 @@ span.empty_field {
 }
 
 
+table.birds_list tr:nth-child(even) { background-color: #FFF; }
+table.birds_list tr:nth-child(odd) { background-color: #F4F4F4; }
+table.birds_list tr:first-child td {
+   /* border-top: 1px solid #E8E8E8; */
+}
+
+table.birds_list td {
+  padding:0px;
+  margin:0px;
+  background-color:transparent;
+  vertical-align:middle;
+}
+
+table.birds_list td {
+  padding:8px;
+  border-bottom: 1px solid #E8E8E8;
+}
+table.birds_list td:first-child { /* border-left: 1px solid #E8E8E8;*/ }
+table.birds_list td:last-child { /*border-right: 1px solid #E8E8E8;*/ }
+
 
 
 
 /* Birds List Table */
-table#birds tr.mouseover, table#birds td.mouseover {
+table#birds tr.mouseover, table#birds td.mouseover,
+table.birds_list tr.mouseover, table.birds_list td.mouseover {
   background-color:#FFFFCC;
   cursor:pointer;
 }

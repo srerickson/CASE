@@ -34,7 +34,7 @@ ActiveAdmin.register Bird do
           b.name
         end
         row "#{I18n.translate!("boi_schema.fields.logo.human")}" do |b| 
-          b.logo.nil? ? "" : image_tag(b.logo.asset.url())
+          b.logo.nil? ? "" : image_tag(b.logo.asset.url(:sq300))
         end
         row "#{I18n.translate!("boi_schema.fields.images.human")}" do |b| 
           render :partial => "/admin/assets/assets", :locals => {:assets => b.images}
