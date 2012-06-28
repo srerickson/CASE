@@ -162,9 +162,11 @@ ActiveAdmin.register Bird do
         row "#{I18n.translate!("boi_schema.fields.birder_credits.human")}" do |b| 
           simple_format b.birder_credits
         end  
-        row :created_at 
+        row :created_at do |b|
+          b.created_at.localtime unless b.created_at.nil?
+        end
         row :updated_at do |b|
-          b.updated_at.localtime
+          b.updated_at.localtime unless b.updated_at.nil?
         end
         row "Last Updated By" do |b| 
           b.updated_by.email unless b.updated_by.nil?

@@ -5,7 +5,9 @@ ActiveAdmin.register User do
   index do
     column :email;
     column :created_at;
-    column :last_sign_in_at;
+    column "Last Login" do |u|
+      u.current_sign_in_at.localtime
+    end
     column :sign_in_count;
   end
 
