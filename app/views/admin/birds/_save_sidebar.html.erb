@@ -1,2 +1,7 @@
-<%= link_to "Save Now", "#", :onclick => "$('form.bird').submit();return false;" %>
+  <%= link_to "Save Now", "#", :onclick => "$('form.bird').submit();return false;" %>
+  &nbsp; | &nbsp;
+  <% unless @bird.new_record? %>
+    <a href="#" style="font-weight:normal;" onclick="save_and_redirect($('form.bird'),'<%= admin_bird_url(@bird) %>');return false;">Save and Preview</a>
+  <% end %>
+
 <div class="edit_saved_status">&nbsp;</div>

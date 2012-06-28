@@ -169,12 +169,37 @@ table.birds_list {
 }
 
 
-.admin_birds.edit div.sidebar_section {
+#last_saved_sidebar_section {
   position: fixed;
   width: 270px;
   right: 30px;
   bottom: 10px
 }
+
+#last_saved_sidebar_section h3 {
+  font-weight:normal;
+}
+
+#last_saved_sidebar_section .panel_contents {
+  padding: 3px 15px 8px 15px
+}
+
+/* spinner */
+.edit_saved_status{
+  display:inline;
+  position:absolute;
+  height:16px;
+  width:16px;
+  margin-left:8px;
+}
+.edit_saved_status.saved {
+  background-image: none;
+}
+.edit_saved_status.saving {
+  background-image: url('/images/spinner.gif');
+}
+
+
 
 .sidebar_section ul.file_list {
   list-style-type:none;

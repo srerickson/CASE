@@ -185,4 +185,12 @@
 <script>
   // this is here so that it runs even after each XHR request
   set_bird_form_bindings();
+  
+  // for last_saved side_panel
+  var last_saved = "<%= @bird.updated_at.nil? ? 'never' :  @bird.updated_at.localtime.to_formatted_s(:long) %>"
+  
+  // for xhr requests
+  set_bird_form_last_saved(last_saved)
+  // for normal doc loading
+  $(document).ready(function(){ set_bird_form_last_saved(last_saved) })
 </script>

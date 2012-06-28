@@ -185,7 +185,7 @@ ActiveAdmin.register Bird do
   form :partial => "form"
   
   
-  sidebar "-", :only => [:edit, :new] do 
+  sidebar :last_saved, :except => [:index, :show] do 
     render :partial => "admin/birds/save_sidebar"
   end
   
@@ -226,6 +226,15 @@ ActiveAdmin.register Bird do
   action_item :only => :show do
     link_to "Edit", edit_admin_bird_path(bird)
   end  
+
+  action_item :only => :new do
+    link_to "Cancel", admin_birds_path
+  end 
+
+  action_item :only => :edit do
+    link_to "Cancel", admin_bird_path(bird)
+  end 
+
 
   action_item :only => :edit do
     link_to "Delete", admin_bird_path(bird), :method => :delete, :confirm => "Are you really sure you want to delete this bird?"

@@ -1,4 +1,5 @@
 $(document).ready(function(){ 
+
   // make table rows of birds list clickable
   $("table#birds tr, table.birds_list tr").bind({
     mouseover: function(){
@@ -13,19 +14,19 @@ $(document).ready(function(){
       window.location = "/admin/birds/"+$(this).attr("id").split("_")[1]
     }
   })
+  
 })
 
 
 
 function set_bird_form_bindings(){
   $('form.bird').bind('ajax:success', function(evt,dat,stat,xhr){
-    console.log("here")
     $("div#main_content").html(xhr.responseText);
-    $("div.edit_saved_status").html('&nbsp;');
+    $(".edit_saved_status").removeClass("saving").addClass("saved")
   });
 
   $('form.bird').bind('ajax:before', function(){
-    $("div.edit_saved_status").html('<img src="/images/spinner.gif" />')
+    $(".edit_saved_status").removeClass("saved").addClass("saving")
   });
   $('form.bird :input').keypress(function(){
     //$('div.edit_saved_status .changes').show()
@@ -34,6 +35,18 @@ function set_bird_form_bindings(){
 }
 
 
+function save_and_redirect($form, url){
+  $('form.bird').bind('ajax:success', function(evt,dat,stat,xhr){
+    window.location = url;
+  });
+  $form.submit();
+}
+
+
+
+function  set_bird_form_last_saved(date){
+  $("#last_saved_sidebar_section h3").html("Last Saved: "+date)
+}
 
 function setup_uploadify(){
   // Create an empty object to store our custom script data
