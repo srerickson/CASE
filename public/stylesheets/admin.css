@@ -7,11 +7,12 @@ a, a:link, a:visited {
 #header {
 /*  padding: 9px 100px; */
 }
-li#dashboard {
+
+
+ul#tabs li#admin,
+ul#tabs li#dashboard {
   display:none !important;
 }
-
-
 
 
 form fieldset legend span {
