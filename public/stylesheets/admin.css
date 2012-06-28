@@ -163,6 +163,16 @@ table#birds td {
   vertical-align:middle;
 }
 
-table#birds td.name {
-  font-size:1.1em;
+table#birds td.name,
+table.birds_list {
+  font-size:1.17em;
 }
+
+
+.admin_birds.edit div.sidebar_section {
+  position: fixed;
+  width: 270px;
+  right: 30px;
+  bottom: 10px
+}
+

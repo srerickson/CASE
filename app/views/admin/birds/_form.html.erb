@@ -5,7 +5,7 @@
   </script>  
   
 
- <%= semantic_form_for [:admin, @bird], :html => {:multipart => true} do |f| %>
+ <%= semantic_form_for [:admin, @bird], :html => {:multipart => true}, :remote=> !@bird.new_record? do |f| %>
 
 
     <%= f.inputs "Basic Info" do %>
@@ -168,3 +168,8 @@
     <%= f.buttons %>
          
 <% end %>
+
+<script>
+  // this is here so that it runs even after each XHR request
+  set_bird_form_bindings();
+</script>

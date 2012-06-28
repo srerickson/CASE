@@ -175,11 +175,28 @@ ActiveAdmin.register Bird do
   
   form :partial => "form"
   
-  controller do 
+  
+  sidebar "-", :only => [:edit, :new] do 
+    render :partial => "admin/birds/save_sidebar"
+  end
+  
+    
+  controller do
     before_filter :only => :index do 
       @per_page = 9999 
-    end 
-  end  
+    end  
+    def update
+      update! do |format|
+        format.html do
+          if request.xhr?
+            render :partial => "form"
+          else
+            redirect_to show_admin_bird_path(@bird)
+          end
+        end
+      end
+    end
+  end 
   
   
   
