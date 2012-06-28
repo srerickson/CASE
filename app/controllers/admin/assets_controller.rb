@@ -81,7 +81,7 @@ class Admin::AssetsController < ApplicationController
     respond_to do |format|
       format.html {
         if request.xhr?
-          render :partial => "admin/assets/form.html.erb", :locals => {:assets => @bird.images, :attached_to => @bird }
+          render :partial => "admin/birds/form"
         else
           redirect_to admin_edit_bird_url(@bird)
         end

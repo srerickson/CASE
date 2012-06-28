@@ -34,14 +34,6 @@ function set_bird_form_bindings(){
 }
 
 
-function setup_remote_delete_bindings(){
-    $("a.remote-delete").on('ajax:success',function(event, data, status, xhr){
-      console.log("here2")
-      $(this).parents("#media_files").html(data)
-    })
-}
-
-
 
 function setup_uploadify(){
   // Create an empty object to store our custom script data
