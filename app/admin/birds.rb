@@ -1,6 +1,7 @@
 ActiveAdmin.register Bird do
 
   config.sort_order = 'name_asc'
+  
   menu :priority => 1
   show :title => :name 
 
@@ -197,7 +198,7 @@ ActiveAdmin.register Bird do
       render :partial => "admin/assets/assets", :locals => {:assets => bird.images}
     end
   end
-    
+  
   controller do
     before_filter :only => :index do 
       @per_page = 9999 
@@ -215,6 +216,20 @@ ActiveAdmin.register Bird do
     end
   end 
   
+  # Fix Action Buttons 
+  config.clear_action_items!
+  
+  action_item :only => :index do
+    link_to "New Bird", new_admin_bird_path
+  end  
+    
+  action_item :only => :show do
+    link_to "Edit", edit_admin_bird_path(bird)
+  end  
+
+  action_item :only => :edit do
+    link_to "Delete", admin_bird_path(bird), :method => :delete, :confirm => "Are you really sure you want to delete this bird?"
+  end    
   
   
 end
