@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120626163620) do
+ActiveRecord::Schema.define(:version => 20120628155119) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -40,8 +40,8 @@ ActiveRecord::Schema.define(:version => 20120626163620) do
   end
 
   create_table "birds", :force => true do |t|
-    t.text     "name",                   :null => false
-    t.text     "url",                    :null => false
+    t.text     "name",                    :null => false
+    t.text     "url",                     :null => false
     t.integer  "genus_type_id"
     t.text     "foritself"
     t.integer  "habitat_id"
@@ -75,6 +75,8 @@ ActiveRecord::Schema.define(:version => 20120626163620) do
     t.integer  "updated_by_id"
     t.text     "summary"
     t.text     "birder_credits"
+    t.string   "tangible_problem"
+    t.text     "tangible_problem_detail"
   end
 
   create_table "evaluation_questions", :force => true do |t|
