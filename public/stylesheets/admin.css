@@ -1,9 +1,17 @@
+
+a, a:link, a:visited {
+  color: #38678b;
+  text-decoration: none; 
+}
+
 #header {
 /*  padding: 9px 100px; */
 }
 li#dashboard {
   display:none !important;
 }
+
+
 
 
 form fieldset legend span {
@@ -144,10 +152,17 @@ table.birds_list td:last-child { /*border-right: 1px solid #E8E8E8;*/ }
 
 
 
-
 /* Birds List Table */
 table#birds tr.mouseover, table#birds td.mouseover,
 table.birds_list tr.mouseover, table.birds_list td.mouseover {
   background-color:#FFFFCC;
   cursor:pointer;
+}
+
+table#birds td {
+  vertical-align:middle;
+}
+
+table#birds td.name {
+  font-size:1.1em;
 }
