@@ -163,7 +163,9 @@ ActiveAdmin.register Bird do
           simple_format b.birder_credits
         end  
         row :created_at 
-        row :updated_at 
+        row :updated_at do |b|
+          b.updated_at.localtime
+        end
         row "Last Updated By" do |b| 
           b.updated_by.email unless b.updated_by.nil?
         end         
