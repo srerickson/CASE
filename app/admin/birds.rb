@@ -36,9 +36,9 @@ ActiveAdmin.register Bird do
         row "#{I18n.translate!("boi_schema.fields.logo.human")}" do |b| 
           b.logo.nil? ? "" : image_tag(b.logo.asset.url(:sq300))
         end
-        row "#{I18n.translate!("boi_schema.fields.images.human")}" do |b| 
-          render :partial => "/admin/assets/assets", :locals => {:assets => b.images}
-        end        
+        #row "#{I18n.translate!("boi_schema.fields.images.human")}" do |b| 
+        #  render :partial => "/admin/assets/assets", :locals => {:assets => b.images}
+        #end        
         row "#{I18n.translate!("boi_schema.fields.url.human")}" do |b| 
           b.url
         end
@@ -127,7 +127,11 @@ ActiveAdmin.register Bird do
         end
         row "#{I18n.translate!("boi_schema.fields.metrics.human")}" do |b| 
           simple_format b.metrics
-        end                
+        end
+        row "#{I18n.translate!("boi_schema.fields.tangible_problem.human")}" do |b| 
+          "#{b.tangible_problem}. #{b.tangible_problem_detail}"
+        end        
+                        
       end
     end    
     
@@ -184,6 +188,15 @@ ActiveAdmin.register Bird do
     render :partial => "admin/birds/save_sidebar"
   end
   
+  sidebar "Attached Files", :only => [:show] do
+    if bird.images.empty?
+      span(:class=> "empty_field") do
+        "empty"
+      end
+    else
+      render :partial => "admin/assets/assets", :locals => {:assets => bird.images}
+    end
+  end
     
   controller do
     before_filter :only => :index do 

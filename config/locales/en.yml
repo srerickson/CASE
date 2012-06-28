@@ -103,7 +103,13 @@ en:
         description: "What is the Granularity of the Tasks?"  
       metrics:
         human: "Task Metrics"
-        description: "How are tasks measured? What constitutes completion of a task?"  
+        description: "How are tasks measured? What constitutes completion of a task?"
+      tangible_problem:
+        human: "Tangible Problem?"
+        description: "Is this entity designed in order to solve a specific, tangible problem? If so, what is the concrete problem it seeks to solve?"
+      tangible_problem_detail:
+        human: "Tangible Problem"
+        description: "What is the concrete problem it seeks to solve?" 
 
       alliances:
         human: "Alliances"

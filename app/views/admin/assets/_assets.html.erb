@@ -1,10 +1,12 @@
+<ul class="file_list">
 <% assets.each_with_index do |ass, i| %>
-  <p>
+  <li>
+    <%= link_to ass.asset_file_name, ass.asset.url(), :target => "_blank" %>
     <% if ass.is_image? %>
       <%= image_tag ass.asset.url("sq50"), :height=>"20px" %>
     <% else %>
       <%= image_tag "doc-icon.png" %>
     <% end %>
-    <%= link_to ass.asset_file_name, ass.asset.url(), :target => "_blank" %>
-  <p>
+  </li>
 <% end %>
+</ul>

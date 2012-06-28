@@ -132,6 +132,19 @@
       <%= f.input :metrics, 
         :label => I18n.translate!("boi_schema.fields.metrics.human"), 
         :hint => I18n.translate!("boi_schema.fields.metrics.description") %>
+        
+       <!-- mamual input for tangible problem--!>
+      <li class="text input optional" id="bird_tangible_problem_input">
+        <label class="label" for="bird_tangible_prolem"><%= I18n.translate!("boi_schema.fields.tangible_problem.human") %></label>
+        <div style="margin:0.5em 0 0 20%">
+          <%= f.select :tangible_problem, ["Yes","No"] %>
+          <%= f.text_field :tangible_problem_detail, :style => "margin-left:15px;" %>
+        </div>
+        <p class="inline-hints">
+          <%= I18n.translate!("boi_schema.fields.tangible_problem.description") %>
+        </p>
+      </li>
+        
 
     <%end%>   
     
