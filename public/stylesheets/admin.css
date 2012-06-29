@@ -21,12 +21,17 @@ form fieldset legend span {
 
 
 li.text.input textarea {
-  height:120px;
+  height:140px;
 }
 
-li.input {
-  border-top:solid #E6E6E6 1px;
+form li.input {
+  border-bottom:solid #E6E6E6 1px;
 }
+form li.input:last-child {
+  border-bottom:none;
+}
+
+
 
 li.input.hidden{
   border:none;
@@ -36,13 +41,20 @@ li.input.hidden{
 }
 
 fieldset.inputs div.fieldset_hint {
-  font-size: 0.98em;
+  font-size: 0.1.1em;
   color: #666;
-  padding:5px;
+  padding:10px;
   margin: 25px 20%;
   border:dotted #CDCDCD 1px;
 }
 
+
+form input[type="text"], form input[type="password"],
+form input[type="email"], form input[type="url"], 
+form input[type="tel"], form textarea {
+  font-size:1em;
+  padding:5px;
+}
 
 /** Evaluation Set Form **/
 
