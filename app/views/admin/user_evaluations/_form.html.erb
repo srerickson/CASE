@@ -36,12 +36,15 @@
                     :wrapper_html => {:class => "question"} %>
         <%= a.input :comment, :as => :string, :wrapper_html => {:class => "comment"} %>
       <% end %>
-         
-      <li class="input" style="clear:both;">
+    <% end %>  
+    
+    <% f.inputs "Save" do %>
+      <%= f.input :comment, :label => "Other Comments?"  %>
+      <li class="input",>
         <%= f.submit "Save" %>
-        <%# f.actions :cancel %>
       </li>
-    <% end %>    
+    <% end %>
+      
 
   <% end %>
 
