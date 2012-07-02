@@ -20,7 +20,7 @@
       <li class="file input optional" id="bird_uploaded_logo_input">
         <label class="label" for="bird_uploaded_logo"><%= I18n.translate!("boi_schema.fields.logo.human") %></label>
         <div style="margin:0.5em 0 0 20%">
-          <%= image_tag(@bird.logo.asset.url()) unless @bird.logo.nil? %>
+          <%= image_tag(@bird.logo.asset.url(:sq300)) unless @bird.logo.nil? %>
           <input id="bird_uploaded_logo" name="bird[uploaded_logo]" type="file" />
         </div>
       </li>
