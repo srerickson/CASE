@@ -53,9 +53,6 @@
       <%= f.input :brand, 
         :label => I18n.translate!("boi_schema.fields.brand.human"),
         :hint => I18n.translate!("boi_schema.fields.brand.description") %>
-      <%= f.input :foritself,
-        :label => I18n.translate!("boi_schema.fields.foritself.human"),
-        :hint => I18n.translate!("boi_schema.fields.foritself.description") %>
     <%end%>
  
  
@@ -88,9 +85,12 @@
         :hint => I18n.translate!("boi_schema.fields.op_vip_founders.description") %>
       <%= f.input :op_typical_member, 
         :label => I18n.translate!("boi_schema.fields.op_typical_member.human"), 
-        :hint => I18n.translate!("boi_schema.fields.op_typical_member.description") %>     
+        :hint => I18n.translate!("boi_schema.fields.op_typical_member.description") %>
+      <%= f.input :foritself,
+        :label => I18n.translate!("boi_schema.fields.foritself.human"),
+        :hint => I18n.translate!("boi_schema.fields.foritself.description") %>     
     <%end%>
-
+    
 
      <%= f.inputs "Ontogeny" do %>
       <div class="fieldset_hint"><%= I18n.translate!("boi_schema.sections.ontogeny.description") %></div>

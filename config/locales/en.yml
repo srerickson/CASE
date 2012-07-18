@@ -41,8 +41,8 @@ en:
         human: "Brand"
         description: 'Describe how the brand / logo / visual identity is positioned.'
       foritself:
-        human: 'Is it self-aware?'
-        description: 'Is the project in question aware of itself as an entity? Does it actively promote a sense of belonging, community or participation? Or is it identified by a second order observation of people, behavior, or designed to display "emergent" behavior, or the effects of collective behavior?'
+        human: 'Is the OP self-aware?'
+        description: 'Is the OP in question aware of itself as an entity? Does it actively promote a sense of belonging, community or participation? Or is it identified by a second order observation of people, behavior, or designed to display "emergent" behavior, or the effects of collective behavior?'
 
       fse_name:
         human: "FSE Name"

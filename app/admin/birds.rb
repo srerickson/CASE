@@ -52,9 +52,6 @@ ActiveAdmin.register Bird do
         row "#{I18n.translate!("boi_schema.fields.brand.human")}" do |b| 
           simple_format b.brand
         end 
-        row "#{I18n.translate!("boi_schema.fields.foritself.human")}" do |b| 
-          simple_format b.foritself
-        end 
       end 
     end
     
@@ -88,6 +85,9 @@ ActiveAdmin.register Bird do
         end        
         row "#{I18n.translate!("boi_schema.fields.op_typical_member.human")}" do |b| 
           simple_format b.op_typical_member
+        end 
+        row "#{I18n.translate!("boi_schema.fields.foritself.human")}" do |b| 
+          simple_format b.foritself
         end           
       end 
     end    
