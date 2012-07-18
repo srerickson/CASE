@@ -209,7 +209,7 @@ ActiveAdmin.register Bird do
           if request.xhr?
             render :partial => "form"
           else
-            redirect_to show_admin_bird_path(@bird)
+            redirect_to admin_bird_path(@bird)
           end
         end
       end
