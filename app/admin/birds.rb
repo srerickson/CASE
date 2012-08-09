@@ -2,7 +2,7 @@ ActiveAdmin.register Bird do
 
   config.sort_order = 'name_asc'
   
-  menu :priority => 1
+  menu :priority => 10
   show :title => :name 
 
   scope :All, :default => true do |birds|
