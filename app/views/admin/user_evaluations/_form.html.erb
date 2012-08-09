@@ -12,12 +12,16 @@
     <%#  This is the form for setting up a case evaluation %> 
     <%= f.inputs "Case Evaluation Setup" do %>
       <%= f.input :evaluation_set, :label => "Select the Evaluation Set", :include_blank => false %>
-      <%= f.input :bird, :label => "Select the Case to Evaluate", :collection => Bird.order(:name), :include_blank => false %>
+      <% if @bird %>
+        <%= f.input :bird, :as => :select, :collection => [[@bird.name, @bird.id]], :include_blank => false %>
+      <% else %>
+        <%= f.input :bird, :label => "Select the Case to Evaluate", :collection => Bird.order(:name), :include_blank => false %>
+      <% end %>
       <%= f.input :user_id, :as => :hidden, :value => current_user.id %>
       <%= f.input :complete, :as => :hidden, :value => false %>      
       <li class="input">
         <%= f.submit "Continue" %>
-        <%# f.actions :cancel %>
+        <a href="#" class="button" onclick="window.history.back();return false;">cancel</a>
       </li>
     <% end %>
   

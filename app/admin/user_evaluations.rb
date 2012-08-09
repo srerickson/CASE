@@ -5,7 +5,7 @@ ActiveAdmin.register UserEvaluation do
   filter :bird 
   filter :evaluation_set
   
-  menu :label => "Evaluations"
+  menu :label => "Your Evaluations"
 
   show :title => :description do |ua|
     attributes_table do
@@ -39,6 +39,13 @@ ActiveAdmin.register UserEvaluation do
   end
   
   controller do
+    def new
+      @bird = nil
+      unless params[:bird].nil?
+        @bird = Bird.find(params[:bird].to_i)
+      end
+      new!
+    end
     def create
       create! do |format|
         format.html {redirect_to edit_admin_user_evaluation_path(@user_evaluation)}

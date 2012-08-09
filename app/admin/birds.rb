@@ -227,6 +227,10 @@ ActiveAdmin.register Bird do
     link_to "Edit", edit_admin_bird_path(bird)
   end  
 
+  action_item :only => :show do
+    link_to "Evaluate this bird", new_admin_user_evaluation_path(:bird => bird)
+  end
+
   action_item :only => :new do
     link_to "Cancel", admin_birds_path
   end 

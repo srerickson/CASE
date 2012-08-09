@@ -1,6 +1,9 @@
 ActiveAdmin.register EvaluationSet do
  
-  menu :parent => "Evaluations", :label => "Eval Question Sets"
+  menu :label => "Evaluations Admin", 
+       :if => proc{current_user.is_admin?},
+       :priority => 100
+       
   show :title => :name
 
   index do 
