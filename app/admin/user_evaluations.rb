@@ -5,7 +5,7 @@ ActiveAdmin.register UserEvaluation do
   filter :bird 
   filter :evaluation_set
   
-  menu :label => "Your Evaluations"
+  menu :label => "Your Evaluations", :priority => 5
 
   show :title => :description do |ua|
     attributes_table do

@@ -1,7 +1,7 @@
 ActiveAdmin.register User do
 
-  menu :priority => 10, :if => proc{ current_user.is_admin? }
-
+  menu :if => proc{current_user.is_admin?}, :parent => "Admin Actions", :priority => 100
+  
   index do
     column :email;
     column :created_at;

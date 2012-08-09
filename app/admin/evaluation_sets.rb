@@ -1,9 +1,9 @@
 ActiveAdmin.register EvaluationSet do
  
-  menu :label => "Evaluations Admin", 
-       :if => proc{current_user.is_admin?},
-       :priority => 100
-       
+  menu :label => "Evaluations Admin"
+  menu :if => proc{current_user.is_admin?}, :parent => "Admin Actions", :priority => 100
+
+  
   show :title => :name
 
   index do 
