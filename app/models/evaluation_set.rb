@@ -19,6 +19,8 @@ class EvaluationSet  < ActiveRecord::Base;
   # the users who have done evaluations based on this set
   has_many :users, :through => :user_evaluations, :uniq => true
 
+  validate :update_on_unlock_only
+  before_destroy :destroy_on_unlock_only 
 
   def results_by_bird
     result_rows = []
@@ -30,4 +32,22 @@ class EvaluationSet  < ActiveRecord::Base;
     result_rows
   end
   
+  protected
+
+  def update_on_unlock_only
+    if locked
+      message = "Cannot be changed when the evaluation set is locked"
+      errors.add(:name, message) if name_changed?
+      errors.add(:instructions, message) if instructions_changed?
+    end
+  end
+
+  def destroy_on_unlock_only 
+    if locked
+      errors.add_to_base("Cannot delete while locked")
+      return false
+    end
+  end
+
+
 end

@@ -3,6 +3,8 @@ ActiveAdmin.register EvaluationSet do
   menu :label => "Evaluations Admin"
   menu :if => proc{current_user.is_admin?}, :parent => "Admin Actions", :priority => 100
 
+  config.clear_sidebar_sections!
+
   
   show :title => :name
 
@@ -67,7 +69,6 @@ ActiveAdmin.register EvaluationSet do
     f.inputs "General" do 
       f.input :name
       f.input :instructions
-      f.input :locked, :hint => "Use this to prevent modifications that may corrupt responses"
       f.input :owner_id, :as => :hidden, :value => current_user.id
     end
     f.has_many :evaluation_questions do |q|
@@ -116,11 +117,11 @@ ActiveAdmin.register EvaluationSet do
   action_item :only => :show do
     if evaluation_set.locked
       link_to unlock_admin_evaluation_set_path(evaluation_set), :method => :put do 
-        image_tag "unlock.png", :height=> "12"
+        image_tag "lock.png", :height=> "12"
       end
     else
       link_to lock_admin_evaluation_set_path(evaluation_set),  :method => :put, do 
-        image_tag "lock.png", :height=> "12"
+        image_tag "unlock.png", :height=> "12"
       end
     end
   end 
