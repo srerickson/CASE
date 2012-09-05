@@ -228,7 +228,7 @@ ActiveAdmin.register Bird do
   end  
 
   action_item :only => :show do
-    link_to "Evaluate this bird", new_admin_user_evaluation_path(:bird => bird)
+    link_to "Evaluate this bird", new_admin_user_evaluation_path(:bird => bird), :target => "_blank"
   end
 
   action_item :only => :new do
