@@ -74,6 +74,10 @@ ActiveAdmin.register EvaluationSet do
     f.has_many :evaluation_questions do |q|
       q.input :position, :wrapper_html => {:class => "position"}
       q.input :question, :as => :string, :wrapper_html => {:class => "question"}
+      if !q.object.new_record?
+        q.input :_destroy, :as => :boolean, :label => "Delete?", :wrapper_html => {:class => "delete"}
+      end
+      q.form_buffers.last
     end
     f.buttons
   end

@@ -59,8 +59,9 @@ form input[type="tel"], form textarea {
 /** Evaluation Set Form **/
 
 form.evaluation_set li.position, 
-form.evaluation_set li.question {
-  width:70%;
+form.evaluation_set li.question,
+form.evaluation_set li.delete
+ {
   float:left;
   margin:0 3px;
   padding:10px 0; 
@@ -70,6 +71,10 @@ form.evaluation_set li.question {
 form.evaluation_set li.position {
   width: 15%;
   clear:both;
+}
+
+form.evaluation_set li.question {
+  width:70%;
 }
 
 form.evaluation_set li.position label {
