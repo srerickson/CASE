@@ -3,12 +3,19 @@ class UserEvaluationAnswer < ActiveRecord::Base
   belongs_to :evaluation_question
   belongs_to :user_evaluation
   
+  has_one :evaluation_set, :through => :evaluation_question
+
   after_save :update_results
   after_destroy :update_results
   
   scope :for_question, lambda { |i| where("evaluation_question_id in (?)", i) }
   scope :for_bird, lambda { |i| includes(:user_evaluation).where("user_evaluations.bird_id in (?)", i) }
+  scope :for_user_evaluation, lambda { |i| where("user_evaluation_id in (?)", i)  }
+  scope :for_evaluation_set, lambda { |i| includes(:evaluation_set).where("evaluation_sets.id in (?)", i) }
   scope :for_answer, lambda{ |a| where("answer = ?", a) }
+
+  scope :incomplete_answers, where("answer = '' or answer is NULL")
+  scope :complete_answers, where("answer != '' and answer is not NULL")
 
   def yes?  
     self.answer == UserEvaluationAnswer.yes 

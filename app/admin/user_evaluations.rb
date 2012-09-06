@@ -21,8 +21,17 @@ ActiveAdmin.register UserEvaluation do
   
   index do
     column :bird
-    column :evaluation_set
-    column :updated_at
+    column :evaluation_set do |ue|
+      ue.evaluation_set.name
+    end
+    column :complete do |ue|
+       if ue.unanswered_questions.size == 0 
+          image_tag "green-check.png", :height => "10"
+       else
+          image_tag "red-x-large.png", :height => "10"
+       end
+
+    end
     default_actions      
   end
   
