@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120629224556) do
+ActiveRecord::Schema.define(:version => 20120906173829) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -87,18 +87,6 @@ ActiveRecord::Schema.define(:version => 20120629224556) do
     t.datetime "updated_at"
   end
 
-  create_table "evaluation_results", :force => true do |t|
-    t.integer "bird_id",                               :null => false
-    t.integer "evaluation_question_id",                :null => false
-    t.integer "yes_count",              :default => 0
-    t.integer "no_count",               :default => 0
-    t.integer "na_count",               :default => 0
-    t.text    "yes_comments"
-    t.text    "no_comments"
-    t.text    "na_comments"
-    t.integer "blank_count",            :default => 0
-  end
-
   create_table "evaluation_sets", :force => true do |t|
     t.string   "name"
     t.boolean  "locked"
@@ -149,12 +137,12 @@ ActiveRecord::Schema.define(:version => 20120629224556) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "email",                  :default => "", :null => false
-    t.string   "encrypted_password",     :default => "", :null => false
+    t.string   "email",                                                :null => false
+    t.string   "encrypted_password",     :limit => 128,                :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          :default => 0
+    t.integer  "sign_in_count",                         :default => 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"

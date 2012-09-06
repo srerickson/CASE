@@ -16,9 +16,9 @@
   <tbody>
     <% results.each do |row| %>
     <tr>
-      <td><%= row.bird.name%> </td>
-      <% row.questions.each do |q| %>
-        <td><%=raw "yes:#{q.yes_count}<br/> no:#{q.no_count}<br/> n/a:#{q.na_count}" %></td>
+      <td><%= row[:bird].name%> </td>
+      <% row[:questions].each do |q| %>
+        <td><%=raw "yes:#{q[:yes_count]}<br/> no:#{q[:no_count]}<br/> n/a:#{q[:na_count]}" %></td>
       <% end %>
     </tr>
     <%end%>

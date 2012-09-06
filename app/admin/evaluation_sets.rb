@@ -5,7 +5,9 @@ ActiveAdmin.register EvaluationSet do
 
   config.clear_sidebar_sections!
 
-
+  #
+  # Views 
+  #
 
   index do 
     column :name
@@ -43,7 +45,7 @@ ActiveAdmin.register EvaluationSet do
       end
       row :instructions
       table_for(es.evaluation_questions) do
-          column :question do |q|
+          column :questions do |q|
             q.to_s
           end
       end
@@ -54,7 +56,7 @@ ActiveAdmin.register EvaluationSet do
           es.user_evaluations.size
         end
         row "# birds evaluated" do
-          es.birds.size
+          "#{es.birds.size.to_s} out of #{Bird.all.size}"
         end
       end
     end
@@ -81,25 +83,13 @@ ActiveAdmin.register EvaluationSet do
     f.buttons
   end
 
+  #
+  # Controller
+  #
 
+  collection_action :results, :method => :get do 
 
-
-  controller do 
-    before_filter :check_admin, :except => [:index, :show]
-    private
-    def check_admin
-      if !current_user.is_admin?
-        boot_url = params[:id].nil? ? admin_evaluation_sets_url : admin_evaluation_set_url(params[:id])
-        redirect_to boot_url, :notice => "Sorry, you don't have permission to do that."
-      end
-    end
   end
-
-
-
-  # Fix Action Buttons 
-  config.clear_action_items!
-  
 
   member_action :unlock, :method => :put do 
     es = EvaluationSet.find(params[:id])
@@ -115,6 +105,23 @@ ActiveAdmin.register EvaluationSet do
     redirect_to admin_evaluation_set_path(es), :notice => "Locked!"
   end
 
+  controller do 
+    before_filter :check_admin, :except => [:index, :show]
+    private
+    def check_admin
+      if !current_user.is_admin?
+        boot_url = params[:id].nil? ? admin_evaluation_sets_url : admin_evaluation_set_url(params[:id])
+        redirect_to boot_url, :notice => "Sorry, you don't have permission to do that."
+      end
+    end
+  end
+
+
+  #
+  # Fix Action Buttons 
+  #
+
+  config.clear_action_items!
 
   action_item :only => :index do
     link_to "New Evaluation Set", new_admin_evaluation_set_path

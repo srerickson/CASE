@@ -3,7 +3,7 @@ class EvaluationSet  < ActiveRecord::Base;
 
   # An EvaluationSet is a collection of questions 
   has_many :evaluation_questions, :order => "position ASC"
-  has_many :evaluation_results, :through => :evaluation_questions
+  #has_many :evaluation_results, :through => :evaluation_questions
   accepts_nested_attributes_for :evaluation_questions, :allow_destroy => true
 
   # The questions a related to user answers through user's evaluations
@@ -14,7 +14,7 @@ class EvaluationSet  < ActiveRecord::Base;
   belongs_to :owner, :class_name => "User", :foreign_key => "owner_id"
 
   # the birds that have have been evaluated
-  has_many :birds, :through => :user_evaluations, :uniq => true
+  has_many :birds, :through => :user_evaluations, :uniq => true, :order => "name ASC"
 
   # the users who have done evaluations based on this set
   has_many :users, :through => :user_evaluations, :uniq => true
@@ -24,10 +24,18 @@ class EvaluationSet  < ActiveRecord::Base;
 
   def results_by_bird
     result_rows = []
-    all_questions = self.evaluation_questions.map { |q| q.id }
-    self.birds.each do |b|
-      qs = EvaluationResult.for_question(all_questions).for_bird(b.id)
-      result_rows << EvaluationResultRow.new({:bird => b, :questions => qs})
+    counts = UserEvaluationAnswer.includes(:bird).complete_answers.group(["birds.id",:evaluation_question_id,:answer]).size
+    birds.each do |b|
+      row = {:bird => b, :questions => []}
+      evaluation_questions.each do |q|
+        row[:questions] << {
+          :question => q, 
+          :yes_count => counts[[b.id,q.id,UserEvaluationAnswer.yes]] || 0,
+          :no_count => counts[[b.id,q.id,UserEvaluationAnswer.no]] || 0,
+          :na_count => counts[[b.id,q.id,UserEvaluationAnswer.na]] || 0
+        }
+      end
+      result_rows << row
     end
     result_rows
   end

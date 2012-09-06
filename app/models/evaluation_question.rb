@@ -4,7 +4,7 @@ class EvaluationQuestion < ActiveRecord::Base
   
   belongs_to :evaluation_set
   has_many :user_evaluation_answers
-  has_many :evaluation_results
+  #has_many :evaluation_results
 
   validate :update_on_unlock_only
   before_destroy :destroy_on_unlock_only 

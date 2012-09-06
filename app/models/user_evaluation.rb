@@ -21,11 +21,13 @@ class UserEvaluation < ActiveRecord::Base
     UserEvaluationAnswer.for_user_evaluation(id).incomplete_answers
   end
 
-
   def description
     "#{evaluation_set.name}: #{bird.name}"
   end
 
+  def complete?
+    UserEvaluationAnswer.for_user_evaluation(id).incomplete_answers.size == 0
+  end
 
   private
 

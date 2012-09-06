@@ -4,9 +4,10 @@ class UserEvaluationAnswer < ActiveRecord::Base
   belongs_to :user_evaluation
   
   has_one :evaluation_set, :through => :evaluation_question
+  has_one :bird, :through => :user_evaluation
 
   after_save :update_results
-  after_destroy :update_results
+  #after_destroy :update_results
   
   scope :for_question, lambda { |i| where("evaluation_question_id in (?)", i) }
   scope :for_bird, lambda { |i| includes(:user_evaluation).where("user_evaluations.bird_id in (?)", i) }
@@ -49,28 +50,28 @@ class UserEvaluationAnswer < ActiveRecord::Base
   # update the appropriate bird/question record in the 
   # evaluation_results table 
   #
-  def update_results
-    b_id = self.user_evaluation.bird_id
+  # def update_results
+  #   b_id = self.user_evaluation.bird_id
     
-    yes_count = UserEvaluationAnswer.for_bird(b_id)
-                  .for_question(self.evaluation_question_id)
-                  .for_answer(UserEvaluationAnswer.yes).count
-    no_count = UserEvaluationAnswer.for_bird(b_id)
-                  .for_question(self.evaluation_question_id)
-                  .for_answer(UserEvaluationAnswer.no).count
-    na_count = UserEvaluationAnswer.for_bird(b_id)
-                  .for_question(self.evaluation_question_id)
-                  .for_answer(UserEvaluationAnswer.na).count
+  #   yes_count = UserEvaluationAnswer.for_bird(b_id)
+  #                 .for_question(self.evaluation_question_id)
+  #                 .for_answer(UserEvaluationAnswer.yes).count
+  #   no_count = UserEvaluationAnswer.for_bird(b_id)
+  #                 .for_question(self.evaluation_question_id)
+  #                 .for_answer(UserEvaluationAnswer.no).count
+  #   na_count = UserEvaluationAnswer.for_bird(b_id)
+  #                 .for_question(self.evaluation_question_id)
+  #                 .for_answer(UserEvaluationAnswer.na).count
 
-    result = EvaluationResult.lookup(b_id,self.evaluation_question_id)              
-    if result.nil?
-      result = EvaluationResult.new({
-        :bird_id => b_id, 
-        :evaluation_question_id => self.evaluation_question_id 
-      })
-    end
-    result.update_attributes({:yes_count => yes_count, :no_count => no_count, :na_count => na_count})
-    result.save!  
-  end
+  #   result = EvaluationResult.lookup(b_id,self.evaluation_question_id)              
+  #   if result.nil?
+  #     result = EvaluationResult.new({
+  #       :bird_id => b_id, 
+  #       :evaluation_question_id => self.evaluation_question_id 
+  #     })
+  #   end
+  #   result.update_attributes({:yes_count => yes_count, :no_count => no_count, :na_count => na_count})
+  #   result.save!  
+  # end
   
 end
