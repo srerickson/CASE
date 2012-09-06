@@ -18,7 +18,11 @@
     <tr>
       <td><%= row[:bird].name%> </td>
       <% row[:questions].each do |q| %>
-        <td><%=raw "yes:#{q[:yes_count]}<br/> no:#{q[:no_count]}<br/> n/a:#{q[:na_count]}" %></td>
+        <td class="evaluation_result_pie" 
+            data-yes-count="<%= q[:yes_count] %>" 
+            data-no-count="<%= q[:no_count] %>" 
+            data-na-count="<%= q[:na_count] %>" 
+            data-blank-count="<%= q[:blank_count] %>" ></td>
       <% end %>
     </tr>
     <%end%>

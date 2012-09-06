@@ -24,7 +24,7 @@ class EvaluationSet  < ActiveRecord::Base;
 
   def results_by_bird
     result_rows = []
-    counts = UserEvaluationAnswer.includes(:bird).complete_answers.group(["birds.id",:evaluation_question_id,:answer]).size
+    counts = UserEvaluationAnswer.includes(:bird).group(["birds.id",:evaluation_question_id,:answer]).size
     birds.each do |b|
       row = {:bird => b, :questions => []}
       evaluation_questions.each do |q|
@@ -32,7 +32,8 @@ class EvaluationSet  < ActiveRecord::Base;
           :question => q, 
           :yes_count => counts[[b.id,q.id,UserEvaluationAnswer.yes]] || 0,
           :no_count => counts[[b.id,q.id,UserEvaluationAnswer.no]] || 0,
-          :na_count => counts[[b.id,q.id,UserEvaluationAnswer.na]] || 0
+          :na_count => counts[[b.id,q.id,UserEvaluationAnswer.na]] || 0,
+          :blank_count => (counts[[b.id,q.id,""]] || 0) + (counts[[b.id,q.id,nil]] || 0) 
         }
       end
       result_rows << row

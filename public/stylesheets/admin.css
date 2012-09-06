@@ -229,4 +229,16 @@ table.birds_list {
   vertical-align:middle;
 }
 
+/* Evaulation Results/Visualization */
+
+table.evaluation_results td.evaluation_result_pie {
+  position:relative;
+  width:80px;
+  height:auto;
+  padding:10px;
+  margin:0;
+  text-align:center;
+}
+
+
 

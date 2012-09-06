@@ -15,6 +15,12 @@ $(document).ready(function(){
     }
   })
   
+  // draw evaluation result pie charts
+  $("td.evaluation_result_pie").each(function(){
+    $elem = $(this)
+    draw_answers_pie.apply($elem,[$elem.data("yes-count"), $elem.data("no-count"),$elem.data("na-count"),$elem.data("blank-count"), 15 ])
+  })
+
 })
 
 
@@ -78,5 +84,36 @@ function setup_uploadify(){
           console.log(errorObj)
         }
   });
+}
 
+
+//Evluation Set
+draw_answers_pie = function(yes_count,no_count, na_count, blank_count, r ){
+  var elem = this[0]
+      $elem = this,
+      data = [yes_count,no_count, na_count, blank_count ]
+      total = yes_count + no_count + na_count + blank_count,
+      w = r*2,
+      h = r*2,
+      color = ["#CEC","#ECC","#EE8","#AAA"],
+      donut = d3.layout.pie().sort(null),
+      arc = d3.svg.arc().innerRadius(7).outerRadius(r-1);
+
+  var svg = d3.select(elem).append("svg:svg")
+    .attr("width", w)
+    .attr("height", h)
+    .append("svg:g")
+    .attr("transform", "translate(" + w / 2 + "," + h / 2 + ")");
+
+  var arcs = svg.selectAll("path")
+    .data(donut(data))
+    .enter().append("svg:path")
+    .attr("fill", function(d, i) { return color[i] })
+    .attr("d", arc)
+
+  svg.append("svg:text")
+      .attr("dy", ".4em")
+      .attr("font-size", ".8em")
+      .attr("text-anchor", "middle")
+      .text(total);
 }
