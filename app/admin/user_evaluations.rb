@@ -7,6 +7,7 @@ ActiveAdmin.register UserEvaluation do
   
   menu :label => "Your Evaluations", :priority => 15
 
+
   show :title => :description do |ua|
     attributes_table do
       row :evaluation_set
@@ -18,6 +19,8 @@ ActiveAdmin.register UserEvaluation do
       end
     end
   end
+
+
   
   index do
     column :bird
@@ -34,6 +37,8 @@ ActiveAdmin.register UserEvaluation do
     end
     default_actions      
   end
+
+
   
   form do
     if EvaluationSet.all.count == 0
@@ -43,9 +48,8 @@ ActiveAdmin.register UserEvaluation do
     end
   end
   
-  action_item :only => :show do
-    link_to("New User Evaluation", new_admin_user_evaluation_path )
-  end
+
+
   
   controller do
     def new
@@ -62,4 +66,20 @@ ActiveAdmin.register UserEvaluation do
     end
   end 
   
+
+  # Fix Action Buttons 
+  config.clear_action_items!
+  
+  action_item :only => :index do
+    link_to "New Evaluation", new_admin_user_evaluation_path
+  end  
+    
+  action_item :only => :show do
+    link_to "Edit", edit_admin_user_evaluation_path(user_evaluation)
+  end  
+
+  action_item :only => :edit do
+    link_to "Delete", admin_user_evaluation_path(user_evaluation), :method => :delete, :confirm => "Are you really sure you want to delete this evaluation?"
+  end 
+
 end
