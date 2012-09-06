@@ -5,8 +5,7 @@ ActiveAdmin.register EvaluationSet do
 
   config.clear_sidebar_sections!
 
-  
-  show :title => :name
+
 
   index do 
     column :name
@@ -29,6 +28,8 @@ ActiveAdmin.register EvaluationSet do
     end
   end
 
+
+
   show :title => :name do |es|
     attributes_table do
       row :name
@@ -47,7 +48,6 @@ ActiveAdmin.register EvaluationSet do
           end
       end
     end
-    
     panel "Results Summary" do
       attributes_table_for es do 
         row "# Evaluations" do
@@ -58,7 +58,6 @@ ActiveAdmin.register EvaluationSet do
         end
       end
     end
-    
     panel "Results" do
       render :partial => "results_by_bird", :locals => {:evaluation_set => es}
     end
@@ -82,6 +81,19 @@ ActiveAdmin.register EvaluationSet do
     f.buttons
   end
 
+
+
+
+  controller do 
+    before_filter :check_admin, :except => [:index, :show]
+    private
+    def check_admin
+      if !current_user.is_admin?
+        boot_url = params[:id].nil? ? admin_evaluation_sets_url : admin_evaluation_set_url(params[:id])
+        redirect_to boot_url, :notice => "Sorry, you don't have permission to do that."
+      end
+    end
+  end
 
 
 
