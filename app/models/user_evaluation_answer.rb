@@ -6,7 +6,7 @@ class UserEvaluationAnswer < ActiveRecord::Base
   has_one :evaluation_set, :through => :evaluation_question
   has_one :bird, :through => :user_evaluation
 
-  after_save :update_results
+  #after_save :update_results
   #after_destroy :update_results
   
   scope :for_question, lambda { |i| where("evaluation_question_id in (?)", i) }
