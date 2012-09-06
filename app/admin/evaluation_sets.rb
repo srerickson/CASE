@@ -10,23 +10,25 @@ ActiveAdmin.register EvaluationSet do
   #
 
   index do 
-    column :name
+    column :name do |es|
+      link_to es.name, admin_evaluation_set_path(es) 
+    end
     column :locked do |es|
       es.locked ? "Yes" : "No"
     end   
     column "# questions" do |es|
       es.evaluation_questions.count   
     end
+    column "# user evaluations" do |es|
+      es.user_evaluations.count   
+    end
     column "# birds evaluated" do |es|
       es.birds.count.to_s +
       " / " +
       Bird.all.count.to_s
-    end 
-    column "# user evaluations" do |es|
-      es.user_evaluations.count   
-    end     
+    end      
     column "" do |es|
-      link_to "view", admin_evaluation_set_path(es)
+      span link_to("view results", results_admin_evaluation_set_path(es), :class=>"member_link")
     end
   end
 
@@ -60,9 +62,6 @@ ActiveAdmin.register EvaluationSet do
         end
       end
     end
-    panel "Results" do
-      render :partial => "results_by_bird", :locals => {:evaluation_set => es}
-    end
   end
 
 
@@ -87,8 +86,8 @@ ActiveAdmin.register EvaluationSet do
   # Controller
   #
 
-  collection_action :results, :method => :get do 
-
+  member_action :results, :method => :get do 
+    @evaluation_set = EvaluationSet.find(params[:id])
   end
 
   member_action :unlock, :method => :put do 
@@ -126,6 +125,10 @@ ActiveAdmin.register EvaluationSet do
   action_item :only => :index do
     link_to "New Evaluation Set", new_admin_evaluation_set_path
   end  
+
+  action_item :only => :show do 
+    link_to "Results", results_admin_evaluation_set_path(evaluation_set)
+  end
     
   action_item :only => :show do
     if !evaluation_set.locked
