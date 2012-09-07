@@ -13,6 +13,7 @@ ActiveAdmin.register EvaluationSet do
     column :name do |es|
       link_to es.name, admin_evaluation_set_path(es) 
     end
+    column :owner
     column :locked do |es|
       es.locked ? "Yes" : "No"
     end   
@@ -28,7 +29,8 @@ ActiveAdmin.register EvaluationSet do
       Bird.all.count.to_s
     end      
     column "" do |es|
-      span link_to("view results", results_admin_evaluation_set_path(es), :class=>"member_link")
+      span link_to("Questions", admin_evaluation_set_path(es), :class=>"member_link")      
+      span link_to("Results", results_admin_evaluation_set_path(es), :class=>"member_link")
     end
   end
 
@@ -125,16 +127,16 @@ ActiveAdmin.register EvaluationSet do
   action_item :only => :index do
     link_to "New Evaluation Set", new_admin_evaluation_set_path
   end  
-
-  action_item :only => :show do 
-    link_to "Results", results_admin_evaluation_set_path(evaluation_set)
-  end
     
   action_item :only => :show do
     if !evaluation_set.locked
       link_to "Edit", edit_admin_evaluation_set_path(evaluation_set)
     end
   end  
+
+  action_item :only => :show do 
+    link_to "View Results", results_admin_evaluation_set_path(evaluation_set)
+  end
 
   action_item :only => :edit do
     link_to "Delete", admin_evaluation_set_path(evaluation_set),  :method => :delete, :confirm => "Are you READLLY SURE you want to delete this evaluation set?"
