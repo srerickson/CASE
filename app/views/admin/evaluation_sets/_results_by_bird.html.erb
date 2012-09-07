@@ -8,10 +8,18 @@
     <tr>
       <td><%= row[:bird].logo.nil? ? "" : image_tag(row[:bird].logo.asset.url(:sq50)); %></td>
 
-      <td><b><%= row[:bird].name%></b></td>
+      <td>
+        <b><%= row[:bird].name%></b><br/>
+        <%= link_to "comments", 
+          comments_admin_evaluation_set_user_evaluations_path(evaluation_set, :bird_id => row[:bird].id),
+          :remote => true,
+          :style => "font-size:0.8em;" 
+        %>
+
+      </td>
       <% row[:questions].each do |q| %>
         <td>
-        <div class="evaluation_result_pie tooltip_trigger" 
+        <div class="evaluation_result_pie tooltip_trigger " 
             title="<%= "#{q[:question].question}<br/><b>Yes: #{q[:yes_count]}; No: #{q[:no_count]}; N/A: #{q[:na_count]}</b>" %>"
             data-yes-count="<%= q[:yes_count] %>" 
             data-no-count="<%= q[:no_count] %>" 
@@ -29,6 +37,6 @@
 </table>
 
 
-<div id="evaluation_result_details">
+<div id="evaluation_result_details" class="user_evaluations_comments">
  
 </div>

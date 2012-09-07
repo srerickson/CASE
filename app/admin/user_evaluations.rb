@@ -64,8 +64,19 @@ ActiveAdmin.register UserEvaluation do
         format.html {redirect_to edit_admin_user_evaluation_path(@user_evaluation)}
       end
     end
+
+    def comments 
+      @evaluation_set = EvaluationSet.find(params[:evaluation_set_id])
+      @bird = Bird.find(params[:bird_id])
+      @user_evaluations = UserEvaluation.where({
+        :evaluation_set_id => @evaluation_set.id,
+        :bird_id => @bird.id
+      })
+      @comments = @user_evaluations.select{|ue| !ue.comment.blank? }.map{|ue| ue.comment }
+    end
+
   end 
-  
+
 
   # Fix Action Buttons 
   config.clear_action_items!

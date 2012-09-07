@@ -6,7 +6,12 @@ BoiCms20::Application.routes.draw do
     resources :birds do
       resources :assets
     end
-    resources :evaluation_sets do 
+    resources :evaluation_sets do
+      resources :user_evaluations do 
+        collection do 
+          get 'comments'
+        end
+      end
       resources :user_evaluation_answers do 
         collection do 
           get 'summary'
