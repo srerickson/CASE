@@ -1,0 +1,30 @@
+
+<%
+show_attrs = [
+  ["Question", @question.question ],
+  ["Bird", @bird.name ],
+]
+%>
+<div class="panel">
+  <h3>Evaluation Result Details</h3>
+  <div class="panel_contents">
+    <div class="attributes_table">
+      <table>
+        <tbody>
+          <% show_attrs.each do |title, details| %>
+            <tr>
+              <th><%= title %></th>
+              <td><%= details %></td>
+            </tr>
+          <% end %>
+          <% @answers.each do |a| %>
+            <tr>
+              <th><%= a.answer %></th>
+              <td><%= a.comment %></td>
+            </tr>
+          <%end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

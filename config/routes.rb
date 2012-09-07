@@ -6,6 +6,13 @@ BoiCms20::Application.routes.draw do
     resources :birds do
       resources :assets
     end
+    resources :evaluation_sets do 
+      resources :user_evaluation_answers do 
+        collection do 
+          get 'summary'
+        end
+      end
+    end
   end 
 
   devise_for :users, ActiveAdmin::Devise.config

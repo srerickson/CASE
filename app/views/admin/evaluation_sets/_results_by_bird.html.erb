@@ -1,32 +1,40 @@
-<% results = evaluation_set.results_by_bird %>
 
-<% if results.empty? %>
-  <span class="empty_field">Empty</span>  
-<% else %>
 
-  <% questions = evaluation_set.evaluation_questions %>
+<% questions = evaluation_set.evaluation_questions %>
 
-  <table class="index_table evaluation_results" border="0" cellspacing="0" cellpadding="0" >
+<table class="index_table evaluation_results" border="0" cellspacing="0" cellpadding="0" >
   <thead>
-    <th>Bird</th>
+    <th>Bird</th>    
+    <th></th>
+
     <% questions.each do |q| %>
-      <th><%= "Question #{q.position}"%></th>
+      <th><%= "Q #{q.position}"%></th>
     <% end %>
   </thead>
   <tbody>
     <% results.each do |row| %>
     <tr>
-      <td><%= row[:bird].name%> </td>
+      <td><%= row[:bird].logo.nil? ? "" : image_tag(row[:bird].logo.asset.url(:sq50)); %></td>
+
+      <td><%= row[:bird].name%></td>
       <% row[:questions].each do |q| %>
-        <td class="evaluation_result_pie" 
+        <td>
+        <div class="evaluation_result_pie" 
             data-yes-count="<%= q[:yes_count] %>" 
             data-no-count="<%= q[:no_count] %>" 
             data-na-count="<%= q[:na_count] %>" 
-            data-blank-count="<%= q[:blank_count] %>" ></td>
+            data-blank-count="<%= q[:blank_count] %>" 
+            data-bird-id="<%= row[:bird].id %>"
+            data-question-id="<%= q[:question].id %>"
+            data-eval-id="<%= evaluation_set.id %>"></div>
+        </div>
       <% end %>
     </tr>
     <%end%>
   </tbody>
-  </table>
+</table>
 
-<% end %>
+
+<div id="evaluation_result_details">
+ 
+</div>

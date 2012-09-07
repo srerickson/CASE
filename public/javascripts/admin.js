@@ -16,10 +16,23 @@ $(document).ready(function(){
   })
   
   // draw evaluation result pie charts
-  $("td.evaluation_result_pie").each(function(){
-    $elem = $(this)
-    draw_answers_pie.apply($elem,[$elem.data("yes-count"), $elem.data("no-count"),$elem.data("na-count"),$elem.data("blank-count"), 15 ])
+  $(".evaluation_result_pie").each(function(){
+    var $elem = $(this)
+    draw_answers_pie.apply($elem,[$elem.data("yes-count"), $elem.data("no-count"),$elem.data("na-count"),$elem.data("blank-count")])
   })
+
+  $(".evaluation_result_pie").bind("show_evaluation_result_details",function(){
+    var bird_id = $(this).data("bird-id"),
+        eval_id =  $(this).data("eval-id"),
+        question_id = $(this).data("question-id"),
+        url = "/admin/evaluation_sets/"+eval_id+"/user_evaluation_answers/summary?bird_id="+bird_id+"&evaluation_question_id="+question_id
+    $.get(url, function(data){
+      $("#evaluation_result_details").html(data)
+    })
+
+  })
+
+
 
 })
 
@@ -88,16 +101,17 @@ function setup_uploadify(){
 
 
 //Evluation Set
-draw_answers_pie = function(yes_count,no_count, na_count, blank_count, r ){
-  var elem = this[0]
+draw_answers_pie = function(yes_count,no_count, na_count, blank_count){
+  var elem = this[0],
       $elem = this,
       data = [yes_count,no_count, na_count, blank_count ]
       total = yes_count + no_count + na_count + blank_count,
-      w = r*2,
-      h = r*2,
+      w = $elem.width()-4,
+      h = $elem.height()-4,
+      r = Math.min(w,h)/2,
       color = ["#CEC","#ECC","#EE8","#AAA"],
       donut = d3.layout.pie().sort(null),
-      arc = d3.svg.arc().innerRadius(7).outerRadius(r-1);
+      arc = d3.svg.arc().innerRadius(.4*r).outerRadius(r-1);
 
   var svg = d3.select(elem).append("svg:svg")
     .attr("width", w)
@@ -116,4 +130,8 @@ draw_answers_pie = function(yes_count,no_count, na_count, blank_count, r ){
       .attr("font-size", ".8em")
       .attr("text-anchor", "middle")
       .text(total);
+
+  $elem.children("svg").click(function(){
+    $elem.trigger("show_evaluation_result_details")
+  })
 }

@@ -1,3 +1,10 @@
+<% results = @evaluation_set.results_by_bird %>
+<% if results.empty? %>
+  <span class="empty_field">Empty</span>  
+<% else %>
+  <%= render :partial => "results_by_bird", :locals => {
+    :evaluation_set => @evaluation_set,
+    :results => results
+  } %>
+<% end %>
 
-<h1>Results by bird</h1>
-<%= render :partial => "results_by_bird", :locals => {:evaluation_set => @evaluation_set} %>
