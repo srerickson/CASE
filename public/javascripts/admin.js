@@ -32,6 +32,7 @@ $(document).ready(function(){
 
   })
 
+  $(".tooltip_trigger[title]").tooltip()
 
 
 })
@@ -109,7 +110,7 @@ draw_answers_pie = function(yes_count,no_count, na_count, blank_count){
       w = $elem.width()-4,
       h = $elem.height()-4,
       r = Math.min(w,h)/2,
-      color = ["#CEC","#ECC","#EE8","#AAA"],
+      color = ["#ACA","#CAA","#E5E579","#EEE"],
       donut = d3.layout.pie().sort(null),
       arc = d3.svg.arc().innerRadius(.4*r).outerRadius(r-1);
 

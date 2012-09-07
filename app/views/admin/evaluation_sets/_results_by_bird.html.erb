@@ -3,30 +3,24 @@
 <% questions = evaluation_set.evaluation_questions %>
 
 <table class="index_table evaluation_results" border="0" cellspacing="0" cellpadding="0" >
-  <thead>
-    <th>Bird</th>    
-    <th></th>
-
-    <% questions.each do |q| %>
-      <th><%= "Q #{q.position}"%></th>
-    <% end %>
-  </thead>
   <tbody>
     <% results.each do |row| %>
     <tr>
       <td><%= row[:bird].logo.nil? ? "" : image_tag(row[:bird].logo.asset.url(:sq50)); %></td>
 
-      <td><%= row[:bird].name%></td>
+      <td><b><%= row[:bird].name%></b></td>
       <% row[:questions].each do |q| %>
         <td>
-        <div class="evaluation_result_pie" 
+        <div class="evaluation_result_pie tooltip_trigger" 
+            title="<%= "#{q[:question].question}<br/><b>Yes: #{q[:yes_count]}; No: #{q[:no_count]}; N/A: #{q[:na_count]}</b>" %>"
             data-yes-count="<%= q[:yes_count] %>" 
             data-no-count="<%= q[:no_count] %>" 
             data-na-count="<%= q[:na_count] %>" 
             data-blank-count="<%= q[:blank_count] %>" 
             data-bird-id="<%= row[:bird].id %>"
             data-question-id="<%= q[:question].id %>"
-            data-eval-id="<%= evaluation_set.id %>"></div>
+            data-eval-id="<%= evaluation_set.id %>"
+            ></div>
         </div>
       <% end %>
     </tr>

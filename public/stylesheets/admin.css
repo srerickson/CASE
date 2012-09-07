@@ -9,6 +9,34 @@ a, a:link, a:visited {
 }
 
 
+  .tooltip {
+    display:none;
+    /*background:transparent url(/media/img/tooltip/black_arrow.png);*/
+    width:150px;
+    height:auto;
+    background: #EFEFEF;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#efefef, endColorstr=#dfe1e2);
+    -ms-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#efefef, endColorstr=#dfe1e2);
+    text-shadow: white 0 1px 0;
+    border: solid 1px #CDCDCD;
+    border-color: #D4D4D4;
+    border-top-color: #E6E6E6;
+    border-right-color: #D4D4D4;
+    border-bottom-color: #CDCDCD;
+    border-left-color: #D4D4D4;
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 0 1px white inset;
+    -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 0 1px white inset;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 0 1px white inset;
+    font-size: 1.0em;
+    line-height: 18px;
+    margin-bottom: 0.5em;
+    color: #555;
+    padding: 5px 10px 3px 10px;
+    z-index: 1000;
+
+  }
+
+
 ul#tabs li#admin,
 ul#tabs li#dashboard {
   display:none !important;
@@ -242,7 +270,11 @@ table.evaluation_results tr {
 table.evaluation_results td {
   padding: 5px 0 0 0;
   margin:0;
+  border-top: 1px solid #E8E8E8;
+  border-bottom:none;
 }
+
+
 table.evaluation_results .evaluation_result_pie {
   position:relative;
   width:40px;
@@ -263,12 +295,18 @@ table.evaluation_results .evaluation_result_pie svg {
 
 div#evaluation_result_details {
   position:fixed;
-  top:150px;
+  top:120px;
   right:10px;
-  width:35%;
+  width:38%;
+  max-height:400px;
+  overflow-y:scroll;
+}
+
+div#evaluation_result_details .panel {
+  margin:0;
 }
 
 div#evaluation_result_details .attributes_table table th {
-  width:75px;
+  width:100px;
 }
 

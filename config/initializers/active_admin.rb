@@ -133,5 +133,7 @@ ActiveAdmin.setup do |config|
   config.register_javascript "vendor/swfobject.js"
   config.register_javascript "vendor/jquery.uploadify.v2.1.4.min.js"
   config.register_javascript "vendor/d3.v2.js"
+  config.register_javascript "vendor/jquery.tools.min.js"
   config.register_javascript "admin.js"
+
 end

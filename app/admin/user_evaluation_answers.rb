@@ -19,7 +19,15 @@ ActiveAdmin.register UserEvaluationAnswer do
       @answers = UserEvaluationAnswer
         .for_bird(@bird.id)
         .for_question(@question.id)
-      @users = @answers.map{|a| a.user_evaluation.user }.uniq!
+
+      @yes_answers = @answers.select{|a| a.answer == UserEvaluationAnswer.yes} 
+      @no_answers  = @answers.select{|a| a.answer == UserEvaluationAnswer.no} 
+      @na_answers  = @answers.select{|a| a.answer == UserEvaluationAnswer.na} 
+
+      @yes_comments = @yes_answers.select{|a| !a.comment.blank? }.map{|a| a.comment }
+      @no_comments  = @no_answers.select{ |a| !a.comment.blank? }.map{|a| a.comment }
+      @na_comments  = @na_answers.select{ |a| !a.comment.blank? }.map{|a| a.comment }
+
       render :partial => "summary"
     end
 
