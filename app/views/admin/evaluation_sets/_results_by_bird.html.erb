@@ -19,16 +19,17 @@
       </td>
       <% row[:questions].each do |q| %>
         <td>
-        <div class="evaluation_result_pie tooltip_trigger " 
-            title="<%= "#{q[:question].question}<br/><b>Yes: #{q[:yes_count]}; No: #{q[:no_count]}; N/A: #{q[:na_count]}</b>" %>"
-            data-yes-count="<%= q[:yes_count] %>" 
-            data-no-count="<%= q[:no_count] %>" 
-            data-na-count="<%= q[:na_count] %>" 
-            data-blank-count="<%= q[:blank_count] %>" 
-            data-bird-id="<%= row[:bird].id %>"
-            data-question-id="<%= q[:question].id %>"
-            data-eval-id="<%= evaluation_set.id %>"
-            ></div>
+        <%= link_to summary_admin_evaluation_set_user_evaluation_answers_path(
+              evaluation_set, :evaluation_question_id => q[:question].id, :bird_id => row[:bird].id ),
+              :remote =>true  do %>
+          <div class="evaluation_result_pie tooltip_trigger " 
+              title="<%= "#{q[:question].question}<br/><b>Yes: #{q[:yes_count]}; No: #{q[:no_count]}; N/A: #{q[:na_count]}</b>" %>"
+              data-yes-count="<%= q[:yes_count] %>" 
+              data-no-count="<%= q[:no_count] %>" 
+              data-na-count="<%= q[:na_count] %>" 
+              data-blank-count="<%= q[:blank_count] %>" 
+              ></div>
+          <% end %>
         </div>
       <% end %>
     </tr>
@@ -37,6 +38,6 @@
 </table>
 
 
-<div id="evaluation_result_details" class="user_evaluations_comments">
+<div id="evaluation_result_details" class="user_evaluation_answers_summary user_evaluations_comments">
  
 </div>

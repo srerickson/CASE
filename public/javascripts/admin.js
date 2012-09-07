@@ -21,16 +21,16 @@ $(document).ready(function(){
     draw_answers_pie.apply($elem,[$elem.data("yes-count"), $elem.data("no-count"),$elem.data("na-count"),$elem.data("blank-count")])
   })
 
-  $(".evaluation_result_pie").bind("show_evaluation_result_details",function(){
-    var bird_id = $(this).data("bird-id"),
-        eval_id =  $(this).data("eval-id"),
-        question_id = $(this).data("question-id"),
-        url = "/admin/evaluation_sets/"+eval_id+"/user_evaluation_answers/summary?bird_id="+bird_id+"&evaluation_question_id="+question_id
-    $.get(url, function(data){
-      $("#evaluation_result_details").html(data)
-    })
+  // $(".evaluation_result_pie").bind("show_evaluation_result_details",function(){
+  //   var bird_id = $(this).data("bird-id"),
+  //       eval_id =  $(this).data("eval-id"),
+  //       question_id = $(this).data("question-id"),
+  //       url = "/admin/evaluation_sets/"+eval_id+"/user_evaluation_answers/summary?bird_id="+bird_id+"&evaluation_question_id="+question_id
+  //   $.get(url, function(data){
+  //     $("#evaluation_result_details").html(data)
+  //   })
 
-  })
+  // })
 
   $(".tooltip_trigger[title]").tooltip()
 
@@ -132,7 +132,7 @@ draw_answers_pie = function(yes_count,no_count, na_count, blank_count){
       .attr("text-anchor", "middle")
       .text(total);
 
-  $elem.children("svg").click(function(){
-    $elem.trigger("show_evaluation_result_details")
-  })
+  // $elem.children("svg").click(function(){
+  //   $elem.trigger("show_evaluation_result_details")
+  // })
 }

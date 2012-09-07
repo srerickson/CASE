@@ -27,8 +27,6 @@ ActiveAdmin.register UserEvaluationAnswer do
       @yes_comments = @yes_answers.select{|a| !a.comment.blank? }.map{|a| a.comment }
       @no_comments  = @no_answers.select{ |a| !a.comment.blank? }.map{|a| a.comment }
       @na_comments  = @na_answers.select{ |a| !a.comment.blank? }.map{|a| a.comment }
-
-      render :partial => "summary"
     end
 
     protected
