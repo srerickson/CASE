@@ -23,7 +23,8 @@
               evaluation_set, :evaluation_question_id => q[:question].id, :bird_id => row[:bird].id ),
               :remote =>true  do %>
           <div class="evaluation_result_pie tooltip_trigger " 
-              title="<%= "#{q[:question].question}<br/><b>Yes: #{q[:yes_count]}; No: #{q[:no_count]}; N/A: #{q[:na_count]}</b>" %>"
+              title="<%= "#{q[:question].to_s}<br/>
+                <b>Yes</b>: #{q[:yes_count]}, <b>No</b>: #{q[:no_count]}, <b>N/A</b>: #{q[:na_count]}" %>"
               data-yes-count="<%= q[:yes_count] %>" 
               data-no-count="<%= q[:no_count] %>" 
               data-na-count="<%= q[:na_count] %>" 

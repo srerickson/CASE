@@ -310,3 +310,52 @@ div#evaluation_result_details .attributes_table table th {
   width:100px;
 }
 
+
+/* show user_evaluation */
+
+.show.admin_user_evaluations .question {
+  font-weight: bold;
+  width:55%;
+  padding:5px;
+  float:left;
+}
+.show.admin_user_evaluations .answer {
+  width:40%;
+  padding:5px;
+  float:left;
+  font-size:.95em;
+}
+
+
+/*answer styles */
+
+span.answer_yes{
+  background-color: #ACA;
+  padding:3px;
+  width:35px;
+}
+path.answer_yes {
+  fill: #ACA;
+}
+span.answer_no{
+  background-color: #CAA;
+  padding:3px;
+}
+path.answer_no {
+  fill: #CAA;
+}
+span.answer_na {
+  background-color: #E5E579;
+  padding:3px;
+}
+path.answer_na {
+  fill: #E5E579;
+}
+.answer_blank {
+  color: #EEE;
+  fill: #EEE;
+}
+
+
+
+

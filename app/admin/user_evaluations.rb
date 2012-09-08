@@ -12,9 +12,20 @@ ActiveAdmin.register UserEvaluation do
     attributes_table do
       row :evaluation_set
       row :bird
+      row :comment
       table_for(ua.user_evaluation_answers) do 
-        column "Evaluation Responses" do |a|
-          "#{a.evaluation_question.to_s} #{a.answer}"
+        column "Your Evaluation Responses" do |a|
+          div(:class => :question) do  
+            a.evaluation_question.to_s
+          end
+          div :class => "answer" do
+            unless a.answer.blank?
+              span :class => css_class_for_answer(a) do
+               a.answer 
+              end
+              span ": #{a.comment}" unless a.comment.blank?
+            end
+          end
         end
       end
     end

@@ -110,7 +110,7 @@ draw_answers_pie = function(yes_count,no_count, na_count, blank_count){
       w = $elem.width()-4,
       h = $elem.height()-4,
       r = Math.min(w,h)/2,
-      color = ["#ACA","#CAA","#E5E579","#EEE"],
+      styles = ["answer_yes","answer_no","answer_na","answer_blank"],
       donut = d3.layout.pie().sort(null),
       arc = d3.svg.arc().innerRadius(.4*r).outerRadius(r-1);
 
@@ -123,7 +123,7 @@ draw_answers_pie = function(yes_count,no_count, na_count, blank_count){
   var arcs = svg.selectAll("path")
     .data(donut(data))
     .enter().append("svg:path")
-    .attr("fill", function(d, i) { return color[i] })
+    .attr("class", function(d, i) { return styles[i] })
     .attr("d", arc)
 
   svg.append("svg:text")
