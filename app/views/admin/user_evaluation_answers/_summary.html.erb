@@ -2,8 +2,8 @@
 <%
 show_attrs = [
   ["Bird", "#{image_tag(@bird.logo.asset.url(:sq100)) unless @bird.logo.nil?}" ],
-  ["Question", @question.to_s ],
-  ["Summary", "Yes: #{@yes_answers.size}; No: #{@no_answers.size}; N/A: #{@na_answers.size}" ],
+  ["Question", "<b>#{@question.to_s}</b>" ],
+  ["Responses", "Yes: #{@yes_answers.size}, No: #{@no_answers.size}, N/A: #{@na_answers.size}" ],
   ["Yes Comments", @yes_comments.empty? ? "<span class='empty'>empty</span>" : @yes_comments.join('<br/>') ],
   ["No Comments", @no_comments.empty? ? "<span class='empty'>empty</span>" : "<p>#{@no_comments.join('</p><p>')}</p>" ],
   ["N/A Comments", @na_comments.empty? ? "<span class='empty'>empty</span>" : "<p>#{@na_comments.join('</p><p>')}</p>" ],

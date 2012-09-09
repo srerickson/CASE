@@ -307,7 +307,8 @@ div#evaluation_result_details .panel {
 }
 
 div#evaluation_result_details .attributes_table table th {
-  width:100px;
+  width:85px;
+  padding:8px 0px;
 }
 
 
