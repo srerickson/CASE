@@ -18,7 +18,15 @@ $(document).ready(function(){
   // draw evaluation result pie charts
   $(".evaluation_result_pie").each(function(){
     var $elem = $(this)
-    draw_answers_pie.apply($elem,[$elem.data("yes-count"), $elem.data("no-count"),$elem.data("na-count"),$elem.data("blank-count")])
+    draw_answers_pie.apply($elem,[
+        $elem.data("yes-count"), 
+        $elem.data("no-count"),
+        $elem.data("na-count"),
+        $elem.data("blank-count"),
+        $elem.data("yes-comments"),
+        $elem.data("no-comments"),
+        $elem.data("na-comments"),
+    ])
   })
 
   // $(".evaluation_result_pie").bind("show_evaluation_result_details",function(){
@@ -102,7 +110,7 @@ function setup_uploadify(){
 
 
 //Evluation Set
-draw_answers_pie = function(yes_count,no_count, na_count, blank_count){
+draw_answers_pie = function(yes_count,no_count, na_count, blank_count, yes_comments, no_comments, na_comments){
   var elem = this[0],
       $elem = this,
       data = [yes_count,no_count, na_count, blank_count ]
@@ -110,9 +118,15 @@ draw_answers_pie = function(yes_count,no_count, na_count, blank_count){
       w = $elem.width()-4,
       h = $elem.height()-4,
       r = Math.min(w,h)/2,
-      styles = ["answer_yes","answer_no","answer_na","answer_blank"],
+      answer_styles = ["answer_yes","answer_no","answer_na","answer_blank"],
+      comment_styles = [
+        yes_comments > 0 ? "comment_yes " : "",
+        no_comments >  0 ? "comment_no" : "",
+        na_comments >  0 ? "comment_na" : "",
+      ]
       donut = d3.layout.pie().sort(null),
       arc = d3.svg.arc().innerRadius(.4*r).outerRadius(r-1);
+
 
   var svg = d3.select(elem).append("svg:svg")
     .attr("width", w)
@@ -123,8 +137,10 @@ draw_answers_pie = function(yes_count,no_count, na_count, blank_count){
   var arcs = svg.selectAll("path")
     .data(donut(data))
     .enter().append("svg:path")
-    .attr("class", function(d, i) { return styles[i] })
+    .attr("class", function(d, i) { return [answer_styles[i], comment_styles[i]].join(" ") })
     .attr("d", arc)
+
+
 
   svg.append("svg:text")
       .attr("dy", ".4em")
@@ -132,7 +148,4 @@ draw_answers_pie = function(yes_count,no_count, na_count, blank_count){
       .attr("text-anchor", "middle")
       .text(total);
 
-  // $elem.children("svg").click(function(){
-  //   $elem.trigger("show_evaluation_result_details")
-  // })
 }

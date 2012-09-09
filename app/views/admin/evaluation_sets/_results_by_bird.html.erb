@@ -25,9 +25,12 @@
           <div class="evaluation_result_pie tooltip_trigger " 
               title="<%= "#{q[:question].to_s}<br/>
                 <b>Yes</b>: #{q[:yes_count]}, <b>No</b>: #{q[:no_count]}, <b>N/A</b>: #{q[:na_count]}" %>"
-              data-yes-count="<%= q[:yes_count] %>" 
+              data-yes-count="<%= q[:yes_count] %>"
+              data-yes-comments="<%= q[:yes_comments] %>"
               data-no-count="<%= q[:no_count] %>" 
+              data-no-comments="<%= q[:no_comments] %>"
               data-na-count="<%= q[:na_count] %>" 
+              data-na-comments="<%= q[:na_comments] %>"
               data-blank-count="<%= q[:blank_count] %>" 
               ></div>
           <% end %>

@@ -358,5 +358,11 @@ path.answer_na {
 }
 
 
+.comment_yes, 
+.comment_no, 
+.comment_na {
+  stroke: #666;
+  stroke-width:1.2px;
+}
 
 

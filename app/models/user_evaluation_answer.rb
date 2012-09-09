@@ -15,8 +15,10 @@ class UserEvaluationAnswer < ActiveRecord::Base
   scope :for_evaluation_set, lambda { |i| includes(:evaluation_set).where("evaluation_sets.id in (?)", i) }
   scope :for_answer, lambda{ |a| where("answer = ?", a) }
 
-  scope :incomplete_answers, where("answer = '' or answer is NULL")
-  scope :complete_answers, where("answer != '' and answer is not NULL")
+  scope :with_comment, where("user_evaluation_answers.comment != '' and user_evaluation_answers.comment is not NULL")
+
+  scope :incomplete_answers, where("user_evaluation_answers.answer = '' or user_evaluation_answers.answer is NULL")
+  scope :complete_answers, where("user_evaluation_answers.answer != '' and user_evaluation_answers.answer is not NULL")
 
   def yes?  
     self.answer == UserEvaluationAnswer.yes 
