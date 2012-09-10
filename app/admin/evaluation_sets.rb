@@ -17,6 +17,10 @@ ActiveAdmin.register EvaluationSet do
     column :locked do |es|
       es.locked ? "Yes" : "No"
     end   
+    column "Results Visible?" do |es|
+      es.visible_results ? "visible" : "hidden"
+    end
+
     column "# questions" do |es|
       es.evaluation_questions.count   
     end
@@ -40,6 +44,9 @@ ActiveAdmin.register EvaluationSet do
     attributes_table do
       row :name
       row :owner
+      row "Results are public?" do 
+        es.visible_results ? image_tag("green-check.png", :height=>"12px") : image_tag("red-x.png", :height=>"12px")
+      end
       row :locked do 
         if es.locked
           raw "This evaluations set is <b style='color:red'>locked</b>: it cannot be modified or deleted without first unlocking it." 
@@ -71,6 +78,7 @@ ActiveAdmin.register EvaluationSet do
     f.inputs "General" do 
       f.input :name
       f.input :instructions
+      f.input :visible_results, :label => "Results are public?"
       f.input :owner_id, :as => :hidden, :value => current_user.id
     end
     f.has_many :evaluation_questions do |q|
@@ -90,6 +98,9 @@ ActiveAdmin.register EvaluationSet do
 
   member_action :results, :method => :get do 
     @evaluation_set = EvaluationSet.find(params[:id])
+    if !current_user.is_admin? and !@evaluation_set.visible_results
+      redirect_to admin_evaluation_set_path(@evaluation_set), :notice => "Sorry, these results are not public yet."
+    end
   end
 
   member_action :unlock, :method => :put do 
@@ -107,7 +118,7 @@ ActiveAdmin.register EvaluationSet do
   end
 
   controller do 
-    before_filter :check_admin, :except => [:index, :show]
+    before_filter :check_admin, :except => [:index, :show, :results]
     private
     def check_admin
       if !current_user.is_admin?

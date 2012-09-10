@@ -15,6 +15,6 @@ class User < ActiveRecord::Base
   
   
   def is_admin?
-    ["sr.erickson@gmail.com","ckelty@ucla.edu","apanofsky@ucla.edu"].include?(email)
+    ["ckelty@ucla.edu","apanofsky@ucla.edu"].include?(email)
   end
 end
