@@ -23,6 +23,8 @@ class EvaluationSet  < ActiveRecord::Base;
   before_destroy :destroy_on_unlock_only 
 
   def results_by_bird
+    start_time = Time.now
+
     result_rows = []
     answer_counts = UserEvaluationAnswer
                       .includes(:bird)
@@ -49,7 +51,8 @@ class EvaluationSet  < ActiveRecord::Base;
       end
       result_rows << row
     end
-    result_rows
+    logger.info "--- Timer: EvaluationResult.results_by_bird: #{(Time.now - start_time)*1000} milliseconds"
+    return  result_rows
   end
   
   protected
