@@ -1,0 +1,36 @@
+
+
+<h1>Groups</h1>
+
+<table class="index_table result_groups" border="0" cellspacing="0" cellpadding="0" >
+  <tbody>
+    <% result_groups.each do |row| %>
+    <tr>
+      <td> <b><%= row[1].size %></b></td>
+      <td>
+        <% row[1].each do |b| %>
+          <%= link_to b.name, [:admin, b], :target => "_blank" %><br/>
+        <% end %>
+      </td>
+      <% row[0].split(//).each_with_index do |num, i| %>
+        <td class='tooltip_trigger' title='<%= @evaluation_set.evaluation_questions[i].question %>'>
+          <% if num=="1" %>
+            <span class="answer_yes">YES</span>
+          <% elsif num == "2" %>
+            <span class="answer_no">NO</span>
+          <% elsif num == "3" %>
+            <span class="answer_na">N/A</span>
+          <% else %>
+            <span class="answer_blank">?</span>
+          <% end %>
+        </td>
+      <% end %>
+    </tr>
+    <%end%>
+  </tbody>
+</table>
+
+
+<div id="evaluation_result_details" class="user_evaluation_answers_summary user_evaluations_comments">
+ 
+</div>

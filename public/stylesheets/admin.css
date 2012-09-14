@@ -338,6 +338,7 @@ span.answer_yes{
 path.answer_yes {
   fill: #ACA;
 }
+
 span.answer_no{
   background-color: #CAA;
   padding:3px;
@@ -345,6 +346,7 @@ span.answer_no{
 path.answer_no {
   fill: #CAA;
 }
+
 span.answer_na {
   background-color: #E5E579;
   padding:3px;
@@ -352,8 +354,12 @@ span.answer_na {
 path.answer_na {
   fill: #E5E579;
 }
-.answer_blank {
-  color: #EEE;
+
+span.answer_blank{
+  background-color: #EEE;
+  padding:3px; 
+}
+path.answer_blank {
   fill: #EEE;
 }
 
@@ -364,5 +370,22 @@ path.answer_na {
   stroke: #666;
   stroke-width:1.2px;
 }
+
+
+
+table.result_groups {
+
+  width:600px;
+
+}
+.result_groups span.answer_yes,
+.result_groups span.answer_no,
+.result_groups span.answer_na,
+.result_groups span.answer_blank {
+  display:block;
+  width:100%;
+  text-align: center;
+}
+
 
 

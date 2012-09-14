@@ -54,6 +54,33 @@ class EvaluationSet  < ActiveRecord::Base;
     logger.info "--- Timer: EvaluationResult.results_by_bird: #{(Time.now - start_time)*1000} milliseconds"
     return  result_rows
   end
+
+
+  def self.response_group_for(result_rows)
+    answer_keys = [:yes_count, :no_count, :na_count]
+    scores = {:yes_count => 1, :no_count => 2, :na_count => 3}
+    signature = ""
+    result_rows[:questions].each_with_index do |q,i|
+      ans_counts = q.reject{|k,v| !answer_keys.include?(k)}
+      max_count = ans_counts.max_by{|k,v| v }[1]
+      all_max_counts = ans_counts.keep_if{ |k,v| v == max_count }
+      score = all_max_counts.size == 1 ? scores[all_max_counts.to_a[0][0]] : 0
+      signature[i] = score.to_s
+    end 
+    return signature
+  end
+
+
+  def response_groups
+    groups = {}
+    results_by_bird.each do |r|
+      group_sig = EvaluationSet.response_group_for(r)
+      groups[group_sig] ||= []
+      groups[group_sig] << r[:bird]
+    end
+    return groups.sort_by{|k,v| v.size }.reverse!
+  end
+
   
   protected
 

@@ -33,8 +33,9 @@ ActiveAdmin.register EvaluationSet do
       Bird.all.count.to_s
     end      
     column "" do |es|
-      span link_to("Questions", admin_evaluation_set_path(es), :class=>"member_link")      
-      span link_to("Results", results_admin_evaluation_set_path(es), :class=>"member_link")
+      div link_to("Results", results_admin_evaluation_set_path(es), :class=>"member_link")
+      div link_to("Result Groups", result_groups_admin_evaluation_set_path(es), :class=>"member_link")      
+
     end
   end
 
@@ -98,6 +99,17 @@ ActiveAdmin.register EvaluationSet do
 
   member_action :results, :method => :get do 
     @evaluation_set = EvaluationSet.find(params[:id])
+    @results = @evaluation_set.results_by_bird
+    @result_groups =  @evaluation_set.response_groups
+
+    if !current_user.is_admin? and !@evaluation_set.visible_results
+      redirect_to admin_evaluation_set_path(@evaluation_set), :notice => "Sorry, these results are not public yet."
+    end
+  end
+
+  member_action :result_groups, :method => :get do 
+    @evaluation_set = EvaluationSet.find(params[:id])
+    @result_groups =  @evaluation_set.response_groups    
     if !current_user.is_admin? and !@evaluation_set.visible_results
       redirect_to admin_evaluation_set_path(@evaluation_set), :notice => "Sorry, these results are not public yet."
     end
