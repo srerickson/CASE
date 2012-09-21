@@ -13,6 +13,7 @@ ActiveAdmin.register Bird do
   filter :genus_type, :label => "Classification"
   filter :fse_org_style, :label => "FSE Org. Style"
   filter :op_org_style, :label => "OP Org. Style"
+  filter :birder_credits, :as => :string
 
 
   index do |f|
