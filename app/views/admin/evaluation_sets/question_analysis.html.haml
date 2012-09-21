@@ -1,13 +1,42 @@
-.status NA
+:css
 
-%select.question_analysis 
+  .d3_vis {
+    background:color:#eee;
+    border-right:1px solid #bbb;
+    border-bottom:1px solid #bbb;
+    shape-rendering: crispEdges;
+
+  }
+
+  .axis path,
+  .axis line {
+      fill: none;
+      stroke: black;
+      shape-rendering: crispEdges;
+  }
+
+  .axis text {
+      font-family: sans-serif;
+      font-size: 11px;
+  }
+
+
+.span X-Axis
+%select.question_analysis.x_axis
+  - @results.each_with_index do |r,i|
+    %option{:value => i}
+      = "#{r[:question][:id]}. #{r[:question].question}"
+
+.span Y-Axis
+%select.question_analysis.y_axis
+  %option{:value => -1} select
   - @results.each_with_index do |r,i|
     %option{:value => i}
       = "#{r[:question][:id]}. #{r[:question].question}"
 
 
 
-.d3_vis{:style=>"width:1200px;height:800px;"}
+.d3_vis{:style=>"width:1000px;height:600px;"}
 
 
 :javascript

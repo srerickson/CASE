@@ -135,5 +135,7 @@ ActiveAdmin.setup do |config|
   config.register_javascript "vendor/d3.v2.js"
   config.register_javascript "vendor/jquery.tools.min.js"
   config.register_javascript "admin.js"
+  config.register_javascript "boi_vis.js"
+
 
 end

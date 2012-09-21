@@ -49,9 +49,7 @@ class Bird < ActiveRecord::Base
   end
 
   def as_json(options = {})
-    new_options = {:methods => [:thumbnail_100_url]}.merge(options || {})
-    logger.info(new_options)
-    super(new_options)
+    super({:methods => [:thumbnail_100_url]}.merge(options || {}))
   end
 
 end
