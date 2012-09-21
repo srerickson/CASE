@@ -1,0 +1,14 @@
+.status NA
+
+%select.question_analysis 
+  - @results.each_with_index do |r,i|
+    %option{:value => i}
+      = "#{r[:question][:id]}. #{r[:question].question}"
+
+
+
+.d3_vis{:style=>"width:1200px;height:800px;"}
+
+
+:javascript
+  d3.select(".d3_vis").datum(#{@results.to_json})

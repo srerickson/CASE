@@ -39,5 +39,19 @@ class Bird < ActiveRecord::Base
  
   scope :recently_updated, lambda { |n| order("updated_at DESC").limit(n) }
  
- 
+
+  def thumbnail_100_url
+    begin
+      logo.asset.url(:sq100, false)
+    rescue
+      nil
+    end
+  end
+
+  def as_json(options = {})
+    new_options = {:methods => [:thumbnail_100_url]}.merge(options || {})
+    logger.info(new_options)
+    super(new_options)
+  end
+
 end

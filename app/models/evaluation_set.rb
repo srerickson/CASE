@@ -56,6 +56,44 @@ class EvaluationSet  < ActiveRecord::Base;
   end
 
 
+
+
+  def results_by_question
+    start_time = Time.now
+
+    result_rows = []
+    answer_counts = UserEvaluationAnswer
+                      .includes(:bird)
+                      .group(["birds.id",:evaluation_question_id,:answer])
+                      .size
+    comment_counts = UserEvaluationAnswer
+                      .with_comment
+                      .includes(:bird)
+                      .group(["birds.id",:evaluation_question_id,:answer])
+                      .size
+
+    evaluation_questions.each do |q|
+      row = {:question => q, :answers => []}
+      birds.each do |b|
+        row[:answers] << {
+          :bird => b, 
+          :yes_count =>    answer_counts[[ b.id,q.id,UserEvaluationAnswer.yes]] || 0,
+          :yes_comments => comment_counts[[b.id,q.id,UserEvaluationAnswer.yes]] || 0,
+          :no_count =>     answer_counts[[ b.id,q.id,UserEvaluationAnswer.no]] || 0,
+          :no_comments =>  comment_counts[[b.id,q.id,UserEvaluationAnswer.no]] || 0,
+          :na_count =>     answer_counts[[ b.id,q.id,UserEvaluationAnswer.na]] || 0,
+          :na_comments =>  comment_counts[[b.id,q.id,UserEvaluationAnswer.na]] || 0,
+          :blank_count => (answer_counts[[b.id,q.id,""]] || 0) + (answer_counts[[b.id,q.id,nil]] || 0) 
+        }
+      end
+      result_rows << row
+    end
+    logger.info "--- Timer: EvaluationResult.results_by_question: #{(Time.now - start_time)*1000} milliseconds"
+    return  result_rows
+  end
+
+
+
   def self.response_group_for(result_rows)
     answer_keys = [:yes_count, :no_count, :na_count]
     scores = {:yes_count => 1, :no_count => 2, :na_count => 3}

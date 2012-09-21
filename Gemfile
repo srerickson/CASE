@@ -10,6 +10,7 @@ gem 'mysql2', '~> 0.2.6'
 gem 'activeadmin', '0.4.4'
 gem 'paperclip'
 gem 'paper_trail', '~> 2'
+gem 'haml'
 
 
 # Use unicorn as the web server
