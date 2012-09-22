@@ -3,8 +3,11 @@ class EvaluationSet  < ActiveRecord::Base;
 
   # An EvaluationSet is a collection of questions 
   has_many :evaluation_questions, :order => "position ASC"
-  #has_many :evaluation_results, :through => :evaluation_questions
+  has_many :evaluation_results, :through => :evaluation_questions
+
   accepts_nested_attributes_for :evaluation_questions, :allow_destroy => true
+
+
 
   # The questions a related to user answers through user's evaluations
   has_many :user_evaluations
@@ -36,9 +39,11 @@ class EvaluationSet  < ActiveRecord::Base;
                       .group(["birds.id",:evaluation_question_id,:answer])
                       .size
     birds.each do |b|
-      row = {:bird => b, :questions => []}
+      row = EvaluationResultRow.new()
+      row.bird = b
+      row.questions = []
       evaluation_questions.each do |q|
-        row[:questions] << {
+        row.questions << {
           :question => q, 
           :yes_count => answer_counts[[b.id,q.id,UserEvaluationAnswer.yes]] || 0,
           :yes_comments => comment_counts[[b.id,q.id,UserEvaluationAnswer.yes]] || 0,

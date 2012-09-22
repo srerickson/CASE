@@ -156,8 +156,6 @@ $(document).ready(function(){
   var x_axis = d3.svg.axis().scale(x).orient("bottom")
   var y_axis = d3.svg.axis().scale(y).orient("right")
 
-
-
   svg.append("defs")
     .append("clipPath")
       .attr("id","logo_circle")
@@ -167,11 +165,10 @@ $(document).ready(function(){
           .attr("cy",0)
           .style("stroke","gray")
 
-
-
   var vis = svg.append("g")
-                  //.attr("transform","translate("+margin.left+","+margin.top+")")
 
+  //  add axes 
+  
   vis.append("g")
         .attr("class","axis x")
         .call(x_axis)
@@ -221,17 +218,14 @@ $(document).ready(function(){
       }
     }
 
-
     var new_g = pies.enter().append("svg:g")
                   .attr("width",node_size)
                   .attr("height",node_size)
                   .attr("class","pie")
                   .style("opacity","1") 
-                  .attr("transform", translate_function)
-        
+                  .attr("transform", translate_function)     
     //new_g.call(pie_chart)
    
-
     new_g.append("image")
       .attr("xlink:href",function(d){ return (d.bird.thumbnail_100_url || "") })
       .attr("width",node_size)
@@ -240,8 +234,6 @@ $(document).ready(function(){
       .attr("height",node_size)
       .style("fill","black")
       .attr("clip-path","url(#logo_circle)")
-
-
 
     x.domain([
       d3.min(responses, function (d) { return question_score(d.x) }),
@@ -260,14 +252,10 @@ $(document).ready(function(){
     d3.select("g.axis.x").transition().call(x_axis)
     d3.select("g.axis.y").transition().call(y_axis)
 
-
     pies.transition().duration(750)
         .attr("transform", translate_function)
 
-
-
     //pies.call(pie_chart)
-
     pies.exit().remove()
 
   }
