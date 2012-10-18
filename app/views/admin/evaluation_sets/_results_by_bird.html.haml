@@ -26,7 +26,8 @@
             = link_to summary_admin_evaluation_set_user_evaluation_answers_path( evaluation_set, 
                 :evaluation_question_id => result.evaluation_question_id, :bird_id => row.bird.id ),
                 :remote =>true  do
-              .evaluation_result_pie.tooltip_trigger{  :title => title, 
+              .evaluation_result_pie.tooltip_trigger{  :title => title,
+                :class => (result.evaluation_question.sub_question ? "sub_question" : ""),
                 "data-blank-count"  => result.blank_count, 
                 "data-na-comments"  => result.na_comments, 
                 "data-na-count"     => result.na_count, 

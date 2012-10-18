@@ -26,9 +26,9 @@ class EvaluationSet  < ActiveRecord::Base;
   before_destroy :destroy_on_unlock_only 
 
   def results_by_bird
-    all_results = EvaluationResult.for_evaluation_set(id).order("bird_id DESC").order("evaluation_question_id DESC")
+    all_results = EvaluationResult.for_evaluation_set(id).order("bird_id ASC").order("evaluation_question_id ASC")
     result_rows = []
-    prev_bird_id = 1;
+    prev_bird_id = nil;
     all_results.each do |result|
       if result.bird_id == prev_bird_id
         result_rows[-1].questions << result
