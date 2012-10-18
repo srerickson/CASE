@@ -9,11 +9,14 @@ class EvaluationResult < ActiveRecord::Base;
   validates_presence_of :bird, :evaluation_question
   validates_uniqueness_of :bird_id, :scope => [:evaluation_question_id]
 
+  scope :for_evaluation_set, lambda { |i| includes(:evaluation_set).where("evaluation_sets.id in (?)", i) }
+
   scope :for_question, lambda { |i| where("evaluation_question_id in (?)", i) }
   scope :for_bird, lambda { |i| where("bird_id in (?)", i) }
   scope :not_for_question, lambda { |i| where("evaluation_question_id NOT IN (?)", i) }
   scope :not_for_bird, lambda { |i| where("bird_id NOT IN (?)", i) }
   
+
   def self.lookup(b_id,q_id)
     EvaluationResult
       .for_question(q_id)
@@ -21,47 +24,90 @@ class EvaluationResult < ActiveRecord::Base;
       .first
   end
 
-  def self.build_all
-    #EvaluationResult.all.each{|r| r.destroy}
-    answer_counts = UserEvaluationAnswer
+
+  # Recalculate results for all questions (q_id = nil) or a range of questions 
+  #
+  # - q_id can be nil (for all questions), a single id, or an array of ids.
+  #
+  def self.rebuild(q_id = nil) 
+
+    # will be set to our domain of questions and birds
+    qs = nil 
+    bs = nil
+    
+    # all quetions that have been used in evaluations
+
+    all_evaled_questions  = UserEvaluationAnswer.group(:evaluation_question_id).size.keys
+    all_evaled_birds = UserEvaluationAnswer.includes(:bird).group("birds.id").size.keys
+
+    # set the domain for the update to ... 
+
+    if q_id.nil?  #  ... all questions, all birds
+
+      qs = all_evaled_questions 
+      bs = all_evaled_birds
+
+    else  # ... a question or set of questions and the birds evaluated by that question
+
+      if q_id.is_a? Array
+        qs = q_id
+      else
+        qs = [q_id]
+      end
+
+      bs = UserEvaluationAnswer
+            .includes(:bird)
+            .for_question(qs)
+            .group("birds.id")
+            .size.keys
+    end
+
+    # counts for all (bird/questions/answer) combinations in the result domain
+    answer_counts  = UserEvaluationAnswer
                       .includes(:bird)
+                      .for_question(qs)
                       .group(["birds.id",:evaluation_question_id,:answer])
                       .size
 
+    # counts for all (bird/questions/answer) combination  - with comments
     comment_counts = UserEvaluationAnswer
                       .with_comment
+                      .for_question(qs)
                       .includes(:bird)
                       .group(["birds.id",:evaluation_question_id,:answer])
                       .size
 
-    all_bs = UserEvaluationAnswer
-              .includes(:bird)
-              .group("birds.id")
-              .size.keys
+    # (1) Update/Create results
 
-    all_qs = UserEvaluationAnswer
-              .group(:evaluation_question_id)
-              .size.keys
+    bs.each do |b|
+      qs.each do |q|
 
-    all_bs.each do |b|
-      all_qs.each do |q|
-        r = EvaluationResult.where(:bird_id => b, :evaluation_question_id => q).first()
+        results = {
+          "yes_count"    => answer_counts[[ b,q,UserEvaluationAnswer.yes]] || 0,
+          "yes_comments" => comment_counts[[b,q,UserEvaluationAnswer.yes]] || 0,
+          "no_count"     => answer_counts[[ b,q,UserEvaluationAnswer.no]] || 0,
+          "no_comments"  => comment_counts[[b,q,UserEvaluationAnswer.no]] || 0,
+          "na_count"     => answer_counts[[ b,q,UserEvaluationAnswer.na]] || 0,
+          "na_comments"  => comment_counts[[b,q,UserEvaluationAnswer.na]] || 0,
+          "blank_count"  => (answer_counts[[b,q,""]] || 0) + (answer_counts[[b,q,nil]] || 0)
+        }
+
+        eval_result_for = {"bird_id" => b, "evaluation_question_id" => q}
+        r = EvaluationResult.where(eval_result_for).first()
         if !r
-          r = EvaluationResult.new(:bird_id => b, :evaluation_question_id => q)
+          r = EvaluationResult.new(eval_result_for.merge(results)).save
+        else
+          r.attributes = r.attributes.merge(results)
+          r.save if r.changed?
         end
-        r.update_attributes({
-          :yes_count => answer_counts[[b,q,UserEvaluationAnswer.yes]] || 0,
-          :yes_comments => comment_counts[[b,q,UserEvaluationAnswer.yes]] || 0,
-          :no_count => answer_counts[[b,q,UserEvaluationAnswer.no]] || 0,
-          :no_comments => comment_counts[[b,q,UserEvaluationAnswer.no]] || 0,
-          :na_count => answer_counts[[b,q,UserEvaluationAnswer.na]] || 0,
-          :na_comments => comment_counts[[b,q,UserEvaluationAnswer.na]] || 0,
-          :blank_count => (answer_counts[[b,q,""]] || 0) + (answer_counts[[b,q,nil]] || 0)
-        })
       end
     end
 
-    EvaluationResult.not_for_bird(all_bs).not_for_question(all_qs).each{|r| r.destroy() }
+    # (2) Remove unused results
+
+    EvaluationResult.not_for_bird(all_evaled_birds).each{|r| r.destroy }
+    EvaluationResult.not_for_question(all_evaled_questions).each{|r| r.destroy }
+
   end
 
 

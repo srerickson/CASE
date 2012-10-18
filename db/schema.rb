@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120921205430) do
+ActiveRecord::Schema.define(:version => 20121018074259) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -94,9 +94,9 @@ ActiveRecord::Schema.define(:version => 20120921205430) do
     t.integer "no_count",               :default => 0
     t.integer "na_count",               :default => 0
     t.integer "blank_count",            :default => 0
-    t.text    "yes_comments"
-    t.text    "no_comments"
-    t.text    "na_comments"
+    t.integer "yes_comments",           :default => 0
+    t.integer "no_comments",            :default => 0
+    t.integer "na_comments",            :default => 0
   end
 
   create_table "evaluation_sets", :force => true do |t|
