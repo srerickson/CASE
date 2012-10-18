@@ -58,7 +58,7 @@ ActiveAdmin.register EvaluationSet do
       row :instructions
       table_for(es.evaluation_questions) do
           column :questions do |q|
-            q.to_s
+            "#{ "------- " if q.sub_question? }#{q.to_s}"
           end
       end
     end
@@ -85,6 +85,7 @@ ActiveAdmin.register EvaluationSet do
     f.has_many :evaluation_questions do |q|
       q.input :position, :wrapper_html => {:class => "position"}
       q.input :question, :as => :string, :wrapper_html => {:class => "question"}
+      q.input :sub_question, :label => "sub question?"
       if !q.object.new_record?
         q.input :_destroy, :as => :boolean, :label => "Delete?", :wrapper_html => {:class => "delete"}
       end

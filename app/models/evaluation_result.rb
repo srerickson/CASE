@@ -97,6 +97,7 @@ class EvaluationResult < ActiveRecord::Base;
           "na_comments"  => comment_counts[[b,q,UserEvaluationAnswer.na]] || 0,
           "blank_count"  => (answer_counts[[b,q,""]] || 0) + (answer_counts[[b,q,nil]] || 0)
         }
+        results["answer_score"] = EvaluationResult.answer_score_from_results(results)
 
         eval_result_for = {"bird_id" => b, "evaluation_question_id" => q}
         r = EvaluationResult.where(eval_result_for).first()
@@ -114,6 +115,11 @@ class EvaluationResult < ActiveRecord::Base;
     EvaluationResult.not_for_bird(all_evaled_birds).each{|r| r.destroy }
     EvaluationResult.not_for_question(all_evaled_questions).each{|r| r.destroy }
 
+  end
+
+  def self.answer_score_from_results(r)
+    response_count =  (r["yes_count"] +  r["no_count"] + r["na_count"])
+    return Float(r["yes_count"] - r["no_count"])/response_count
   end
 
 
