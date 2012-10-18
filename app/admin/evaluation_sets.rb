@@ -179,7 +179,7 @@ ActiveAdmin.register EvaluationSet do
         image_tag "lock.png", :height=> "12"
       end
     else
-      link_to lock_admin_evaluation_set_path(evaluation_set),  :method => :put, do 
+      link_to lock_admin_evaluation_set_path(evaluation_set),  :method => :put do 
         image_tag "unlock.png", :height=> "12"
       end
     end

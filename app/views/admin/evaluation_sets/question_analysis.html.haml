@@ -25,14 +25,14 @@
 %select.question_analysis.x_axis
   - @results.each_with_index do |r,i|
     %option{:value => i}
-      = "#{r[:question][:id]}. #{r[:question].question}"
+      = "#{r.question.id}. #{r.question.to_s}"
 
 .span Y-Axis
 %select.question_analysis.y_axis
   %option{:value => -1} select
   - @results.each_with_index do |r,i|
     %option{:value => i}
-      = "#{r[:question][:id]}. #{r[:question].question}"
+      = "#{r.question.id}. #{r.question.to_s}"
 
 
 

@@ -17,6 +17,12 @@ class EvaluationResult < ActiveRecord::Base;
   scope :not_for_bird, lambda { |i| where("bird_id NOT IN (?)", i) }
   
 
+
+  def as_json(options = {})
+    super({:include => [:bird]}.merge(options || {}))
+  end
+
+
   def self.lookup(b_id,q_id)
     EvaluationResult
       .for_question(q_id)

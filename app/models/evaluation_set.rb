@@ -26,74 +26,36 @@ class EvaluationSet  < ActiveRecord::Base;
   before_destroy :destroy_on_unlock_only 
 
   def results_by_bird
-    start_time = Time.now
-
+    all_results = EvaluationResult.for_evaluation_set(id).order("bird_id DESC").order("evaluation_question_id DESC")
     result_rows = []
-    answer_counts = UserEvaluationAnswer
-                      .includes(:bird)
-                      .group(["birds.id",:evaluation_question_id,:answer])
-                      .size
-    comment_counts = UserEvaluationAnswer
-                      .with_comment
-                      .includes(:bird)
-                      .group(["birds.id",:evaluation_question_id,:answer])
-                      .size
-    birds.each do |b|
-      row = EvaluationResultRow.new()
-      row.bird = b
-      row.questions = []
-      evaluation_questions.each do |q|
-        row.questions << {
-          :question => q, 
-          :yes_count => answer_counts[[b.id,q.id,UserEvaluationAnswer.yes]] || 0,
-          :yes_comments => comment_counts[[b.id,q.id,UserEvaluationAnswer.yes]] || 0,
-          :no_count => answer_counts[[b.id,q.id,UserEvaluationAnswer.no]] || 0,
-          :no_comments => comment_counts[[b.id,q.id,UserEvaluationAnswer.no]] || 0,
-          :na_count => answer_counts[[b.id,q.id,UserEvaluationAnswer.na]] || 0,
-          :na_comments => comment_counts[[b.id,q.id,UserEvaluationAnswer.na]] || 0,
-          :blank_count => (answer_counts[[b.id,q.id,""]] || 0) + (answer_counts[[b.id,q.id,nil]] || 0) 
-        }
+    prev_bird_id = 1;
+    all_results.each do |result|
+      if result.bird_id == prev_bird_id
+        result_rows[-1].questions << result
+      else
+        row = EvaluationResultRow.new()
+        row.bird = result.bird
+        row.questions = [result]
+        result_rows << row
       end
-      result_rows << row
+      prev_bird_id = result.bird_id
     end
-    logger.info "--- Timer: EvaluationResult.results_by_bird: #{(Time.now - start_time)*1000} milliseconds"
     return  result_rows
   end
 
 
 
-
   def results_by_question
-    start_time = Time.now
-
     result_rows = []
-    answer_counts = UserEvaluationAnswer
-                      .includes(:bird)
-                      .group(["birds.id",:evaluation_question_id,:answer])
-                      .size
-    comment_counts = UserEvaluationAnswer
-                      .with_comment
-                      .includes(:bird)
-                      .group(["birds.id",:evaluation_question_id,:answer])
-                      .size
-
     evaluation_questions.each do |q|
-      row = {:question => q, :answers => []}
+      row = EvaluationResultRow.new()
+      row.question = q
+      row.answers = []
       birds.each do |b|
-        row[:answers] << {
-          :bird => b, 
-          :yes_count =>    answer_counts[[ b.id,q.id,UserEvaluationAnswer.yes]] || 0,
-          :yes_comments => comment_counts[[b.id,q.id,UserEvaluationAnswer.yes]] || 0,
-          :no_count =>     answer_counts[[ b.id,q.id,UserEvaluationAnswer.no]] || 0,
-          :no_comments =>  comment_counts[[b.id,q.id,UserEvaluationAnswer.no]] || 0,
-          :na_count =>     answer_counts[[ b.id,q.id,UserEvaluationAnswer.na]] || 0,
-          :na_comments =>  comment_counts[[b.id,q.id,UserEvaluationAnswer.na]] || 0,
-          :blank_count => (answer_counts[[b.id,q.id,""]] || 0) + (answer_counts[[b.id,q.id,nil]] || 0) 
-        }
+        row.answers << EvaluationResult.for_bird(b.id).for_question(q.id).first()
       end
       result_rows << row
     end
-    logger.info "--- Timer: EvaluationResult.results_by_question: #{(Time.now - start_time)*1000} milliseconds"
     return  result_rows
   end
 

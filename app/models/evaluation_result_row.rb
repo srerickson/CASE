@@ -4,7 +4,7 @@ class EvaluationResultRow
   include ActiveModel::Conversion
   extend ActiveModel::Naming
   
-  attr_accessor :bird, :question, :birds, :questions
+  attr_accessor :bird, :question, :birds, :questions, :answers
   
   def initialize(attributes = {})
     attributes.each do |name, value|

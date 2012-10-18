@@ -126,10 +126,14 @@ $(document).ready(function(){
 
   function  question_score(a){
     total_responses = a.yes_count + a.no_count + a.na_count + a.blank_count
-    score = (1.1 * a.yes_count) + (-1.1 * a.no_count)
+    score = ((1 * a.yes_count) + (-1 * a.no_count)) / total_responses
     return score
   }
 
+  function jitter(amount){
+    var r = Math.random();
+    return (r*amount)-(.5*r*amount);
+  }
 
   //
   //   D3 
@@ -137,10 +141,10 @@ $(document).ready(function(){
   var w = $(".d3_vis").width(), 
       h = $(".d3_vis").height(),
       node_size = 40,
-      margin = { top:node_size,
-                 right:node_size,
-                 bottom:node_size,
-                 left:node_size}
+      margin = { top:100,
+                 right:100,
+                 bottom:100,
+                 left:100}
 
   var x = d3.scale.linear()
             .range([margin.left, w-margin.right])
@@ -196,14 +200,14 @@ $(document).ready(function(){
     }
     
     var responses = x_responses.map(function(r,i){
-      var x_bird = r.bird.bird, y_bird
-      if (two_axis && x_bird.id != y_responses[i].bird.bird.id){
+      var x_bird = r.evaluation_result.bird, y_bird
+      if (two_axis && x_bird.id != y_responses[i].evaluation_result.bird.id){
         throw new Error("Responses for each axis don't refer to the same entity/bird!")
       }
       return {
         'bird': x_bird,
-        'x': r,
-        'y': (two_axis ? y_responses[i] : null)
+        'x': r.evaluation_result,
+        'y': (two_axis ? y_responses[i].evaluation_result : null)
       }
     })
 
@@ -211,11 +215,16 @@ $(document).ready(function(){
     var pies = vis.selectAll("g.pie").data(responses)
 
     var translate_function = function(d,i){
-      if(d.y) {
-        return "translate("+x(question_score(d.x))+","+y(question_score(d.y))+")"
-      } else {
-        return "translate("+x(question_score(d.x))+","+y(i)+")"                      
-      }
+      var x_trans = x(question_score(d.x)),    
+          y_trans = (d.y) ? y(question_score(d.y))  : y(i)
+      return "translate("+x_trans+","+ y_trans +")"
+    }
+
+    var jitter_function = function(d,i){
+
+      var x_trans =  jitter(0.1)    
+          y_trans = jitter(0.1)
+      return "translate("+x_trans+","+ y_trans +")"
     }
 
     var new_g = pies.enter().append("svg:g")
@@ -223,17 +232,25 @@ $(document).ready(function(){
                   .attr("height",node_size)
                   .attr("class","pie")
                   .style("opacity","1") 
-                  .attr("transform", translate_function)     
+                  .attr("transform", translate_function)
+
+    new_g.transition().duration(0).attr("transform", jitter_function)
+
     //new_g.call(pie_chart)
    
-    new_g.append("image")
-      .attr("xlink:href",function(d){ return (d.bird.thumbnail_100_url || "") })
-      .attr("width",node_size)
-      .attr("x",-node_size/2)
-      .attr("y",-node_size/2)
-      .attr("height",node_size)
-      .style("fill","black")
-      .attr("clip-path","url(#logo_circle)")
+    // new_g.append("image")
+    //   .attr("xlink:href",function(d){ return (d.bird.thumbnail_100_url || "") })
+    //   .attr("width",node_size)
+    //   .attr("x",-node_size/2)
+    //   .attr("y",-node_size/2)
+    //   .attr("height",node_size)
+    //   .style("fill","black")
+    //   .attr("clip-path","url(#logo_circle)")
+
+
+    new_g.append("circle")
+      .attr("cy", 90)
+      .attr("r", 5)
 
     x.domain([
       d3.min(responses, function (d) { return question_score(d.x) }),
