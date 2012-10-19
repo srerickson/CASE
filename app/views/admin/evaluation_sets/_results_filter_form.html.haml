@@ -40,7 +40,39 @@
         :javascript
           $("#search_evaluation_question_id_in_0").attr("checked",true)
 
-
-
       = f.actions do 
         = f.submit "Filter"
+
+:javascript
+  
+  $(".toggle_all_checkbox .choices-group .choice input[type=checkbox]").on("click", function(){
+
+    var $all_checks  = $(this).closest(".toggle_all_checkbox").find(".choices-group .choice input[type=checkbox]"),
+        $reg_checks  = $all_checks.not(".choice:first-child input[type=checkbox]"),
+        $first_check = $all_checks.not($reg_checks).first()
+
+    var checked = $(this).attr("checked") === undefined ? false : true
+
+    if ($(this).is($first_check) && checked) {
+      $reg_checks.attr("checked", false)
+    } 
+
+    if ( !$(this).is($first_check) && checked) {
+      $first_check.attr("checked", false)
+    }     
+
+
+
+  })
+
+  $("form.results_filter").on("submit",function(){
+    $(".results_table_wrapper").html("<div class='updating'>")
+    $(this).find("fieldset.inputs > ol").slideUp('slow')
+  })
+
+
+  $("form.toggle").on("click","fieldset.inputs legend span",function(){ 
+    $(this).closest(".toggle").find("fieldset.inputs > ol").slideToggle('slow')
+    $(this).closest(".toggle").toggleClass("closed")
+  })
+

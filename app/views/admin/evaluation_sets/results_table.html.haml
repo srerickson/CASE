@@ -6,28 +6,6 @@
   .results_table_wrapper
     = render "results_table"
 
-:javascript
-  
-  $(".toggle_all_checkbox .choices-group .choice:first-child input[type=checkbox]").on("click", function(){
-
-    var checked = $(this).attr("checked") === undefined ? false : true
-    if (checked){
-      $(this).closest(".toggle_all_checkbox").find("input[type=checkbox]").attr("checked", false)
-      $(this).attr("checked", checked)
-    }
-
-  })
-
-  $("form.results_filter").on("submit",function(){
-    $(".results_table_wrapper").html("<div class='updating'>")
-    $(this).find("fieldset.inputs > ol").slideUp('slow')
-  })
-
-
-  $("form.toggle").on("click","fieldset.inputs legend span",function(){ 
-    $(this).closest(".toggle").find("fieldset.inputs > ol").slideToggle('slow')
-    $(this).closest(".toggle").toggleClass("closed")
-  })
 
 
 
