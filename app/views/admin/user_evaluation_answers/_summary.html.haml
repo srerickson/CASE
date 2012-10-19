@@ -1,4 +1,4 @@
-- show_attrs = [ ["Bird", "#{link_to(@bird.logo.asset.url(:sq100)) unless @bird.logo.nil?}" ], 
+- show_attrs = [ ["Bird", "#{image_tag(@bird.logo.asset.url(:sq100)) unless @bird.logo.nil?}" ], 
     ["Question",  "<b>#{@question.to_s}</b>"],
     ["Responses",    "Yes: #{@yes_answers.size} No: #{@no_answers.size}, N/A: #{@na_answers.size}" ],
     ["Yes Comments", (@yes_comments.empty? ? "<span class='empty'>empty</span>" : @yes_comments.join('<br/>')) ],
@@ -21,6 +21,6 @@
 
 :javascript
 
-  $(".user_evaluations_answer_summary a.close").click(function(){ 
-    $(this).closest(".user_evaluations_answer_summary").html()
+  $(".user_evaluation_answers_summary a.close").click(function(){ 
+    $(this).closest(".user_evaluation_answers_summary").html("")
   })
