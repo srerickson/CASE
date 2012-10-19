@@ -1,7 +1,7 @@
 .results_filter_wrapper 
 
   = semantic_form_for @evaluation_results, :url => url_for([:results_table, :admin, @evaluation_set ]), 
-      :html => {:method => :get, :remote=>true, :class => "results_filter toggle closed"} do |f|
+      :html => {:method => :get, :class => "results_filter toggle closed"} do |f|
     = f.inputs "Results Filters" do 
 
       - q_boxes = {"All" => "0"}.merge(Hash[@evaluation_set.evaluation_questions.map{|q| [q.to_s.truncate(70), q.id ]}])
