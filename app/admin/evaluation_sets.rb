@@ -202,7 +202,7 @@ ActiveAdmin.register EvaluationSet do
   end  
 
   action_item :only => :show do 
-    link_to "View Results", results_admin_evaluation_set_path(evaluation_set)
+    link_to "View Results", results_table_admin_evaluation_set_path(evaluation_set)
   end
 
   action_item :only => :edit do
