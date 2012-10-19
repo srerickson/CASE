@@ -1,0 +1,21 @@
+- show_attrs = [  ["Bird", "#{image_tag(@bird.logo.asset.url(:sq100)) unless @bird.logo.nil?}" ],
+                  ["Comments", (@comments.empty? ? "<span class='empty'>empty</span>" : "<p>#{@comments.join('</p><p>')}</p>")]]
+
+.panel
+  %h3 
+    Evaluation General Comments
+    %a.close{ :href =>"javascript:void(0)" } close
+  .panel_contents
+    .attributes_table
+      %table
+        %tbody
+          - show_attrs.each do |title, details|
+            %tr
+              %th= raw title
+              %td= raw details
+
+:javascript
+
+  $(".user_evaluation_answers_summary a.close").click(function(){ 
+    $(this).closest("#evaluation_result_details").html("")
+  })

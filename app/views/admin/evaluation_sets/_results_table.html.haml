@@ -11,7 +11,7 @@
       - @result_rows[0].results.each_with_index do |r, i|
 
         - sort_val = "custom_sort_result_column[#{i}]"
-        - if !@custom_sort.empty? and @custom_sort[:type] == :result_column 
+        - if !@custom_sort.empty? and @custom_sort[:type] == :result_column and @custom_sort[:index] == i
           - next_sort_order = @custom_sort[:order] == :asc ? :desc : :asc
           - th_class = "sorted-#{@custom_sort[:order]}"
         - else 

@@ -323,12 +323,21 @@ div#evaluation_result_details {
   top:120px;
   right:10px;
   width:38%;
-  max-height:400px;
-  overflow-y:scroll;
+  overflow:hidden;
+  -moz-box-shadow: 0 0 30px #666;
+  -webkit-box-shadow: 0 0 30px #666;
+  box-shadow: 0 0 30px #666;
+  z-index:2000;
+
 }
 
 div#evaluation_result_details .panel {
   margin:0;
+}
+
+div#evaluation_result_details .panel .panel_contents{
+  max-height:400px;
+  overflow-y:scroll;
 }
 
 div#evaluation_result_details .panel h3 a.close {
@@ -481,3 +490,4 @@ form.results_filter fieldset.actions > ol {
   width:60px;
   margin: 0 auto;
 }
+
