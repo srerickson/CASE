@@ -98,13 +98,48 @@ ActiveAdmin.register EvaluationSet do
   # Controller
   #
 
-  member_action :results, :method => :get do 
-    @evaluation_set = EvaluationSet.find(params[:id])
-    @results = @evaluation_set.results_by_bird
+  member_action :results_table, :method => :get do 
+
+    @custom_sort = []
+
+    if params[:search]
+      # clean up the checkbox inputs
+      [:evaluation_question_id_in, :bird_id_in].each do |key|
+        if params[:search][key].is_a? Array
+          params[:search][key].delete("")
+          params[:search][key] = [] if params[:search][key].include?("0")
+        end
+      end
+      if params[:search][:meta_sort]
+        parse_custom_sort = params[:search][:meta_sort].match(/evaluation_question\[(\d+)\]\.([a-z]+)/)
+        if parse_custom_sort
+          @custom_sort[0] = parse_custom_sort[1].to_i
+          @custom_sort[1] = parse_custom_sort[2].to_sym
+          params[:search].delete(:meta_sort)
+        end
+      end
+    end
+
+    
+    if @custom_sort.empty?
+       @evaluation_results =  EvaluationResult.includes(:bird).order("birds.name ASC").search(params[:search])
+    else
+      @evaluation_results = EvaluationResult.search(params[:search])
+    end
+
+    @evaluation_set     = EvaluationSet.find(params[:id])
+    @result_rows = @evaluation_set.build_results_table(@evaluation_results)
+
+    if !@custom_sort.empty?
+      @result_rows.sort_by!{ |r| 
+        r.questions[@custom_sort[0]].answer_score * ( @custom_sort[1] == :asc ? 1 : -1 ) 
+      }
+    end
+
     if !current_user.is_admin? and !@evaluation_set.visible_results
       redirect_to admin_evaluation_set_path(@evaluation_set), :notice => "Sorry, these results are not public yet."
     end
-    respond_with(@results)
+
   end
 
   member_action :result_groups, :method => :get do 

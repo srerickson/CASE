@@ -1,0 +1,26 @@
+- show_attrs = [ ["Bird", "#{link_to(@bird.logo.asset.url(:sq100)) unless @bird.logo.nil?}" ], 
+    ["Question",  "<b>#{@question.to_s}</b>"],
+    ["Responses",    "Yes: #{@yes_answers.size} No: #{@no_answers.size}, N/A: #{@na_answers.size}" ],
+    ["Yes Comments", (@yes_comments.empty? ? "<span class='empty'>empty</span>" : @yes_comments.join('<br/>')) ],
+    ["No Comments",  (@no_comments.empty? ? "<span class='empty'>empty</span>" : "<p>#{@no_comments.join('</p><p>')}</p>") ],
+    ["N/A Comments", (@na_comments.empty? ? "<span class='empty'>empty</span>" : "<p>#{@na_comments.join('</p><p>')}</p>") ],
+    ["Evaluators",   @answers.map{|a| a.user_evaluation.user.email}.join("<br/>") ]]
+
+.panel
+  %h3
+    Evaluation Result Details
+    %a.close{ :href =>"javascript:void(0)" } close
+  .panel_contents
+    .attributes_table
+      %table
+        %tbody
+          - show_attrs.each do |title, details|
+            %tr
+              %th= raw title
+              %td= raw details
+
+:javascript
+
+  $(".user_evaluations_answer_summary a.close").click(function(){ 
+    $(this).closest(".user_evaluations_answer_summary").html()
+  })

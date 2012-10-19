@@ -16,21 +16,7 @@ $(document).ready(function(){
   })
   
   // draw evaluation result pie charts
-  $(".evaluation_result_pie").each(function(){
-    var $elem = $(this)
-    setTimeout( function(){
-      draw_answers_pie.apply($elem,[
-          $elem.data("yes-count"), 
-          $elem.data("no-count"),
-          $elem.data("na-count"),
-          $elem.data("blank-count"),
-          $elem.data("yes-comments"),
-          $elem.data("no-comments"),
-          $elem.data("na-comments"),
-      ])
-    }, 1);
 
-  })
 
   // $(".evaluation_result_pie").bind("show_evaluation_result_details",function(){
   //   var bird_id = $(this).data("bird-id"),
@@ -43,7 +29,6 @@ $(document).ready(function(){
 
   // })
 
-  $(".tooltip_trigger[title]").tooltip()
 
 
 })

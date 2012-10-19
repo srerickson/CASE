@@ -1,0 +1,76 @@
+.results_filter_wrapper 
+
+  = semantic_form_for @evaluation_results, :url => url_for([:results_table, :admin, @evaluation_set ]), 
+      :html => {:method => :get, :remote=>true, :class => "results_filter toggle closed"} do |f|
+    = f.inputs "Results Filters" do 
+
+      - q_boxes = {"All" => "0"}.merge(Hash[@evaluation_set.evaluation_questions.map{|q| [q.to_s.truncate(70), q.id ]}])
+      - b_boxes = {"All" => "0"}.merge(Hash[@evaluation_set.birds.map{|b| [b.name, b.id ]}])
+
+      = f.input :evaluation_question_id_in, :as => :check_boxes, :collection => q_boxes, 
+                  :wrapper_html => {:class => "multicolumn_2 toggle_all_checkbox"},
+                  :value_as_class => true
+
+
+      -# Horrible HACK to get boxes checked                  
+      - if @evaluation_results.search_attributes["evaluation_question_id_in"] && (@evaluation_results.search_attributes["evaluation_question_id_in"].size >0)
+        - @evaluation_results.search_attributes["evaluation_question_id_in"].each do |q_id|
+          :javascript 
+            $("#search_evaluation_question_id_in_#{q_id}").attr("checked",true)
+      - else
+        :javascript
+          $("#search_evaluation_question_id_in_0").attr("checked",true)
+
+      = f.input :bird_id_in, :as => :check_boxes, :collection => b_boxes,
+                  :wrapper_html => {:class => "multicolumn_4 toggle_all_checkbox"},
+                  :value_as_class => true
+
+
+      -# Horrible HACK to get boxes checked                  
+      - if @evaluation_results.search_attributes["bird_id_in"] && (@evaluation_results.search_attributes["bird_id_in"].size > 0)
+        - @evaluation_results.search_attributes["bird_id_in"].each do |q_id|
+          :javascript 
+            $("#search_bird_id_in_#{q_id}").attr("checked",true)
+      - else
+        :javascript
+          $("#search_bird_id_in_0").attr("checked",true)
+
+
+      = f.actions :style => "float:right;" do 
+        = f.submit "Filter"
+
+
+
+
+- if @result_rows.empty?
+  %span.empty_field Empty
+- else
+  .results_table_wrapper
+    = render "results_table"
+
+:javascript
+  
+  $(".toggle_all_checkbox .choices-group .choice:first-child input[type=checkbox]").on("click", function(){
+
+    var checked = $(this).attr("checked") === undefined ? false : true
+    if (checked){
+      $(this).closest(".toggle_all_checkbox").find("input[type=checkbox]").attr("checked", false)
+      $(this).attr("checked", checked)
+    }
+
+  })
+
+  $("form.results_filter").on("submit",function(){
+    $(".results_table_wrapper").html("<div class='updating'>")
+    $(this).find("fieldset.inputs > ol").slideUp('slow')
+  })
+
+
+  $("form.toggle").on("click","fieldset.inputs legend span",function(){ 
+    $(this).closest(".toggle").find("fieldset.inputs > ol").slideToggle('slow')
+    $(this).closest(".toggle").toggleClass("closed")
+  })
+
+
+
+

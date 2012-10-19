@@ -25,11 +25,11 @@ class EvaluationSet  < ActiveRecord::Base;
   validate :update_on_unlock_only
   before_destroy :destroy_on_unlock_only 
 
-  def results_by_bird
-    all_results = EvaluationResult.for_evaluation_set(id).order("bird_id ASC").order("evaluation_question_id ASC")
+
+  def build_results_table(results)
     result_rows = []
     prev_bird_id = nil;
-    all_results.each do |result|
+    results.each do |result|
       if result.bird_id == prev_bird_id
         result_rows[-1].questions << result
       else

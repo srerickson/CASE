@@ -1,0 +1,87 @@
+
+
+- questions =@evaluation_set.evaluation_questions
+%table.index_table.evaluation_results{:border => "0", :cellpadding => "0", :cellspacing => "0"}
+  %thead
+    %tr
+      %th &nbsp;
+      %th{ :class => @custom_sort.empty? ? "sorted-asc" : "" }
+        = sort_link @evaluation_results, :title, :default_order => :asc
+
+      - @result_rows[0].questions.each_with_index do |q, i|
+
+        - sort_val = "evaluation_question[#{i}]"
+        - if  @custom_sort[0] == i  and @custom_sort[1] == :desc
+          - next_sort_order = :asc
+        - else
+          - next_sort_order = :desc
+
+        - #sort_val += sort_style
+
+        %th{ :class => @custom_sort[0] == i ? "sorted-#{next_sort_order}" : "" }
+          = sort_link @evaluation_results, sort_val, "##{q.evaluation_question.id}",
+            :default_order =>  next_sort_order
+
+  %tbody
+    - @result_rows.each do |row|
+      %tr
+        %td= row.bird.logo.nil? ? "" : image_tag(row.bird.logo.asset.url(:sq50));
+        %td
+          %b= row.bird.name
+          %br/
+          = link_to "comments",                                                                                       comments_admin_evaluation_set_user_evaluations_path(@evaluation_set, :bird_id => row.bird.id), 
+            :remote => true,                                                                              
+            :style => "font-size:0.8em;"
+
+        - row.questions.each do |result|
+          %td
+            - title = capture do 
+              =result.evaluation_question.to_s
+              %br/
+              %b Yes:
+              = result.yes_count
+              %b No:
+              = result.no_count
+              %b N/A
+              =result.na_count
+              %br/
+              %b Score
+              =result.answer_score
+
+            = link_to summary_admin_evaluation_set_user_evaluation_answers_path(@evaluation_set, 
+                :evaluation_question_id => result.evaluation_question_id, :bird_id => row.bird.id ),
+                :remote =>true  do
+              .evaluation_result_pie.tooltip_trigger{  :title => title,
+                :class => (result.evaluation_question.sub_question ? "sub_question" : ""),
+                "data-blank-count"  => result.blank_count, 
+                "data-na-comments"  => result.na_comments, 
+                "data-na-count"     => result.na_count, 
+                "data-no-comments"  => result.no_comments,
+                "data-no-count"     => result.no_count, 
+                "data-yes-comments" => result.yes_comments, 
+                "data-yes-count"    => result.yes_count }
+
+#evaluation_result_details.user_evaluation_answers_summary.user_evaluations_comments
+
+:javascript 
+
+
+  $(".evaluation_result_pie").each(function(){
+    var $elem = $(this)
+    setTimeout( function(){
+      draw_answers_pie.apply($elem,[
+          $elem.data("yes-count"), 
+          $elem.data("no-count"),
+          $elem.data("na-count"),
+          $elem.data("blank-count"),
+          $elem.data("yes-comments"),
+          $elem.data("no-comments"),
+          $elem.data("na-comments"),
+      ])
+    }, 1);
+  })
+
+  $(".tooltip_trigger[title]").tooltip()
+
+
+

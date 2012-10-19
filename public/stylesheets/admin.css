@@ -240,11 +240,16 @@ table.birds_list {
 .edit_saved_status.saved {
   background-image: none;
 }
+.updating, 
 .edit_saved_status.saving {
-  background-image: url('/images/spinner.gif');
+  background: url('/images/spinner.gif') center center no-repeat;
 }
 
-
+.updating {
+  height:16px;
+  width:16px; 
+  margin:0 auto;
+}
 
 .sidebar_section ul.file_list {
   list-style-type:none;
@@ -292,7 +297,7 @@ table.evaluation_results .evaluation_result_pie.sub_question {
   width: 30px;
   height: 50px;
   opacity: 0.9;
-  left:-10px; 
+  left:-7px; 
 } 
 
 table.evaluation_results .evaluation_result_pie svg {
@@ -313,6 +318,13 @@ div#evaluation_result_details {
 
 div#evaluation_result_details .panel {
   margin:0;
+}
+
+div#evaluation_result_details .panel h3 a.close {
+  float:right;
+  font-weight: normal;
+  cursor:pointer;
+
 }
 
 div#evaluation_result_details .attributes_table table th {
@@ -400,3 +412,44 @@ svg .pie {
   shape-rendering: "crispEdges";
 }
 
+
+
+.multicolumn_2 {
+  -moz-column-count: 2;
+  -moz-column-gap: 0px;
+  -webkit-column-count: 2;
+  -webkit-column-gap: 00px;
+  column-count: 2;
+  column-gap: 0px;
+}
+
+
+.multicolumn_3 {
+  -moz-column-count: 3;
+  -moz-column-gap: 20px;
+  -webkit-column-count: 3;
+  -webkit-column-gap: 20px;
+  column-count: 3;
+  column-gap: 20px;
+}
+
+
+.multicolumn_4 {
+  -moz-column-count: 4;
+  -moz-column-gap: 20px;
+  -webkit-column-count: 4;
+  -webkit-column-gap: 20px;
+  column-count: 4;
+  column-gap: 20px;
+}
+
+
+form.toggle.closed fieldset.inputs > ol {
+  display:none;
+}
+
+
+form.toggle legend span {
+  cursor:pointer;
+  color: #38678B;
+}
