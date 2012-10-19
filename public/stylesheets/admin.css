@@ -273,7 +273,7 @@ table.evaluation_results tr {
 }
 
 table.evaluation_results td {
-  padding: 5px 0 0 0;
+  padding: 4px;
   margin:0;
   border-top: 1px solid #E8E8E8;
   border-bottom:none;
@@ -291,13 +291,24 @@ table.evaluation_results .evaluation_result_pie {
   -khtml-user-select: none; 
 }
 
+table.evaluation_results .evaluation_result_pie.summary {
+  width:60px;
+  height:60px;
+}
 
+table.evaluation_results th.sub_question a {
+  font-weight: normal;
+  color: #AAA;
+}
+table.evaluation_results td.sub_question{
+  padding:3px;
+}
 
 table.evaluation_results .evaluation_result_pie.sub_question {
   width: 30px;
   height: 50px;
   opacity: 0.9;
-  left:-7px; 
+  left:-5px; 
 } 
 
 table.evaluation_results .evaluation_result_pie svg {
@@ -452,4 +463,21 @@ form.toggle.closed fieldset.inputs > ol {
 form.toggle legend span {
   cursor:pointer;
   color: #38678B;
+}
+
+
+form.results_filter li.check_boxes {
+
+  max-height: 195px;
+  overflow-y:scroll;
+}
+
+
+form.results_filter fieldset.actions {
+  width:100%;
+}
+
+form.results_filter fieldset.actions > ol {
+  width:60px;
+  margin: 0 auto;
 }

@@ -26,22 +26,28 @@ class EvaluationSet  < ActiveRecord::Base;
   before_destroy :destroy_on_unlock_only 
 
 
-  def build_results_table(results)
-    result_rows = []
+  # assumes results are sorted by bird, then by question
+  def build_results_table(eval_results)
+    result_rows = [] 
     prev_bird_id = nil;
-    results.each do |result|
-      if result.bird_id == prev_bird_id
-        result_rows[-1].questions << result
+
+    eval_results.each do |eval_result|
+      if eval_result.bird_id == prev_bird_id
+        result_rows[-1].results << eval_result
       else
-        row = EvaluationResultRow.new()
-        row.bird = result.bird
-        row.questions = [result]
-        result_rows << row
+        result_rows << EvaluationResultRow.new({
+          :results => [eval_result],
+          :bird => eval_result.bird,
+        })
       end
-      prev_bird_id = result.bird_id
+      prev_bird_id = eval_result.bird_id
+    end
+    result_rows.each do |row|
+      row.build_summary
     end
     return  result_rows
   end
+
 
 
 

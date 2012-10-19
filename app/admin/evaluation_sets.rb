@@ -100,47 +100,30 @@ ActiveAdmin.register EvaluationSet do
 
   member_action :results_table, :method => :get do 
 
-    @custom_sort = []
-
-    if params[:search]
-      # clean up the checkbox inputs
-      [:evaluation_question_id_in, :bird_id_in].each do |key|
-        if params[:search][key].is_a? Array
-          params[:search][key].delete("")
-          params[:search][key] = [] if params[:search][key].include?("0")
-        end
-      end
-      if params[:search][:meta_sort]
-        parse_custom_sort = params[:search][:meta_sort].match(/evaluation_question\[(\d+)\]\.([a-z]+)/)
-        if parse_custom_sort
-          @custom_sort[0] = parse_custom_sort[1].to_i
-          @custom_sort[1] = parse_custom_sort[2].to_sym
-          params[:search].delete(:meta_sort)
-        end
-      end
-    end
-
-    
-    if @custom_sort.empty?
-       @evaluation_results =  EvaluationResult.includes(:bird).order("birds.name ASC").search(params[:search])
-    else
-      @evaluation_results = EvaluationResult.search(params[:search])
-    end
-
-    @evaluation_set     = EvaluationSet.find(params[:id])
-    @result_rows = @evaluation_set.build_results_table(@evaluation_results)
-
-    if !@custom_sort.empty?
-      @result_rows.sort_by!{ |r| 
-        r.questions[@custom_sort[0]].answer_score * ( @custom_sort[1] == :asc ? 1 : -1 ) 
-      }
-    end
-
+    @evaluation_set  = EvaluationSet.find(params[:id])
     if !current_user.is_admin? and !@evaluation_set.visible_results
       redirect_to admin_evaluation_set_path(@evaluation_set), :notice => "Sorry, these results are not public yet."
     end
 
+    new_params = cleanup_result_search_params(params[:search])
+    params[:search] = new_params
+    @custom_sort = parse_result_custom_sort_params(params[:search])
+
+    logger.info(@custom_sort)
+
+    if @custom_sort.empty?
+       @evaluation_results =  EvaluationResult.includes([:bird,:evaluation_question]).order("birds.name ASC").search(params[:search])
+    else
+      @evaluation_results = EvaluationResult.includes([:bird,:evaluation_question]).search(params[:search])
+    end
+
+    @result_rows = @evaluation_set.build_results_table(@evaluation_results)
+
+    do_custom_sort(@custom_sort, @result_rows)
+
   end
+
+
 
   member_action :result_groups, :method => :get do 
     @evaluation_set = EvaluationSet.find(params[:id])
@@ -173,6 +156,8 @@ ActiveAdmin.register EvaluationSet do
     redirect_to admin_evaluation_set_path(es), :notice => "Locked!"
   end
 
+
+
   controller do 
     before_filter :check_admin, :except => [:index, :show, :results]
     private
@@ -182,7 +167,55 @@ ActiveAdmin.register EvaluationSet do
         redirect_to boot_url, :notice => "Sorry, you don't have permission to do that."
       end
     end
-  end
+
+    protected
+
+    # clean up the checkbox inputs from results search table
+    def cleanup_result_search_params(search_params = [])
+      if search_params
+        [:evaluation_question_id_in, :bird_id_in].each do |key|
+          if search_params[key].is_a? Array
+            search_params[key].delete("")
+            search_params[key] = [] if search_params[key].include?("0")
+          end
+        end
+      end
+      return search_params
+    end
+
+    def do_custom_sort(custom_sort, result_rows)
+      if !@custom_sort.empty?
+        case @custom_sort[:type]
+          when :result_column
+            logger.info("---- sorting by result column ---- ")
+
+            @result_rows.sort_by!{ |r| 
+              r.results[@custom_sort[:index]].answer_score * ( @custom_sort[:order] == :asc ? 1 : -1 ) 
+            }
+          when :by_summary
+            logger.info("---- sorting by summary ---- ")
+            @result_rows.sort_by!{ |r| 
+              r.summary["score"] * ( @custom_sort[:order] == :asc ? 1 : -1 ) 
+            }
+        end
+      end
+    end
+
+
+    def parse_result_custom_sort_params(search_params = [])
+      custom_sort = {}      
+      if search_params and search_params[:meta_sort]
+        parse_custom_sort = search_params[:meta_sort].match(/custom_sort_([a-z_]*)(\[(\d+)\])?\.(.*)/)
+        if parse_custom_sort
+          custom_sort[:type]  = parse_custom_sort[1].to_sym
+          custom_sort[:index] = parse_custom_sort[3].to_i
+          custom_sort[:order] = parse_custom_sort[4].to_sym
+        end
+      end
+      return custom_sort
+    end
+
+  end # controller do
 
 
   #

@@ -1,7 +1,8 @@
 class EvaluationResult < ActiveRecord::Base;
 
-  belongs_to :bird, :readonly => true
-  belongs_to :evaluation_question, :readonly => true
+  belongs_to :bird, :readonly => true, :inverse_of => :evaluation_results
+
+  belongs_to :evaluation_question, :readonly => true,  :inverse_of => :evaluation_results
 
   has_one :evaluation_set, :through => :evaluation_question
   has_many :evaluation_answers, :through => :evaluation_question, :readonly => true
@@ -36,45 +37,34 @@ class EvaluationResult < ActiveRecord::Base;
   # - q_id can be nil (for all questions), a single id, or an array of ids.
   #
   def self.rebuild(q_id = nil) 
-
-    # will be set to our domain of questions and birds
+    # these will be set to our domain of questions and birds
     qs = nil 
     bs = nil
-    
-    # all quetions that have been used in evaluations
-
+    # all quetions and birds that have been used in evaluations
     all_evaled_questions  = UserEvaluationAnswer.group(:evaluation_question_id).size.keys
     all_evaled_birds = UserEvaluationAnswer.includes(:bird).group("birds.id").size.keys
-
     # set the domain for the update to ... 
-
     if q_id.nil?  #  ... all questions, all birds
-
       qs = all_evaled_questions 
       bs = all_evaled_birds
-
     else  # ... a question or set of questions and the birds evaluated by that question
-
       if q_id.is_a? Array
         qs = q_id
       else
         qs = [q_id]
       end
-
       bs = UserEvaluationAnswer
             .includes(:bird)
             .for_question(qs)
             .group("birds.id")
             .size.keys
     end
-
     # counts for all (bird/questions/answer) combinations in the result domain
     answer_counts  = UserEvaluationAnswer
                       .includes(:bird)
                       .for_question(qs)
                       .group(["birds.id",:evaluation_question_id,:answer])
                       .size
-
     # counts for all (bird/questions/answer) combination  - with comments
     comment_counts = UserEvaluationAnswer
                       .with_comment
@@ -82,12 +72,9 @@ class EvaluationResult < ActiveRecord::Base;
                       .includes(:bird)
                       .group(["birds.id",:evaluation_question_id,:answer])
                       .size
-
     # (1) Update/Create results
-
     bs.each do |b|
       qs.each do |q|
-
         results = {
           "yes_count"    => answer_counts[[ b,q,UserEvaluationAnswer.yes]] || 0,
           "yes_comments" => comment_counts[[b,q,UserEvaluationAnswer.yes]] || 0,
@@ -109,9 +96,7 @@ class EvaluationResult < ActiveRecord::Base;
         end
       end
     end
-
     # (2) Remove unused results
-
     EvaluationResult.not_for_bird(all_evaled_birds).each{|r| r.destroy }
     EvaluationResult.not_for_question(all_evaled_questions).each{|r| r.destroy }
 

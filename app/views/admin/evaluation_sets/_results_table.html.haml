@@ -8,24 +8,38 @@
       %th{ :class => @custom_sort.empty? ? "sorted-asc" : "" }
         = sort_link @evaluation_results, :title, :default_order => :asc
 
-      - @result_rows[0].questions.each_with_index do |q, i|
+      - @result_rows[0].results.each_with_index do |r, i|
 
-        - sort_val = "evaluation_question[#{i}]"
-        - if  @custom_sort[0] == i  and @custom_sort[1] == :desc
-          - next_sort_order = :asc
-        - else
+        - sort_val = "custom_sort_result_column[#{i}]"
+        - if !@custom_sort.empty? and @custom_sort[:type] == :result_column 
+          - next_sort_order = @custom_sort[:order] == :asc ? :desc : :asc
+          - th_class = "sorted-#{@custom_sort[:order]}"
+        - else 
           - next_sort_order = :desc
+          - th_class = ""
 
-        - #sort_val += sort_style
+        - th_class += r.evaluation_question.sub_question ? " sub_question" : ""
 
-        %th{ :class => @custom_sort[0] == i ? "sorted-#{next_sort_order}" : "" }
-          = sort_link @evaluation_results, sort_val, "##{q.evaluation_question.id}",
+        %th{ :class => th_class }
+          = sort_link @evaluation_results, sort_val, "##{r.evaluation_question.id}",
             :default_order =>  next_sort_order
+
+      -# summary header
+      - if !@custom_sort.empty? and @custom_sort[:type] == :by_summary 
+        - next_sort_order = @custom_sort[:order] == :asc ? :desc : :asc
+        - th_class = "sorted-#{@custom_sort[:order]}"
+      - else 
+        - next_sort_order = :desc
+        - th_class = ""
+
+      %th{ :class => "summary #{th_class}" }
+        = sort_link @evaluation_results, "custom_sort_by_summary", "Summary",
+            :default_order => next_sort_order
 
   %tbody
     - @result_rows.each do |row|
       %tr
-        %td= row.bird.logo.nil? ? "" : image_tag(row.bird.logo.asset.url(:sq50));
+        %td= row.bird.logo.nil? ? "" : image_tag( row.bird.logo.asset.url(:sq50) ) 
         %td
           %b= row.bird.name
           %br/
@@ -33,8 +47,8 @@
             :remote => true,                                                                              
             :style => "font-size:0.8em;"
 
-        - row.questions.each do |result|
-          %td
+        - row.results.each do |result|
+          %td{:class => result.evaluation_question.sub_question ? "sub_question" : ""}
             - title = capture do 
               =result.evaluation_question.to_s
               %br/
@@ -60,6 +74,29 @@
                 "data-no-count"     => result.no_count, 
                 "data-yes-comments" => result.yes_comments, 
                 "data-yes-count"    => result.yes_count }
+
+        %td{:class => "summary"}
+          - title = capture do 
+            ="Summary:"
+            %br/
+            %b Yes:
+            = row.summary["yes_count"]
+            %b No:
+            = row.summary["no_count"]
+            %b N/A
+            = row.summary["na_count"]
+            %br/
+            %b Score
+            =row.summary["score"]
+          .evaluation_result_pie.tooltip_trigger{ :title => title,
+            :class => "summary",
+            "data-blank-count"  => row.summary["blank_count"], 
+            "data-na-comments"  => 0, 
+            "data-na-count"     => row.summary["na_count"], 
+            "data-no-comments"  => 0,
+            "data-no-count"     => row.summary["no_count"], 
+            "data-yes-comments" => 0, 
+            "data-yes-count"    => row.summary["yes_count"] }
 
 #evaluation_result_details.user_evaluation_answers_summary.user_evaluations_comments
 

@@ -1,0 +1,46 @@
+.results_filter_wrapper 
+  = semantic_form_for @evaluation_results, :url => url_for([:results_table, :admin, @evaluation_set ]), 
+      :html => {:method => :get, :class => "results_filter toggle closed"} do |f|
+    = f.inputs "Results Filters" do 
+
+      - q_boxes = {"All" => "0"}.merge(Hash[@evaluation_set.evaluation_questions.map{|q| [q.to_s.truncate(70), q.id ]}])
+      - b_boxes = {"All" => "0"}.merge(Hash[@evaluation_set.birds.map{|b| [b.name, b.id ]}])
+
+      = f.input :evaluation_question_id_in, :as => :check_boxes, :collection => q_boxes, 
+                  :wrapper_html => {:class => "multicolumn_2 toggle_all_checkbox"},
+                  :value_as_class => true
+
+
+
+
+      = f.input :bird_id_in, :as => :check_boxes, :collection => b_boxes,
+                  :wrapper_html => {:class => "multicolumn_4 toggle_all_checkbox"},
+                  :value_as_class => true
+
+
+      -#
+      -# Horrible HACK to get boxes checked    
+      -#
+
+      - bird_checks = @evaluation_results.search_attributes["bird_id_in"] 
+      - question_checks = @evaluation_results.search_attributes["evaluation_question_id_in"]
+
+      - if bird_checks && !bird_checks.empty?
+        - bird_checks.each do |b_id|
+          :javascript 
+            $("input#search_bird_id_in_#{b_id}").attr("checked",true)
+      - else
+        :javascript
+          $("#search_bird_id_in_0").attr("checked",true) 
+      - if question_checks && !question_checks.empty?
+        - question_checks.each do |q_id|
+          :javascript 
+            $("input#search_evaluation_question_id_in_#{q_id}").attr("checked",true)
+      - else
+        :javascript
+          $("#search_evaluation_question_id_in_0").attr("checked",true)
+
+
+
+      = f.actions do 
+        = f.submit "Filter"

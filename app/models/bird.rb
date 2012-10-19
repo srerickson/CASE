@@ -2,7 +2,7 @@ class Bird < ActiveRecord::Base
 
   has_paper_trail
   
-  #default_scope :order => "birds.name ASC"
+  default_scope includes(:logo).order("birds.name ASC")
 
   belongs_to :genus_type
   belongs_to :habitat
@@ -12,6 +12,7 @@ class Bird < ActiveRecord::Base
   belongs_to :updated_by, :class_name => "User", :foreign_key => "updated_by_id"
 
   has_many :user_evaluations
+  has_many :evaluation_results, :inverse_of => :bird
 
   has_one :logo, 
     :class_name => "Asset", 
@@ -48,8 +49,30 @@ class Bird < ActiveRecord::Base
     end
   end
 
+  def thumbnail_50_url
+    begin
+      logo.asset.url(:sq50, false)
+    rescue
+      nil
+    end
+  end
+
+
   def as_json(options = {})
-    super({:methods => [:thumbnail_100_url]}.merge(options || {}))
+    super({
+      :methods => [:thumbnail_100_url, :thumbnail_50_url],
+      :only => [:id,:name]
+    }.merge(options || {}))
+  end
+
+
+  def compact_form
+    {
+      :id => id,
+      :name => name,
+      :thumbnail_100_url => thumbnail_100_url,
+      :thumbnail_50_url => thumbnail_50_url
+    }
   end
 
 end
