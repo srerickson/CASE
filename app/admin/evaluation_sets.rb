@@ -159,7 +159,7 @@ ActiveAdmin.register EvaluationSet do
 
 
   controller do 
-    before_filter :check_admin, :except => [:index, :show, :results]
+    before_filter :check_admin, :except => [:index, :show , :results_table]
     private
     def check_admin
       if !current_user.is_admin?
@@ -187,15 +187,18 @@ ActiveAdmin.register EvaluationSet do
       if !@custom_sort.empty?
         case @custom_sort[:type]
           when :result_column
-            logger.info("---- sorting by result column ---- ")
-
-            @result_rows.sort_by!{ |r| 
-              r.results[@custom_sort[:index]].answer_score * ( @custom_sort[:order] == :asc ? 1 : -1 ) 
+            @result_rows.sort_by! {  |r| 
+              result = r.results[@custom_sort[:index]]
+              score = result.answer_score * ( @custom_sort[:order] == :asc ? 1 : -1 ) 
+              num_responses = (result.yes_count + result.no_count + result.na_count)
+              #return [score, num_responses]
+              [score, num_responses*(-1)]
             }
           when :by_summary
-            logger.info("---- sorting by summary ---- ")
             @result_rows.sort_by!{ |r| 
-              r.summary["score"] * ( @custom_sort[:order] == :asc ? 1 : -1 ) 
+              score = r.summary["score"] * ( @custom_sort[:order] == :asc ? 1 : -1 ) 
+              num_responses = (r.summary["yes_count"] + r.summary["no_count"] + r.summary["na_count"])
+              [score,num_responses*(-1)]
             }
         end
       end

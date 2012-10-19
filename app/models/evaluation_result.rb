@@ -103,7 +103,7 @@ class EvaluationResult < ActiveRecord::Base;
   end
 
   def self.answer_score_from_results(r)
-    response_count =  (r["yes_count"] +  r["no_count"] + r["na_count"] + r["blank_count"])
+    response_count =  (r["yes_count"] +  r["no_count"] + r["na_count"] )
     if response_count == 0
       return 0
     else 
