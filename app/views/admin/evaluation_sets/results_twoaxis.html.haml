@@ -1,10 +1,9 @@
 :css
 
   .d3_vis {
-    background:color:#eee;
-    border-right:1px solid #bbb;
-    border-bottom:1px solid #bbb;
-    shape-rendering: crispEdges;
+    margin-top:50px;
+    background-color:#eee;
+    border:1px solid #bbb;
 
   }
 
@@ -29,14 +28,13 @@
 
 .span Y-Axis
 %select.question_analysis.y_axis
-  %option{:value => -1} select
   - @results.each_with_index do |r,i|
     %option{:value => i}
       = "#{r.question.id}. #{r.question.to_s}"
 
 
 
-.d3_vis{:style=>"width:1000px;height:600px;"}
+.d3_vis{:style=>"width:1100px;height:650px;"}
 
 
 :javascript

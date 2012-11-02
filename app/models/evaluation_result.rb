@@ -19,9 +19,9 @@ class EvaluationResult < ActiveRecord::Base;
   
 
 
-  def as_json(options = {})
-    super({:include => [:bird]}.merge(options || {}))
-  end
+  # def as_json(options = {})
+  #   super({:include => [:bird], :only => {:bird => [:name] }}.merge(options || {}))
+  # end
 
 
   def self.lookup(b_id,q_id)
@@ -101,6 +101,8 @@ class EvaluationResult < ActiveRecord::Base;
     EvaluationResult.not_for_question(all_evaled_questions).each{|r| r.destroy }
 
   end
+
+
 
   def self.answer_score_from_results(r)
     response_count =  (r["yes_count"] +  r["no_count"] + r["na_count"] )

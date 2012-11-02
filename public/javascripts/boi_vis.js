@@ -101,15 +101,20 @@ function boi_responses_pie(){
 $(document).ready(function(){
 
   //    Preload Images, start the show as a callback
-
   $.get("/admin/birds.json",function(data){
     var image_paths = [], i;
     for(i in data){
       var path = data[i].bird.thumbnail_100_url
       if(path != null){ image_paths.push(path) }
+      var bird_lookup = [],
+          i = 0;
+      for(i in data){
+        bird_lookup[ data[i].bird.id ] = data[i].bird
+      }
+      $(document).data("bird_data", bird_lookup)
     }
     preload_images(image_paths, function(){
-      d3_question_analysis_update() // start here. 
+      d3_question_analysis_images()
     })
   },"json")
 
@@ -124,54 +129,51 @@ $(document).ready(function(){
   })
 
 
-  function  question_score(a){
-    total_responses = a.yes_count + a.no_count + a.na_count + a.blank_count
-    score = ((1 * a.yes_count) + (-1 * a.no_count)) / total_responses
-    return score
-  }
 
-  function jitter(amount){
-    var r = Math.random();
-    return (r*amount)-(.5*r*amount);
-  }
 
   //
   //   D3 
   // 
   var w = $(".d3_vis").width(), 
       h = $(".d3_vis").height(),
-      node_size = 40,
       margin = { top:100,
                  right:100,
                  bottom:100,
-                 left:100}
+                 left:100},
+      node_size = 10;
+      inner_w = (w - margin.left - margin.right),
+      inner_h = (h - margin.top - margin.bottom)
 
-  var x = d3.scale.linear()
+  var x_scale = d3.scale.linear()
             .range([margin.left, w-margin.right])
+            .domain([-1,1])
 
-  var y = d3.scale.linear()
+  var y_scale = d3.scale.linear()
             .range([margin.top, h-margin.bottom])
+            .domain([1,-1])
 
   var root = d3.select(".d3_vis"),
       svg = root.append("svg")
                 .attr("width", w)
                 .attr("height",h)
 
-  var x_axis = d3.svg.axis().scale(x).orient("bottom")
-  var y_axis = d3.svg.axis().scale(y).orient("right")
+  var x_axis = d3.svg.axis().scale(x_scale).orient("bottom")
+  var y_axis = d3.svg.axis().scale(y_scale).orient("right")
+
+  var padding = 6,
+      color = d3.scale.category10().domain([-1,1])
+
 
   svg.append("defs")
     .append("clipPath")
       .attr("id","logo_circle")
         .append("circle")
-          .attr("r",node_size/2)
+          .attr("r",node_size-2)
           .attr("cx",0)
           .attr("cy",0)
-          .style("stroke","gray")
 
   var vis = svg.append("g")
 
-  //  add axes 
   
   vis.append("g")
         .attr("class","axis x")
@@ -182,100 +184,148 @@ $(document).ready(function(){
         .call(y_axis)
 
 
+  var responses = root.datum()[0].results.map(function(r,i){
+    return {
+      'bird': r.evaluation_result.bird_id,
+      'score_x': x_scale(r.evaluation_result.answer_score),
+      'score_y': y_scale(r.evaluation_result.answer_score),
+      'color': color((r.evaluation_result.answer_score)^2),
+      'radius': node_size
+    }
+  })
+
+  var pies = vis.selectAll("g.pie").data(responses)
+
+  var force = d3.layout.force()
+    .gravity(0)
+    .charge(0)
+    .nodes(responses)
+    .size([w,h])
+    .on("tick", tick)
+    .start()
+
+
+  var new_g = pies.enter().append("svg:g")
+                .attr("width",node_size)
+                .attr("height",node_size)
+                .attr("class","pie")
+                .style("opacity","1") 
+                .call(force.drag);
+                //.attr("transform", translate_function)
+
+    new_g.append("circle")
+      .attr("r", node_size)
+      .attr("fill",function(d,i){ return responses[i].color })
+
+
+
+
+
+  function d3_question_analysis_images(){
+    new_g.append("image")
+      .attr("xlink:href",function(d,i){ 
+          console.log(d)
+          return (  $(document).data("bird_data")[d.bird].thumbnail_100_url || "" )
+       })
+      .attr("width",40)
+      .attr("x",-20)
+      .attr("y",-20)
+      .attr("height",40)
+      .attr("clip-path","url(#logo_circle)")
+  }
+
+
+
+
 
   function d3_question_analysis_update(){
 
-    var pie_chart = boi_responses_pie().width(node_size).height(node_size)
-
-    var two_axis = false,
-        q_id_x =  $("select.question_analysis.x_axis").val(),
+    var q_id_x =  $("select.question_analysis.x_axis").val(),
         q_id_y =  $("select.question_analysis.y_axis").val(),
-        x_responses, y_responses;
+        x_responses = root.datum()[q_id_x].results,
+        y_responses = root.datum()[q_id_y].results;      
 
-    x_responses = root.datum()[q_id_x].answers;
+    var responses = force.nodes(),
+        i = 0;
 
-    if(q_id_y >= 0){
-      two_axis = true;
-      y_responses = root.datum()[q_id_y].answers;      
-    }
-    
-    var responses = x_responses.map(function(r,i){
-      var x_bird = r.evaluation_result.bird, y_bird
-      if (two_axis && x_bird.id != y_responses[i].evaluation_result.bird.id){
-        throw new Error("Responses for each axis don't refer to the same entity/bird!")
-      }
-      return {
-        'bird': x_bird,
-        'x': r.evaluation_result,
-        'y': (two_axis ? y_responses[i].evaluation_result : null)
-      }
-    })
-
-
-    var pies = vis.selectAll("g.pie").data(responses)
-
-    var translate_function = function(d,i){
-      var x_trans = x(question_score(d.x)),    
-          y_trans = (d.y) ? y(question_score(d.y))  : y(i)
-      return "translate("+x_trans+","+ y_trans +")"
+    for(i in responses){
+      if(responses[i].bird_id != x_responses[i].bird_id){
+        throw new Error("order of responses has changed!")      
+      } else {
+        responses[i].score_x = x_scale(x_responses[i].evaluation_result.answer_score)
+        responses[i].score_y = y_scale(y_responses[i].evaluation_result.answer_score)
+        responses[i].color = color(responses[i].score_y * responses[i].score_x )
+     }
     }
 
-    var jitter_function = function(d,i){
+    vis.selectAll("g.pie").data(responses)
+      .select("circle")
+        .attr("fill",function(d,i){ return responses[i].color })
 
-      var x_trans =  jitter(0.1)    
-          y_trans = jitter(0.1)
-      return "translate("+x_trans+","+ y_trans +")"
-    }
-
-    var new_g = pies.enter().append("svg:g")
-                  .attr("width",node_size)
-                  .attr("height",node_size)
-                  .attr("class","pie")
-                  .style("opacity","1") 
-                  .attr("transform", translate_function)
-
-    new_g.transition().duration(0).attr("transform", jitter_function)
-
-    //new_g.call(pie_chart)
-   
-    // new_g.append("image")
-    //   .attr("xlink:href",function(d){ return (d.bird.thumbnail_100_url || "") })
-    //   .attr("width",node_size)
-    //   .attr("x",-node_size/2)
-    //   .attr("y",-node_size/2)
-    //   .attr("height",node_size)
-    //   .style("fill","black")
-    //   .attr("clip-path","url(#logo_circle)")
-
-
-    new_g.append("circle")
-      .attr("cy", 90)
-      .attr("r", 5)
-
-    x.domain([
-      d3.min(responses, function (d) { return question_score(d.x) }),
-      d3.max(responses, function (d) { return question_score(d.x) })
-    ]);
-
-    if(two_axis){
-      y.domain([
-        d3.max(responses, function (d) { return question_score(d.y) }),
-        d3.min(responses, function (d) { return question_score(d.y) })
-      ])
-    } else {
-      y.domain([0,responses.length]);      
-    }
-
-    d3.select("g.axis.x").transition().call(x_axis)
-    d3.select("g.axis.y").transition().call(y_axis)
-
-    pies.transition().duration(750)
-        .attr("transform", translate_function)
-
-    //pies.call(pie_chart)
-    pies.exit().remove()
+    force.nodes(responses).start()
 
   }
+
+
+
+  var translate_function = function(d,i){
+    return "translate("+ d.x +","+ d.y +")"
+  }
+
+
+
+
+  function tick(e){
+    pies
+      .each(gravity(.4 * e.alpha))
+      .each(collide(.4))
+      .attr("transform", translate_function)
+  }
+
+
+
+  // Move nodes toward cluster focus.
+  function gravity(alpha) {
+    return function(d) {
+      d.y += (d.score_y - d.y) * alpha;
+      d.x += (d.score_x - d.x) * alpha;
+    };
+  }
+
+
+
+  // Resolve collisions between nodes.
+  function collide(alpha) {
+    var quadtree = d3.geom.quadtree(responses);
+    return function(d) {
+      var r = d.radius + (node_size) + padding,
+          nx1 = d.x - r,
+          nx2 = d.x + r,
+          ny1 = d.y - r,
+          ny2 = d.y + r;
+      quadtree.visit(function(quad, x1, y1, x2, y2) {
+        if (quad.point && (quad.point !== d)) {
+          var x = d.x - quad.point.x,
+              y = d.y - quad.point.y,
+              l = Math.sqrt(x * x + y * y),
+              r = d.radius + quad.point.radius + (d.color !== quad.point.color) * padding;
+          if (l < r) {
+            l = (l - r) / l * alpha;
+            d.x -= x *= l;
+            d.y -= y *= l;
+            quad.point.x += x;
+            quad.point.y += y;
+          }
+        }
+        return x1 > nx2
+            || x2 < nx1
+            || y1 > ny2
+            || y2 < ny1;
+      });
+    };
+  }
+
+
 
 
 })

@@ -26,46 +26,6 @@ class EvaluationSet  < ActiveRecord::Base;
   before_destroy :destroy_on_unlock_only 
 
 
-  # assumes results are sorted by bird, then by question
-  def build_results_table(eval_results)
-    result_rows = [] 
-    prev_bird_id = nil;
-
-    eval_results.each do |eval_result|
-      if eval_result.bird_id == prev_bird_id
-        result_rows[-1].results << eval_result
-      else
-        result_rows << EvaluationResultRow.new({
-          :results => [eval_result],
-          :bird => eval_result.bird,
-        })
-      end
-      prev_bird_id = eval_result.bird_id
-    end
-    result_rows.each do |row|
-      row.build_summary
-    end
-    return  result_rows
-  end
-
-
-
-
-  def results_by_question
-    result_rows = []
-    evaluation_questions.each do |q|
-      row = EvaluationResultRow.new()
-      row.question = q
-      row.answers = []
-      birds.each do |b|
-        row.answers << EvaluationResult.for_bird(b.id).for_question(q.id).first()
-      end
-      result_rows << row
-    end
-    return  result_rows
-  end
-
-
 
   def self.response_group_for(result_rows)
     answer_keys = [:yes_count, :no_count, :na_count]

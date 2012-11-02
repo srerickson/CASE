@@ -35,4 +35,53 @@ class EvaluationResultRow
 
   end
 
+
+  # assumes results are sorted by bird, then by question
+  def self.build_results_table_by_bird(eval_results)
+    result_rows = [] 
+    prev_bird_id = nil;
+
+    eval_results.each do |eval_result|
+      if eval_result.bird_id == prev_bird_id
+        result_rows[-1].results << eval_result
+      else
+        result_rows << EvaluationResultRow.new({
+          :results => [eval_result],
+          :bird => eval_result.bird,
+        })
+      end
+      prev_bird_id = eval_result.bird_id
+    end
+    result_rows.each do |row|
+      row.build_summary
+    end
+    return  result_rows
+  end
+
+
+  # assumes results are sorted by question id, then by bird
+  def self.build_results_table_by_question(eval_results)
+    result_rows = [] 
+    prev_q_id = nil;
+    eval_results.each do |eval_result|
+      if eval_result.evaluation_question_id == prev_q_id
+        result_rows[-1].results << eval_result
+      else
+        result_rows << EvaluationResultRow.new({
+          :results => [eval_result],
+          :question => eval_result.evaluation_question,
+        })
+      end
+      prev_q_id = eval_result.evaluation_question_id
+    end
+    result_rows.each do |row|
+      row.build_summary
+    end
+    return  result_rows
+  end
+
+
+
+
+
 end

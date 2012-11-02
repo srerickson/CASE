@@ -2,7 +2,7 @@ class Bird < ActiveRecord::Base
 
   has_paper_trail
   
-  default_scope includes(:logo).order("birds.name ASC")
+  #default_scope includes(:logo).order("birds.name ASC")
 
   belongs_to :genus_type
   belongs_to :habitat
@@ -62,17 +62,8 @@ class Bird < ActiveRecord::Base
     super({
       :methods => [:thumbnail_100_url, :thumbnail_50_url],
       :only => [:id,:name]
-    }.merge(options || {}))
+    })
   end
 
-
-  def compact_form
-    {
-      :id => id,
-      :name => name,
-      :thumbnail_100_url => thumbnail_100_url,
-      :thumbnail_50_url => thumbnail_50_url
-    }
-  end
 
 end
