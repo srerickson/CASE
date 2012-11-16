@@ -41,7 +41,7 @@
       %tr
         %td= row.bird.logo.nil? ? "" : image_tag( row.bird.logo.asset.url(:sq50) ) 
         %td
-          %b= row.bird.name
+          %b= link_to row.bird.name, [:admin, row.bird]
           %br/
           = link_to "comments",                                                                                       comments_admin_evaluation_set_user_evaluations_path(@evaluation_set, :bird_id => row.bird.id), 
             :remote => true,                                                                              
