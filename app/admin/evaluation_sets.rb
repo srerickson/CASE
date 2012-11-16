@@ -34,7 +34,9 @@ ActiveAdmin.register EvaluationSet do
     end      
     column "" do |es|
       div link_to("Results", results_table_admin_evaluation_set_path(es), :class=>"member_link")
-      div link_to("Result Groups", result_groups_admin_evaluation_set_path(es), :class=>"member_link")      
+      div link_to("Two-axis Results", results_twoaxis_admin_evaluation_set_path(es), :class=>"member_link")
+
+      # div link_to("Result Groups", result_groups_admin_evaluation_set_path(es), :class=>"member_link")      
 
     end
   end
