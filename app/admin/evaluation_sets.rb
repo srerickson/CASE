@@ -1,7 +1,7 @@
 ActiveAdmin.register EvaluationSet do
  
-  menu :label => "Evaluations Admin"
-  menu :if => proc{current_user.is_admin?}, :parent => "Admin Actions", :priority => 100
+  menu :label => "Evaluation Sets", :priority => 200
+  #menu :if => proc{current_user.is_admin?}, :parent => "Admin Actions", :priority => 100
 
   config.clear_sidebar_sections!
 
