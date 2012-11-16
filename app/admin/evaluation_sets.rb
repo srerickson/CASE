@@ -171,7 +171,7 @@ ActiveAdmin.register EvaluationSet do
 
 
   controller do 
-    before_filter :check_admin, :except => [:index, :show , :results_table]
+    before_filter :check_admin, :except => [:index, :show , :results_table, :results_twoaxis]
     private
     def check_admin
       if !current_user.is_admin?
