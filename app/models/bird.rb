@@ -11,7 +11,7 @@ class Bird < ActiveRecord::Base
 
   belongs_to :updated_by, :class_name => "User", :foreign_key => "updated_by_id"
 
-  has_many :user_evaluations
+  has_many :user_evaluations, :dependent => :destroy
   has_many :evaluation_results, :inverse_of => :bird
 
   has_one :logo, 
@@ -64,6 +64,7 @@ class Bird < ActiveRecord::Base
       :only => [:id,:name]
     })
   end
+
 
 
 end
