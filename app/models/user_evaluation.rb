@@ -1,5 +1,7 @@
 class UserEvaluation < ActiveRecord::Base
 
+  has_paper_trail
+
   belongs_to :user
   belongs_to :evaluation_set
   belongs_to :bird

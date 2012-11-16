@@ -1,5 +1,8 @@
 class UserEvaluationAnswer < ActiveRecord::Base
 
+  has_paper_trail
+
+
   belongs_to :evaluation_question
   belongs_to :user_evaluation
   

@@ -1,5 +1,7 @@
 class EvaluationQuestion < ActiveRecord::Base
 
+  has_paper_trail
+
   default_scope  :order => "position ASC"
   
   belongs_to :evaluation_set
