@@ -9,7 +9,7 @@
 .panel
   %h3
     Evaluation Result Details
-    %a.close{ :href =>"javascript:void(0)" } close
+    %a.close{ :href =>"javascript:void(0)", :onclick => '$(this).closest(".user_evaluation_answers_summary").html("")' } close
   .panel_contents
     .attributes_table
       %table
@@ -18,9 +18,3 @@
             %tr
               %th= raw title
               %td= raw details
-
-:javascript
-
-  $(".user_evaluation_answers_summary a.close").click(function(){ 
-    $(this).closest(".user_evaluation_answers_summary").html("")
-  })

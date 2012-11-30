@@ -125,8 +125,6 @@ ActiveAdmin.register EvaluationSet do
 
   end
 
-
-
   member_action :result_groups, :method => :get do 
     @evaluation_set = EvaluationSet.find(params[:id])
     @result_groups =  @evaluation_set.response_groups    
@@ -152,6 +150,16 @@ ActiveAdmin.register EvaluationSet do
     respond_with(@results)
   end
 
+  member_action :results_twoaxis_details, :method => :get do 
+    @evaluation_set = EvaluationSet.find(params[:id])
+    @evaluation_results =  @evaluation_set.evaluation_results
+                            .for_bird(params[:bird_id])
+    
+    @result_rows = EvaluationResultRow.build_results_table_by_bird(@evaluation_results)
+
+    @x_question_index = params[:q_id_x].to_i
+    @y_question_index = params[:q_id_y].to_i
+  end
 
 
   member_action :unlock, :method => :put do 

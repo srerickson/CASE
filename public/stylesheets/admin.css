@@ -27,12 +27,12 @@ a, a:link, a:visited {
     -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 0 1px white inset;
     -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 0 1px white inset;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 0 1px white inset;
-    font-size: 1.0em;
-    line-height: 18px;
+    font-size: 0.95em;
+    line-height: 16px;
     margin-bottom: 0.5em;
     color: #555;
     padding: 5px 10px 3px 10px;
-    z-index: 1000;
+    z-index: 3000;
 
   }
 
@@ -327,9 +327,16 @@ div#evaluation_result_details {
   -moz-box-shadow: 0 0 30px #666;
   -webkit-box-shadow: 0 0 30px #666;
   box-shadow: 0 0 30px #666;
-  z-index:2000;
+  z-index:1000;
 
 }
+
+.results_twoaxis div#evaluation_result_details {
+  width: 250px;
+  top:100px;
+
+}
+
 
 div#evaluation_result_details .panel {
   margin:0;

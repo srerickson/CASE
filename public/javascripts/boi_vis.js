@@ -115,6 +115,13 @@ $(document).ready(function(){
     }
     preload_images(image_paths, function(){
       d3_question_analysis_images()
+      $(".pie image").each(function(){
+        var b_id = $(this).siblings("circle").data("bird-id")
+        $(this).attr("class","tooltip_trigger")
+        $(this).attr("title", $(document).data("bird_data")[b_id].name )
+      })
+      $(".tooltip_trigger[title]").tooltip()
+
     })
   },"json")
 
@@ -128,6 +135,11 @@ $(document).ready(function(){
     //d3_question_analysis_update();
   })
 
+
+  $(".d3_vis").on("click",".pie image",function(e){
+    var b_id = $(this).siblings("circle").data("bird-id")
+    $.getScript(window.location+"_details?bird_id="+b_id+"&q_id_x="+q_id_x+"&q_id_y="+q_id_y)
+  })
 
 
 
@@ -157,12 +169,14 @@ $(document).ready(function(){
                 .attr("width", w)
                 .attr("height",h)
 
-  var x_axis = d3.svg.axis().scale(x_scale).orient("bottom")
-  var y_axis = d3.svg.axis().scale(y_scale).orient("right")
+  var x_axis = d3.svg.axis().scale(x_scale).orient("bottom"),
+      y_axis = d3.svg.axis().scale(y_scale).orient("right")
 
   var padding = 6,
       color = d3.scale.category10().domain([-1,1])
 
+  var q_id_x = 0,
+      q_id_y = 0;
 
   svg.append("defs")
     .append("clipPath")
@@ -184,12 +198,12 @@ $(document).ready(function(){
         .call(y_axis)
 
 
-  var responses = root.datum()[0].results.map(function(r,i){
+  var responses = root.datum()[q_id_x].results.map(function(r,i){
     return {
-      'bird': r.evaluation_result.bird_id,
+      'bird_id': r.evaluation_result.bird_id,
       'score_x': x_scale(r.evaluation_result.answer_score),
       'score_y': y_scale(r.evaluation_result.answer_score),
-      'color': color((r.evaluation_result.answer_score)^2),
+      'color': color((r.evaluation_result.answer_score)),
       'radius': node_size
     }
   })
@@ -211,21 +225,17 @@ $(document).ready(function(){
                 .attr("class","pie")
                 .style("opacity","1") 
                 .call(force.drag);
-                //.attr("transform", translate_function)
 
     new_g.append("circle")
       .attr("r", node_size)
       .attr("fill",function(d,i){ return responses[i].color })
-
-
-
+      .attr("data-bird-id", function(d,i){return responses[i].bird_id } )
 
 
   function d3_question_analysis_images(){
     new_g.append("image")
       .attr("xlink:href",function(d,i){ 
-          console.log(d)
-          return (  $(document).data("bird_data")[d.bird].thumbnail_100_url || "" )
+          return (  $(document).data("bird_data")[d.bird_id].thumbnail_100_url || "" )
        })
       .attr("width",40)
       .attr("x",-20)
@@ -240,16 +250,17 @@ $(document).ready(function(){
 
   function d3_question_analysis_update(){
 
-    var q_id_x =  $("select.question_analysis.x_axis").val(),
-        q_id_y =  $("select.question_analysis.y_axis").val(),
-        x_responses = root.datum()[q_id_x].results,
+    q_id_x =  $("select.question_analysis.x_axis").val()
+    q_id_y =  $("select.question_analysis.y_axis").val()
+
+    var x_responses = root.datum()[q_id_x].results,
         y_responses = root.datum()[q_id_y].results;      
 
     var responses = force.nodes(),
         i = 0;
 
     for(i in responses){
-      if(responses[i].bird_id != x_responses[i].bird_id){
+      if(y_responses[i].bird_id != x_responses[i].bird_id){
         throw new Error("order of responses has changed!")      
       } else {
         responses[i].score_x = x_scale(x_responses[i].evaluation_result.answer_score)
