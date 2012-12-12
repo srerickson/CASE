@@ -2,7 +2,7 @@
 
 set :rvm_ruby_string, '1.9.2@rails3'
 set :application, "boi-cms-2.0"
-set :repository,  "git://github.com/srerickson/boi-cms-2.0"
+set :repository,  "git://github.com/srerickson/CASE"
 set :deploy_to, "/var/www/#{application}"
 set :deploy_via, :remote_cache
 set :scm, :git
