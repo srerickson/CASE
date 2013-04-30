@@ -22,14 +22,15 @@ namespace :deploy do
     run "cd #{deploy_to}/current && bundle install --path=vendor/gems"
   end
   
-  task :link_database_config do
+  task :link_shared_configs do
     run "ln -s #{deploy_to}/shared/config/database.yml #{deploy_to}/current/config/"
+    run "ln -s #{deploy_to}/shared/config/initializers/secret_token.rb #{deploy_to}/current/config/initializers/"
   end
   
 
   # start, stop and restart for Passenger standalone
 	task :start, :roles => :app do
-	  run "cd #{current_path};passenger start -a 127.0.0.1 -p 3000 -d -e production"
+	  run "cd #{current_path};bundle exec passenger start -a 127.0.0.1 -p 3000 -d -e production"
 	end
 
 	task :stop, :roles => :app do
@@ -59,8 +60,8 @@ end
 
 
 after "deploy", "deploy:bundle_gems"
-after "deploy:bundle_gems", "deploy:link_database_config"
-after "deploy:link_database_config", "deploy:restart"
+after "deploy:bundle_gems", "deploy:link_shared_configs"
+after "deploy:link_shared_configs", "deploy:restart"
 
 
 require 'rvm/capistrano'
