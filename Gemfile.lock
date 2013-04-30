@@ -56,6 +56,7 @@ GEM
       activesupport (>= 3.0)
     cocaine (0.5.1)
       climate_control (>= 0.0.3, < 1.0)
+    daemon_controller (1.1.2)
     devise (1.5.4)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.0.3)
@@ -63,6 +64,7 @@ GEM
     erubis (2.6.6)
       abstract (>= 1.0.0)
     fastercsv (1.5.5)
+    fastthread (1.0.7)
     formtastic (2.1.1)
       actionpack (~> 3.0)
     haml (3.1.7)
@@ -108,6 +110,11 @@ GEM
       activesupport (>= 3.0.0)
       cocaine (~> 0.5.0)
       mime-types
+    passenger (3.0.19)
+      daemon_controller (>= 1.0.0)
+      fastthread (>= 1.0.1)
+      rack
+      rake (>= 0.8.1)
     polyglot (0.3.3)
     rack (1.2.8)
     rack-mount (0.6.14)
@@ -159,6 +166,7 @@ DEPENDENCIES
   mysql2 (~> 0.2.6)
   paper_trail (~> 2)
   paperclip
+  passenger
   rails (= 3.0.9)
   rails-erd
   rvm-capistrano

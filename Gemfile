@@ -35,6 +35,10 @@ gem 'haml', '3.1.7'
 #   gem 'webrat'
 # end
 
+group :production do 
+  gem 'passenger'
+end
+
 group :development do
   gem 'capistrano'
   gem 'rvm-capistrano'
