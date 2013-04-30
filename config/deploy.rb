@@ -11,9 +11,9 @@ set :user, "capistrano"
 set :use_sudo, false
 set :bundle_without,  [:development]
 
-role :web, "limn.it"                          # Your HTTP server, Apache/etc
-role :app, "limn.it"                          # This may be the same as your `Web` server
-role :db,  "limn.it", :primary => true # This is where Rails migrations will run
+role :web, "birds.recursivepublic.net"                          # Your HTTP server, Apache/etc
+role :app, "birds.recursivepublic.net"                          # This may be the same as your `Web` server
+role :db,  "birds.recursivepublic.net", :primary => true # This is where Rails migrations will run
 
 namespace :deploy do
 
