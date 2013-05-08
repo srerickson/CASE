@@ -44,3 +44,12 @@ group :development do
   gem 'rvm-capistrano'
   gem "rails-erd"
 end
+
+group :test do 
+  gem 'database_cleaner', '>= 0.9.1'
+end
+
+group :test, :development do
+  gem 'rspec-rails'
+  gem "factory_girl_rails", "~> 4.0"
+end
