@@ -4,7 +4,7 @@ class EvaluationQuestion < ActiveRecord::Base
 
   default_scope  :order => "position ASC"
   
-  belongs_to :evaluation_set
+  belongs_to :evaluation_set, :inverse_of => :evaluation_questions
   has_many :user_evaluation_answers
   has_many :evaluation_results, :inverse_of => :evaluation_question
 

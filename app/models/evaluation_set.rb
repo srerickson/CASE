@@ -2,7 +2,10 @@ class EvaluationSet  < ActiveRecord::Base;
 
 
   # An EvaluationSet is a collection of questions 
-  has_many :evaluation_questions, :order => "position ASC"
+  has_many :evaluation_questions, 
+           :order => "position ASC",
+           :inverse_of => :evaluation_set
+           
   has_many :evaluation_results, :through => :evaluation_questions
 
   accepts_nested_attributes_for :evaluation_questions, :allow_destroy => true
