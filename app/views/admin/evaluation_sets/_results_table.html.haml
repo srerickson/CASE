@@ -21,7 +21,7 @@
         - th_class += r.evaluation_question.sub_question ? " sub_question" : ""
 
         %th{ :class => th_class }
-          = sort_link @evaluation_results, sort_val, "##{r.evaluation_question.id}",
+          = sort_link @evaluation_results, sort_val, "##{r.evaluation_question.position}",
             :default_order =>  next_sort_order
 
       -# summary header
