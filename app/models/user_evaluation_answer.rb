@@ -4,7 +4,7 @@ class UserEvaluationAnswer < ActiveRecord::Base
 
 
   belongs_to :evaluation_question
-  belongs_to :user_evaluation
+  belongs_to :user_evaluation, :inverse_of => :user_evaluation_answers
   
   has_one :evaluation_set, :through => :evaluation_question
   has_one :bird, :through => :user_evaluation

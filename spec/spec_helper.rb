@@ -51,3 +51,8 @@ RSpec.configure do |config|
   
 
 end
+
+
+def user_eval_answer_options
+  [UserEvaluationAnswer.yes, UserEvaluationAnswer.no, UserEvaluationAnswer.na]
+end

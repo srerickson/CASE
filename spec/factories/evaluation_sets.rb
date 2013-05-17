@@ -1,6 +1,8 @@
 FactoryGirl.define do 
   factory :evaluation_set do 
 
+    sequence(:name) { |n| "Eval Set #{n}" }
+
 
     factory :evaluation_set_with_questions do 
       ignore do
@@ -10,7 +12,6 @@ FactoryGirl.define do
         set.evaluation_questions = FactoryGirl.build_list(:evaluation_question, evaluator.q_count)
       end
     end
-
 
   end
 end
