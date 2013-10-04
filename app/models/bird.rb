@@ -58,12 +58,12 @@ class Bird < ActiveRecord::Base
   end
 
 
-  def as_json(options = {})
-    super({
-      :methods => [:thumbnail_100_url, :thumbnail_50_url],
-      :only => [:id,:name]
-    })
-  end
+  # def as_json(options = {})
+  #   super({
+  #     :methods => [:thumbnail_100_url, :thumbnail_50_url],
+  #     :only => [:id,:name]
+  #   })
+  # end
 
 
 

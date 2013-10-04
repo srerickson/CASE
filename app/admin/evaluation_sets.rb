@@ -102,26 +102,26 @@ ActiveAdmin.register EvaluationSet do
 
   member_action :results_table, :method => :get do 
 
-    @evaluation_set  = EvaluationSet.find(params[:id])
-    if !current_user.is_admin? and !@evaluation_set.visible_results
-      redirect_to admin_evaluation_set_path(@evaluation_set), :notice => "Sorry, these results are not public yet."
-    end
+    # @evaluation_set  = EvaluationSet.find(params[:id])
+    # if !current_user.is_admin? and !@evaluation_set.visible_results
+    #   redirect_to admin_evaluation_set_path(@evaluation_set), :notice => "Sorry, these results are not public yet."
+    # end
 
-    new_params = cleanup_result_search_params(params[:search])
-    params[:search] = new_params
-    @custom_sort = parse_result_custom_sort_params(params[:search])
+    # new_params = cleanup_result_search_params(params[:search])
+    # params[:search] = new_params
+    # @custom_sort = parse_result_custom_sort_params(params[:search])
 
-    @evaluation_results =  @evaluation_set.evaluation_results.includes([:bird,:evaluation_question])
+    # @evaluation_results =  @evaluation_set.evaluation_results.includes([:bird])
 
-    if @custom_sort.empty?
-      @evaluation_results  = @evaluation_results.order("birds.name ASC").search(params[:search])
-    else
-      @evaluation_results = @evaluation_results.search(params[:search])
-    end
+    # if @custom_sort.empty?
+    #   @evaluation_results  = @evaluation_results.order("birds.name ASC").search(params[:search])
+    # else
+    #   @evaluation_results = @evaluation_results.search(params[:search])
+    # end
 
-    @result_rows = EvaluationResultRow.build_results_table_by_bird(@evaluation_results)
+    # @result_rows = EvaluationResultRow.build_results_table_by_bird(@evaluation_results)
 
-    do_custom_sort(@custom_sort, @result_rows)
+    # do_custom_sort(@custom_sort, @result_rows)
 
   end
 
@@ -136,18 +136,18 @@ ActiveAdmin.register EvaluationSet do
 
 
   member_action :results_twoaxis, :method => :get do 
-    @evaluation_set = EvaluationSet.find(params[:id])
-    if !current_user.is_admin? and !@evaluation_set.visible_results
-      redirect_to admin_evaluation_set_path(@evaluation_set), :notice => "Sorry, these results are not public yet."
-    end
+    # @evaluation_set = EvaluationSet.find(params[:id])
+    # if !current_user.is_admin? and !@evaluation_set.visible_results
+    #   redirect_to admin_evaluation_set_path(@evaluation_set), :notice => "Sorry, these results are not public yet."
+    # end
 
-    @results = EvaluationResultRow.build_results_table_by_question( 
-                  @evaluation_set.evaluation_results
-                    .includes([:bird,:evaluation_question])
-                    .order("evaluation_questions.id ASC, birds.name ASC") )
+    # @results = EvaluationResultRow.build_results_table_by_question( 
+    #               @evaluation_set.evaluation_results
+    #                 .includes([:bird,:evaluation_question])
+    #                 .order("evaluation_questions.id ASC, birds.name ASC") )
 
 
-    respond_with(@results)
+    # respond_with(@results)
   end
 
   member_action :results_twoaxis_details, :method => :get do 

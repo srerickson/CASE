@@ -1,5 +1,8 @@
 BoiCms20::Application.routes.draw do
 
+  resources :birds, only: [:show, :index]
+  resources :evaluation_sets, only: [:show]
+
   ActiveAdmin.routes(self)
 
   namespace :admin do

@@ -12,6 +12,8 @@ gem 'paperclip'
 gem 'paper_trail', '~> 2'
 gem 'haml', '3.1.7'
 
+gem 'active_model_serializers'
+
 
 group :assets do
   gem 'sass-rails', "  ~> 3.2.3"
