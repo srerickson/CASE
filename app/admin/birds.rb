@@ -157,7 +157,7 @@ ActiveAdmin.register Bird do
     
      panel "Summary" do
       attributes_table_for bird do
-        row "" do |b| 
+        row " " do |b| 
           simple_format b.summary
         end         
       end
