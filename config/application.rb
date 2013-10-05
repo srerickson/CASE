@@ -36,6 +36,18 @@ module BoiCms20
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
 
+    # Enable the asset pipeline
+    config.assets.enabled = true
+
+    # prevents init and DB connection during precompile
+    config.assets.initialize_on_precompile = false
+
+
+    # Precompile fonts
+    config.assets.precompile += %w( .svg .eot .woff .ttf )
+
+
+
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
   end

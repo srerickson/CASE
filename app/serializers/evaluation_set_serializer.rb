@@ -4,7 +4,7 @@ class EvaluationSetSerializer < ActiveModel::Serializer
 
   has_many :evaluation_questions
   has_many :evaluation_results
-  has_many :user_evaluations
-  has_many :user_evaluation_answers
+  # has_many :user_evaluations
+  # has_many :user_evaluation_answers
 
 end

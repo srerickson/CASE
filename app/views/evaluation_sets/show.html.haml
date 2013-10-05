@@ -1,0 +1,11 @@
+%div(ng-app="boi" ng-controller="EvaluationSetController" ng-init="init(#{@id})")
+
+  %button(ng-click="shuffle()") shuffle
+
+  %table
+    %tr(ng-repeat="b in birds" 
+         ng-controller="BirdResultController" 
+         ng-init="bird = b")
+      %td {{ bird.name }}
+      %td(ng-repeat="r in bird.results" )
+        {{ r | json }}
