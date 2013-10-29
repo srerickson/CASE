@@ -13,3 +13,4 @@ public/.htaccess
 vendor/gems
 db/sphinx
 *.svn
+.sass-cache/*
