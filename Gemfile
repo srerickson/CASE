@@ -12,6 +12,7 @@ gem 'paperclip'
 gem 'paper_trail', '~> 2'
 # gem 'haml', '3.1.7'
 gem 'haml_assets'
+gem "twitter-bootstrap-rails"
 
 gem 'active_model_serializers'
 
