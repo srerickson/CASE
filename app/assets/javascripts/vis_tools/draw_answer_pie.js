@@ -17,7 +17,11 @@ function draw_answer_pie(yes_count,no_count, na_count, blank_count, yes_comments
         yes_comments > 0 ? "stroke: #666;stroke-width:1.2px;" : "",
         no_comments >  0 ? "stroke: #666;stroke-width:1.2px;" : "",
         na_comments >  0 ? "stroke: #666;stroke-width:1.2px;" : "",
-      ]
+      ],
+      text_style = 'font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;'+
+                   'font-size: 10px;'+
+                   'text-anchor: middle;',
+
       donut = d3.layout.pie().sort(null),
       arc = d3.svg.arc().innerRadius(.4*r).outerRadius(r-1);
 
@@ -39,7 +43,6 @@ function draw_answer_pie(yes_count,no_count, na_count, blank_count, yes_comments
 
   svg.append("svg:text")
       .attr("dy", ".4em")
-      .attr("font-size", ".8em")
-      .attr("text-anchor", "middle")
+      .attr("style", text_style)
       .text(total);
 }
