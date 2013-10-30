@@ -57,17 +57,28 @@ app.controller "EvaluationSetController", ["$scope","$http",($scope,$http)->
 
 
 
-
-
+  # Supports 4 Types of Sorting
+  #
+  #  - Birdname A-Z
+  #  - Answer Score for a given question (passed as field)
+  #  - Euclidean distance from a bird (passed as field)
+  #  - Euclidean distance from an arbitrary set of values
+  #
   $scope.do_sort = (field,order)->
     console.log "doing sort: #{field}, #{order}"
+
     order_factor = if order == 'desc' then -1 else 1
+
+    # Sort by Bird Name
+
     if field == 'name'
       $scope.birds.sort( (a,b)->
         a = a.name.toUpperCase()
         b = b.name.toUpperCase()
         return ((a>b)-(b>a)) * order_factor
       )
+
+    # Sort by Question
     else if isFinite(field)
       q_id = null
       for q in $scope.questions
@@ -84,16 +95,45 @@ app.controller "EvaluationSetController", ["$scope","$http",($scope,$http)->
           return (a_count - b_count) * order_factor
         else
           return (a_score - b_score) * order_factor
-
-
       )    
 
+    # Sort by Euclidian Distance
+    else if field instanceof Object or field instanceof Array
+
+      vals = []
+      if field instanceof Object and field.hasOwnProperty("id") and field.hasOwnProperty("results")   
+        # field is a bird
+        vals = $scope.questions.map((q)-> field.results[q.id];).map( (r)-> r.answer_score; )
+      else if field instanceof Array and field.length == $scope.questions.length
+        vals = field 
+      else
+        return 
+
+      $scope.birds.sort (a,b)->
+        deltas_a = []
+        deltas_b = []
+        for val, i in vals
+          if val == "*"
+            deltas_a[i] = 0
+            deltas_b[i] = 0
+          else 
+            q_id = $scope.questions[i].id 
+            deltas_a[i] = val - a.results[q_id].answer_score
+            deltas_b[i] = val - b.results[q_id].answer_score
+
+        distance_a = Math.sqrt(  deltas_a.map( (delta)-> delta*delta).reduce((x,y)-> x+y) )
+        distance_b = Math.sqrt(  deltas_b.map( (delta)-> delta*delta).reduce((x,y)-> x+y) )
+
+        return distance_a - distance_b
+
+      # after the sort, scroll to top
+      $("html, body").animate({ scrollTop: 0 }, 600);
+
+    # end of sort ()-> 
 
 
   $scope.is_sub_question = (q)->
     q.id in $scope.sub_questions
-
-
 
   $scope.$watch('sort_field',()->
     if $scope.birds.length 
@@ -106,7 +146,6 @@ app.controller "EvaluationSetController", ["$scope","$http",($scope,$http)->
   )
 
 
-
 ]
 
 
@@ -116,5 +155,7 @@ app.controller "BirdResultController", ["$scope","$http",($scope,$http)->
   $scope.bird = {}
   $scope.fully_loaded = false
 
+  $scope.results_array = ()->
+    
 
 ]
