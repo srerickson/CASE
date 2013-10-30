@@ -1,14 +1,17 @@
 %div(ng-app="boi" ng-controller="EvaluationSetController" ng-init="init(#{@id})")
 
-  %button(ng-click=" sort_by_name() ") sort
+  %button(ng-click=" sort_by_question(1, 'asc') ") sort
+
+  / %input(type="text" ng-model="question_select")
 
   %table.evaluation_results
     %tr(ng-repeat="b in birds" 
          ng-controller="BirdResultController" 
          ng-init="bird = b")
-      %td {{ bird.name }}
-      %td(ng-repeat="r in bird.results")
 
-        %div.evaluation_result_pie(case-result-pie ng-model="r"
-          sub-question="$parent.is_sub_question(r)")
+      %td {{ bird.name }}
+      %td(ng-repeat="question in $parent.show_questions")
+        %div.evaluation_result_pie(case-result-pie
+          ng-model = "bird.results[question.id]"
+          sub-question="$parent.is_sub_question(question)")
 

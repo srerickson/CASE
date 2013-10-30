@@ -9,27 +9,54 @@ app.controller "EvaluationSetController", ["$scope","$http",($scope,$http)->
   $scope.sub_questions = []
   $scope.show_birds = []
 
+  # $scope.question_select = ""
+
+
+  # $scope.$watch("question_select",()->
+  #   nums = $scope.question_select.split(",")
+  #   $scope.show_questions = $scope.questions.filter( (q)-> q.position.toString() in nums)
+  # )
+
+
   $scope.init = (num)-> 
     $http.get("/birds.json")
       .success (data, status, headers, config)->
         $scope.birds = data
+
+        # make sure birds are sorted by name
+        $scope.birds.sort( 
+          sort_by('name',true, (a)->
+            a.toUpperCase();
+          )  
+        )
+
         $http.get("/evaluation_sets/#{num}.json")
           .success (data, status, headers, config)->
             $scope.questions = data.evaluation_questions
 
-            # scan for sub_questions
+            # make sure questions are sorted by position
+            $scope.questions.sort((a,b)->
+              a.position - b.position 
+            )
+
+            # $scope.question_select = $scope.questions.map((q)-> q.position.toString()).join(",")
+            $scope.show_questions = $scope.questions
+
+
+            # build list of sub_questions
             for q in $scope.questions
-              if q.sub_question
-                $scope.sub_questions.push q.id
+              $scope.sub_questions.push(q.id) if q.sub_question
 
-
-            for bird,i in $scope.birds
-
-              $scope.birds[i].results = []
-              for result,j in data.evaluation_results
-
-                if result.bird_id == bird.id
-                  $scope.birds[i].results.push result
+            # build bird.results object 
+            for result in data.evaluation_results
+              bird_index = null
+              for b,i in $scope.birds
+                  if result.bird_id == b.id
+                    bird_index = i
+                    break
+              break if bird_index == null
+              $scope.birds[bird_index].results ||= {}
+              $scope.birds[bird_index].results[result.evaluation_question_id] = result
                   
 
           .error (data, status, headers, config)->
@@ -50,10 +77,7 @@ app.controller "EvaluationSetController", ["$scope","$http",($scope,$http)->
        return reverse * ((a > b) - (b > a))
  
 
-
-
-
-  $scope.sort_by_name = (order)->
+  $scope.sort_by_name = (order='asc')->
     if order == 'desc'
       asc = false
     else
@@ -64,9 +88,23 @@ app.controller "EvaluationSetController", ["$scope","$http",($scope,$http)->
       )  
     )
 
+  $scope.sort_by_question = (q_id, order)->
+    order = if order == 'desc' then -1 else 1
+    $scope.birds.sort( (a,b)->
+      a_score = if a.results.hasOwnProperty(q_id) then a.results[q_id].answer_score else NaN
+      b_score = if b.results.hasOwnProperty(q_id) then b.results[q_id].answer_score else NaN
+      if a_score == b_score and a_score != NaN
+        a_count = a.results[q_id].yes_count + a.results[q_id].no_count + a.results[q_id].na_count
+        b_count = b.results[q_id].yes_count + b.results[q_id].no_count + b.results[q_id].na_count
+        return (a_count - b_count) * order
+      else
+        return (a_score - b_score) * order
+    )    
 
-  $scope.is_sub_question = (r)->
-    r.evaluation_question_id in $scope.sub_questions
+
+
+  $scope.is_sub_question = (q)->
+    q.id in $scope.sub_questions
 
 
 
