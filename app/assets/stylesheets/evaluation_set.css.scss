@@ -14,6 +14,11 @@ table.evaluation_results {
       a.field_name {
         cursor: pointer
       }
+
+      &.active_sort {
+        background-color: #eee;
+      }
+
       .toggle_sort {
         display:none;
         cursor: pointer;
