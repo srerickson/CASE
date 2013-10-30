@@ -6,7 +6,7 @@ class BirdsController < ApplicationController
   end
 
   def index
-    respond_with Bird.all, root: false, :each_serializer => BirdArraySerializer
+    respond_with Bird.order("name ASC"), root: false, :each_serializer => BirdArraySerializer
   end
 
 end

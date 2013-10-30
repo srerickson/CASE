@@ -2,7 +2,7 @@
 
   / %input(type="text" ng-model="question_select")
 
-  %table.evaluation_results(ng-class="{sort_asc: sort_order == 'asc', sort_desc: sort_order != 'asc' }")
+  %table.evaluation_results(ng-cloak ng-class="{sort_asc: sort_order == 'asc', sort_desc: sort_order != 'asc' }")
     %thead
       %tr
         %th(ng-class="{active_sort: sort_field == 'name' }") 
@@ -36,9 +36,17 @@
             %a.proximity_sort(ng-click=" set_sort_field(bird) ")
               proximity sort
 
+          .hint(ng-show="sort_type == 'proximity' ")
+            distance: {{bird.distance | number:4}}
+
 
         %td(ng-repeat="question in $parent.show_questions")
-          %div.evaluation_result_pie(case-result-pie
-            ng-model = "bird.results[question.id]"
-            sub-question="$parent.is_sub_question(question)")
+
+          %div(popover="{{bird.results[question.id].answer_score}}" 
+            popover-trigger="mouseenter" 
+            popover-placement="top")
+
+            .evaluation_result_pie(case-result-pie
+              ng-model = "bird.results[question.id]"
+              sub-question="$parent.is_sub_question(question)")
 

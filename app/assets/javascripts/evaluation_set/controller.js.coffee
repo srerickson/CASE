@@ -12,6 +12,11 @@ app.controller "EvaluationSetController", ["$scope","$http",($scope,$http)->
   $scope.sort_field = 'name'
   $scope.sort_order = "asc"
 
+  # sort method updates this after each sort
+  # for the view's sake
+  $scope.sort_type = "" 
+
+
   $scope.set_sort_field = (val)->
     $scope.sort_field = val 
 
@@ -77,6 +82,7 @@ app.controller "EvaluationSetController", ["$scope","$http",($scope,$http)->
         b = b.name.toUpperCase()
         return ((a>b)-(b>a)) * order_factor
       )
+      $scope.sort_type = "name"
 
     # Sort by Question
     else if isFinite(field)
@@ -96,6 +102,8 @@ app.controller "EvaluationSetController", ["$scope","$http",($scope,$http)->
         else
           return (a_score - b_score) * order_factor
       )    
+      $scope.sort_type = "question"
+
 
     # Sort by Euclidian Distance
     else if field instanceof Object or field instanceof Array
@@ -109,27 +117,27 @@ app.controller "EvaluationSetController", ["$scope","$http",($scope,$http)->
       else
         return 
 
-      $scope.birds.sort (a,b)->
-        deltas_a = []
-        deltas_b = []
+      for bird in $scope.birds 
+        deltas = []
         for val, i in vals
           if val == "*"
-            deltas_a[i] = 0
-            deltas_b[i] = 0
+            deltas[i] = 0
           else 
             q_id = $scope.questions[i].id 
-            deltas_a[i] = val - a.results[q_id].answer_score
-            deltas_b[i] = val - b.results[q_id].answer_score
+            deltas[i] = val - bird.results[q_id].answer_score
+        bird.distance = Math.sqrt(  deltas.map( (delta)-> delta*delta).reduce((x,y)-> x+y) )
 
-        distance_a = Math.sqrt(  deltas_a.map( (delta)-> delta*delta).reduce((x,y)-> x+y) )
-        distance_b = Math.sqrt(  deltas_b.map( (delta)-> delta*delta).reduce((x,y)-> x+y) )
+      $scope.birds.sort (a,b)->
+        return a.distance - b.distance
 
-        return distance_a - distance_b
+      $scope.sort_type = "proximity"
 
       # after the sort, scroll to top
       $("html, body").animate({ scrollTop: 0 }, 600);
 
     # end of sort ()-> 
+
+
 
 
   $scope.is_sub_question = (q)->
