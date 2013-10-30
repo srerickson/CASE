@@ -2,13 +2,14 @@
 #= require jquery_ujs
 #= require twitter/bootstrap
 #= require angular.min
+#= require ui-bootstrap-custom-tpls-0.6.0.min
 #= require d3
 
 #= require_self
 #= require_tree ./vis_tools
 #= require_tree ./evaluation_set
 
-@app = angular.module "boi", []
+@app = angular.module "boi", [ "ui.bootstrap" ]
 
 
 jQuery(()->

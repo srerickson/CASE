@@ -9,26 +9,19 @@ app.controller "EvaluationSetController", ["$scope","$http",($scope,$http)->
   $scope.sub_questions = []
   $scope.show_birds = []
 
-  # $scope.question_select = ""
+  $scope.sort_field = 'name'
+  $scope.sort_order = "asc"
 
+  $scope.set_sort_field = (val)->
+    $scope.sort_field = val 
 
-  # $scope.$watch("question_select",()->
-  #   nums = $scope.question_select.split(",")
-  #   $scope.show_questions = $scope.questions.filter( (q)-> q.position.toString() in nums)
-  # )
-
+  $scope.toggle_sort_order = ()->
+    $scope.sort_order = if $scope.sort_order == 'desc' then 'asc' else 'desc'
 
   $scope.init = (num)-> 
     $http.get("/birds.json")
       .success (data, status, headers, config)->
         $scope.birds = data
-
-        # make sure birds are sorted by name
-        $scope.birds.sort( 
-          sort_by('name',true, (a)->
-            a.toUpperCase();
-          )  
-        )
 
         $http.get("/evaluation_sets/#{num}.json")
           .success (data, status, headers, config)->
@@ -39,9 +32,7 @@ app.controller "EvaluationSetController", ["$scope","$http",($scope,$http)->
               a.position - b.position 
             )
 
-            # $scope.question_select = $scope.questions.map((q)-> q.position.toString()).join(",")
             $scope.show_questions = $scope.questions
-
 
             # build list of sub_questions
             for q in $scope.questions
@@ -57,54 +48,62 @@ app.controller "EvaluationSetController", ["$scope","$http",($scope,$http)->
               break if bird_index == null
               $scope.birds[bird_index].results ||= {}
               $scope.birds[bird_index].results[result.evaluation_question_id] = result
-                  
+            
+            # initial default sort
+            $scope.do_sort($scope.sort_field, $scope.sort_order)
 
           .error (data, status, headers, config)->
             console.log status
 
-  # http://stackoverflow.com/a/979325
-  sort_by = (field, reverse, primer) ->
-    if primer
-      key = (x)->
-        primer(x[field])
-    else
-      key = (x)-> 
-        x[field]
-    reverse = [-1, 1][+!!reverse]
-    return (a, b) ->
-       a = key(a)
-       b = key(b)
-       return reverse * ((a > b) - (b > a))
- 
 
-  $scope.sort_by_name = (order='asc')->
-    if order == 'desc'
-      asc = false
-    else
-      asc = true
-    $scope.birds.sort( 
-      sort_by('name',asc, (a)->
-        a.toUpperCase();
-      )  
-    )
 
-  $scope.sort_by_question = (q_id, order)->
-    order = if order == 'desc' then -1 else 1
-    $scope.birds.sort( (a,b)->
-      a_score = if a.results.hasOwnProperty(q_id) then a.results[q_id].answer_score else NaN
-      b_score = if b.results.hasOwnProperty(q_id) then b.results[q_id].answer_score else NaN
-      if a_score == b_score and a_score != NaN
-        a_count = a.results[q_id].yes_count + a.results[q_id].no_count + a.results[q_id].na_count
-        b_count = b.results[q_id].yes_count + b.results[q_id].no_count + b.results[q_id].na_count
-        return (a_count - b_count) * order
-      else
-        return (a_score - b_score) * order
-    )    
+
+
+  $scope.do_sort = (field,order)->
+    console.log "doing sort: #{field}, #{order}"
+    order_factor = if order == 'desc' then -1 else 1
+    if field == 'name'
+      $scope.birds.sort( (a,b)->
+        a = a.name.toUpperCase()
+        b = b.name.toUpperCase()
+        return ((a>b)-(b>a)) * order_factor
+      )
+    else if isFinite(field)
+      q_id = null
+      for q in $scope.questions
+        if q.position == field 
+          q_id = q.id
+          break
+      return if q_id == null
+      $scope.birds.sort( (a,b)->
+        a_score = if a.results.hasOwnProperty(q_id) then a.results[q_id].answer_score else NaN
+        b_score = if b.results.hasOwnProperty(q_id) then b.results[q_id].answer_score else NaN
+        if a_score == b_score and a_score != NaN
+          a_count = a.results[q_id].yes_count + a.results[q_id].no_count + a.results[q_id].na_count
+          b_count = b.results[q_id].yes_count + b.results[q_id].no_count + b.results[q_id].na_count
+          return (a_count - b_count) * order_factor
+        else
+          return (a_score - b_score) * order_factor
+
+
+      )    
 
 
 
   $scope.is_sub_question = (q)->
     q.id in $scope.sub_questions
+
+
+
+  $scope.$watch('sort_field',()->
+    if $scope.birds.length 
+      $scope.do_sort($scope.sort_field, $scope.sort_order)
+  )
+
+  $scope.$watch('sort_order',()->
+    if $scope.birds.length 
+      $scope.do_sort($scope.sort_field, $scope.sort_order)
+  )
 
 
 

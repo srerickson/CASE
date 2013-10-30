@@ -6,7 +6,53 @@ div[case-result-pie] {
 // * Evaulation Results/Visualization */
 
 table.evaluation_results {
-  width:60%;
+  width:75%;
+
+
+  thead {
+    th {
+      a.field_name {
+        cursor: pointer
+      }
+      .toggle_sort {
+        display:none;
+        cursor: pointer;
+        .entypo {
+          font-size:14px;
+        }
+      }
+    }
+
+  }
+
+  &.sort_desc {
+    th.active_sort .toggle_sort {
+      display: inline;
+      .entypo:before {
+        content:'\E767';
+      }
+    }
+  }
+
+  &.sort_asc {
+    th.active_sort .toggle_sort {
+      display: inline;
+      .entypo:before {
+        content:'\E764';
+      }
+
+    }
+  }
+
+
+  tbody{
+    height:100%;
+    padding-top: 50px;
+    overflow: hidden;
+
+  }
+
+
 
   tr {
     height:60px;
