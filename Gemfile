@@ -7,7 +7,7 @@ gem 'rails', '3.2.13'
 
 gem 'mysql2'
 
-gem 'activeadmin', '0.4.4'
+gem 'activeadmin'
 gem 'paperclip'
 gem 'paper_trail', '~> 2'
 # gem 'haml', '3.1.7'

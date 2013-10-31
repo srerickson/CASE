@@ -1,4 +1,4 @@
-ActiveAdmin::Dashboards.build do
+ActiveAdmin.register_page "Dashboard" do
 
   # Define your dashboard sections here. Each block will be
   # rendered on the dashboard in the context of the view. So just
@@ -8,35 +8,47 @@ ActiveAdmin::Dashboards.build do
   # Here is an example of a simple dashboard section
   #
   
-  section "Your Cases", :priority => 1 do
-    table(:class => "birds_list") do 
-      current_user.updated_birds.collect do |b|
-        tr(:id => "bird_#{b.id}")do
-          td(:width=>"25%") do
-            div(:style=>"height:20px") do 
-              link_to(image_tag(b.logo.asset.url(:sq300),:height=>"20px"), admin_bird_path(b)) unless b.logo.nil?
-            end
-          end
-          td b.name
-        end
-      end
-    end
-  end    
-  
-  section "Recently Updated", :priority => 2 do
-    table(:class => "birds_list") do 
-      Bird.recently_updated(10).collect do |b|
-        tr(:id => "bird_#{b.id}")do
-          td(:width=>"25%") do
-            div(:style=>"height:20px") do 
-              link_to(image_tag(b.logo.asset.url(:sq100),:height=>"20px"), admin_bird_path(b)) unless b.logo.nil?
-            end
-          end
-          td b.name
-        end
+
+  menu :priority => 1, :label => proc{ I18n.t("active_admin.dashboard") }
+
+  content :title => proc{ I18n.t("active_admin.dashboard") } do
+    div :class => "blank_slate_container", :id => "dashboard_default_message" do
+      span :class => "blank_slate" do
+        span I18n.t("active_admin.dashboard_welcome.welcome")
+        small I18n.t("active_admin.dashboard_welcome.call_to_action")
       end
     end
   end
+
+  # section "Your Cases", :priority => 1 do
+  #   table(:class => "birds_list") do 
+  #     current_user.updated_birds.collect do |b|
+  #       tr(:id => "bird_#{b.id}")do
+  #         td(:width=>"25%") do
+  #           div(:style=>"height:20px") do 
+  #             link_to(image_tag(b.logo.asset.url(:sq300),:height=>"20px"), admin_bird_path(b)) unless b.logo.nil?
+  #           end
+  #         end
+  #         td b.name
+  #       end
+  #     end
+  #   end
+  # end    
+  
+  # section "Recently Updated", :priority => 2 do
+  #   table(:class => "birds_list") do 
+  #     Bird.recently_updated(10).collect do |b|
+  #       tr(:id => "bird_#{b.id}")do
+  #         td(:width=>"25%") do
+  #           div(:style=>"height:20px") do 
+  #             link_to(image_tag(b.logo.asset.url(:sq100),:height=>"20px"), admin_bird_path(b)) unless b.logo.nil?
+  #           end
+  #         end
+  #         td b.name
+  #       end
+  #     end
+  #   end
+  # end
   
 
   

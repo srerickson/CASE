@@ -178,7 +178,8 @@
       <input id="bird_updated_by_id" name="bird[updated_by_id]" type="hidden" value="<%= current_user.id %>">      
     <%end%> 
          
-    <%= f.buttons %>
+    <%= f.action(:submit) %>
+    <%= f.action(:cancel) %>
          
 <% end %>
 

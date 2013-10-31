@@ -1,7 +1,22 @@
+//= require active_admin/base
+
+//= require swfobject
+//= require jquery.uploadify.v2.1.4.min
+//= require d3.v2
+//# require jquery.tools.min
+//= require_self 
+//= require_tree ./admin
+
+
+
+
+
+
+
 $(document).ready(function(){ 
 
   // make table rows of birds list clickable
-  $("table#birds tr, table.birds_list tr").bind({
+  $("table#index_table_birds tr, table.birds_list tr").bind({
     mouseover: function(){
       $(this).addClass("mouseover")
       $(this).children("td").addClass("mouseover")

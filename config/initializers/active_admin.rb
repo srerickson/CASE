@@ -12,6 +12,9 @@ ActiveAdmin.setup do |config|
   #
   config.site_title_link = "/admin"
 
+  config.root_to = 'birds#index'
+
+
   # Set an optional image to be displayed for the header
   # instead of a string (overrides :site_title)
   #
@@ -94,7 +97,7 @@ ActiveAdmin.setup do |config|
   # Admin comments are enabled by default.
   #
   # Default:
-  # config.allow_comments = true
+  config.allow_comments = false
   #
   # You can turn them on and off for any given namespace by using a
   # namespace config block.
@@ -120,8 +123,6 @@ ActiveAdmin.setup do |config|
   # and feel.
   #
   # To load a stylesheet:
-  config.register_stylesheet 'vendor/uploadify.css'
-  config.register_stylesheet 'admin.css'
 
 
   #
@@ -130,12 +131,6 @@ ActiveAdmin.setup do |config|
   #
   # To load a javascript file:
 
-  config.register_javascript "vendor/swfobject.js"
-  config.register_javascript "vendor/jquery.uploadify.v2.1.4.min.js"
-  config.register_javascript "vendor/d3.v2.js"
-  config.register_javascript "vendor/jquery.tools.min.js"
-  config.register_javascript "admin.js"
-  config.register_javascript "boi_vis.js"
 
 
 end
