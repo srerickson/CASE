@@ -16,4 +16,4 @@
 
     %strong
       score: 
-    {{ bird.results[question.id].answer_score }}
+    {{ bird.results[question.id].answer_score | number:3 }}

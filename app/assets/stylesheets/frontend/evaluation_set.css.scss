@@ -7,6 +7,7 @@ div[case-result-pie] {
 
 table.evaluation_results {
 
+  margin-top:30px;
   .active_sort {
     background-color: #eee;
   }
@@ -87,7 +88,6 @@ table.evaluation_results {
     text-align:center;
     -moz-user-select: none; 
     -khtml-user-select: none; 
-
     svg {
       cursor:pointer;
       -moz-user-select: none; 
@@ -110,6 +110,11 @@ table.evaluation_results {
     height:60px;
   }
 
+
+  .pie_popup {
+    font-size: 0.85em;
+    line-height: 1.3em;
+  }
 
 
 }
