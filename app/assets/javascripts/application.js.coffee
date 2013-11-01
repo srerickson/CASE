@@ -2,7 +2,7 @@
 #= require jquery_ujs
 #= require twitter/bootstrap
 #= require angular.min
-#= require ui-bootstrap-custom-tpls-0.6.0.min
+#= require ui-bootstrap-tpls-0.6.0
 #= require d3
 
 #= require_self

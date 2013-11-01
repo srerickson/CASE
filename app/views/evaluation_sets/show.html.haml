@@ -37,7 +37,7 @@
 
         %td(ng-repeat="question in $parent.show_questions")
 
-          %div(popover="{{bird.results[question.id].answer_score}}" 
+          %div(popover-template="/assets/frontend/evaluation_set/pie_popup.html" 
             popover-trigger="mouseenter" 
             popover-placement="top"
             ng-click="load_response_details(question)")

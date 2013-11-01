@@ -1,0 +1,19 @@
+.pie_popup
+  .question
+    {{question.question}}
+  .responses
+    %strong
+      YES: 
+    {{ bird.results[question.id].yes_count }}
+
+    %strong
+      NO: 
+    {{ bird.results[question.id].no_count }}
+
+    %strong
+      N/A: 
+    {{ bird.results[question.id].na_count }}
+
+    %strong
+      score: 
+    {{ bird.results[question.id].answer_score }}
