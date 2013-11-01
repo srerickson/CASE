@@ -118,14 +118,28 @@ table.evaluation_results {
 
 div#response_details {
   position:fixed;
-  top:50px;
-  right:10px;
-  height: 300px;
+  top:5%;
+  right:25px;
+  height: 80%;
   overflow-y:scroll;
-  overflow: hidden;
   background-color: #eee;
   z-index:1000;
-  padding:5px;
+  padding:15px 10px;
+  font-size: 0.85em;
+
+  .row-fluid {
+    border-top: 1px solid #CCC;
+  }
+  .row-fluid:nth-child(1) {
+    border-top: none;
+  }
+
+  ul {
+    list-style-type: none;
+    li {
+      margin-top: 3px;
+    }
+  }
 
 }
 

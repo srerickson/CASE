@@ -178,7 +178,7 @@ app.controller "BirdResultController", ["$scope","$http",($scope,$http)->
 app.controller "ResponseDetailsController", ["$scope",($scope)->
 
   $scope.question = {}
-  $scope.answers = {}
+  $scope.answers = []
   $scope.bird = {}
   $scope.show = false
 
@@ -188,5 +188,12 @@ app.controller "ResponseDetailsController", ["$scope",($scope)->
     $scope.bird = data.bird
     $scope.show = true
   )
+
+  $scope.comments_for_answer_type = (t)->
+    answers = $scope.answers.filter( (a)-> a.answer == t and !!a.comment ) #
+    return answers.map( (a)-> a.comment )
+
+
+
 
 ]

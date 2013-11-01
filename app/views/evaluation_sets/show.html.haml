@@ -48,7 +48,33 @@
 
   %div(ng-controller="ResponseDetailsController" ng-show="show")
     .span4#response_details(style="position:fixed")
-      .bird {{bird.name}}
-      .question {{question.question}}
+      .row-fluid
+        .span3 
+          %h6 Name
+        .span9 {{bird.name}}
+      .row-fluid
+        .span3 
+          %h6 Question
+        .span9 {{question.question}}
 
+      .row-fluid(ng-show=" comments_for_answer_type('YES').length ")
+        .span3
+          %h6 YES Comments
+        %ul.span9           
+          %li(ng-repeat="a in comments_for_answer_type('YES') ")
+            {{a}}
+
+      .row-fluid(ng-show=" comments_for_answer_type('NO').length ")
+        .span3
+          %h6 NO Comments
+        %ul.span9           
+          %li(ng-repeat="a in comments_for_answer_type('NO') ")
+            {{a}}
+
+      .row-fluid(ng-show=" comments_for_answer_type('N/A').length ")
+        .span3
+          %h6 N/A Comments
+        %ul.span9           
+          %li(ng-repeat="a in comments_for_answer_type('N/A') ")
+            {{a}}
     
