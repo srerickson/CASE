@@ -1,0 +1,23 @@
+<div class='pie_popup'>
+<div class='question'>
+{{question.question}}
+</div>
+<div class='responses'>
+<strong>
+YES:
+</strong>
+{{ bird.results[question.id].yes_count }}
+<strong>
+NO:
+</strong>
+{{ bird.results[question.id].no_count }}
+<strong>
+N/A:
+</strong>
+{{ bird.results[question.id].na_count }}
+<strong>
+score:
+</strong>
+{{ bird.results[question.id].answer_score | number:3 }}
+</div>
+</div>
