@@ -1,8 +1,6 @@
 %div.container(ng-app="boi" ng-controller="EvaluationSetController" ng-init="init(#{@id})")
 
-  / %input(type="text" ng-model="question_select")
-
-  %table.evaluation_results(ng-cloak ng-class="{sort_asc: sort_order == 'asc', sort_desc: sort_order != 'asc' }")
+  %table.span7.evaluation_results(ng-class="{sort_asc: sort_order == 'asc', sort_desc: sort_order != 'asc' }")
     %thead
       %tr
         %th(ng-class="{active_sort: sort_field == 'name' }") 
@@ -10,21 +8,19 @@
             Name         
           %span.toggle_sort(ng-click="toggle_sort_order()")
             %span.entypo
-
         %th(ng-repeat="question in show_questions"
             ng-class="{active_sort: sort_field == question.position}")
 
           %a.field_name(ng-click="set_sort_field(question.position)"
             popover="{{question.question}}" 
             popover-trigger="mouseenter" 
-            popover-placement="bottom")
-
-            {{question.position}}
+            popover-placement="bottom") {{question.position}}
           %span.toggle_sort(ng-click="toggle_sort_order()")
             %span.entypo
 
-
     %tbody
+
+      // Bird Row
       %tr(ng-repeat="b in birds" 
            ng-controller="BirdResultController" 
            ng-init="bird = b"
@@ -35,7 +31,6 @@
           .hint
             %a.proximity_sort(ng-click=" set_sort_field(bird) ")
               proximity sort
-
           .hint(ng-show="sort_type == 'proximity' ")
             distance: {{bird.distance | number:4}}
 
@@ -44,9 +39,16 @@
 
           %div(popover="{{bird.results[question.id].answer_score}}" 
             popover-trigger="mouseenter" 
-            popover-placement="top")
+            popover-placement="top"
+            ng-click="load_response_details(question)")
 
             .evaluation_result_pie(case-result-pie
               ng-model = "bird.results[question.id]"
               sub-question="$parent.is_sub_question(question)")
 
+  %div(ng-controller="ResponseDetailsController" ng-show="show")
+    .span4#response_details(style="position:fixed")
+      .bird {{bird.name}}
+      .question {{question.question}}
+
+    

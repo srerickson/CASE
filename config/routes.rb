@@ -1,7 +1,10 @@
 BoiCms20::Application.routes.draw do
 
   resources :birds, only: [:show, :index]
-  resources :evaluation_sets, only: [:show]
+  resources :evaluation_sets, only: [:show] do 
+    resources :user_evaluations, only: [:show] 
+    resources :user_evaluation_answers, only: [:index]
+  end
 
   ActiveAdmin.routes(self)
 

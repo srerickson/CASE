@@ -16,6 +16,8 @@ app.controller "EvaluationSetController", ["$scope","$http",($scope,$http)->
   # for the view's sake
   $scope.sort_type = "" 
 
+  # data 
+  $scope.response_details = false
 
   $scope.set_sort_field = (val)->
     $scope.sort_field = val 
@@ -24,6 +26,7 @@ app.controller "EvaluationSetController", ["$scope","$http",($scope,$http)->
     $scope.sort_order = if $scope.sort_order == 'desc' then 'asc' else 'desc'
 
   $scope.init = (num)-> 
+    $scope.id = num 
     $http.get("/birds.json")
       .success (data, status, headers, config)->
         $scope.birds = data
@@ -70,12 +73,9 @@ app.controller "EvaluationSetController", ["$scope","$http",($scope,$http)->
   #  - Euclidean distance from an arbitrary set of values
   #
   $scope.do_sort = (field,order)->
-    console.log "doing sort: #{field}, #{order}"
-
     order_factor = if order == 'desc' then -1 else 1
 
     # Sort by Bird Name
-
     if field == 'name'
       $scope.birds.sort( (a,b)->
         a = a.name.toUpperCase()
@@ -104,10 +104,8 @@ app.controller "EvaluationSetController", ["$scope","$http",($scope,$http)->
       )    
       $scope.sort_type = "question"
 
-
     # Sort by Euclidian Distance
     else if field instanceof Object or field instanceof Array
-
       vals = []
       if field instanceof Object and field.hasOwnProperty("id") and field.hasOwnProperty("results")   
         # field is a bird
@@ -116,7 +114,6 @@ app.controller "EvaluationSetController", ["$scope","$http",($scope,$http)->
         vals = field 
       else
         return 
-
       for bird in $scope.birds 
         deltas = []
         for val, i in vals
@@ -126,18 +123,13 @@ app.controller "EvaluationSetController", ["$scope","$http",($scope,$http)->
             q_id = $scope.questions[i].id 
             deltas[i] = val - bird.results[q_id].answer_score
         bird.distance = Math.sqrt(  deltas.map( (delta)-> delta*delta).reduce((x,y)-> x+y) )
-
       $scope.birds.sort (a,b)->
         return a.distance - b.distance
-
       $scope.sort_type = "proximity"
-
       # after the sort, scroll to top
       $("html, body").animate({ scrollTop: 0 }, 600);
 
     # end of sort ()-> 
-
-
 
 
   $scope.is_sub_question = (q)->
@@ -153,6 +145,16 @@ app.controller "EvaluationSetController", ["$scope","$http",($scope,$http)->
       $scope.do_sort($scope.sort_field, $scope.sort_order)
   )
 
+  $scope.$on 'load_response_details', (e, for_bird_question)->
+    url = "/evaluation_sets/#{$scope.id}/user_evaluation_answers.json"
+    url += "?question_id=#{for_bird_question.question.id}"
+    url += "&bird_id=#{for_bird_question.bird.id}"
+    $http.get(url).success (response, status, headers, config)->
+      $scope.$broadcast("response_details", {
+        bird: for_bird_question.bird
+        question: for_bird_question.question
+        answers: response.user_evaluation_answers
+      })
 
 ]
 
@@ -163,7 +165,28 @@ app.controller "BirdResultController", ["$scope","$http",($scope,$http)->
   $scope.bird = {}
   $scope.fully_loaded = false
 
-  $scope.results_array = ()->
-    
+  $scope.load_response_details = (question)->
+    $scope.$emit("load_response_details",
+      question: question
+      bird: $scope.bird
+    )
+
+]
+
+
+
+app.controller "ResponseDetailsController", ["$scope",($scope)->
+
+  $scope.question = {}
+  $scope.answers = {}
+  $scope.bird = {}
+  $scope.show = false
+
+  $scope.$on("response_details", (e, data)->
+    $scope.question = data.question
+    $scope.answers = data.answers
+    $scope.bird = data.bird
+    $scope.show = true
+  )
 
 ]

@@ -6,7 +6,6 @@ div[case-result-pie] {
 // * Evaulation Results/Visualization */
 
 table.evaluation_results {
-  width:75%;
 
   .active_sort {
     background-color: #eee;
@@ -117,16 +116,16 @@ table.evaluation_results {
 
 
 
-div#evaluation_result_details {
+div#response_details {
   position:fixed;
-  top:120px;
+  top:50px;
   right:10px;
-  width:38%;
-  overflow:hidden;
-  -moz-box-shadow: 0 0 30px #666;
-  -webkit-box-shadow: 0 0 30px #666;
-  box-shadow: 0 0 30px #666;
+  height: 300px;
+  overflow-y:scroll;
+  overflow: hidden;
+  background-color: #eee;
   z-index:1000;
+  padding:5px;
 
 }
 
