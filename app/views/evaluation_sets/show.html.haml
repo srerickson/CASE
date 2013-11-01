@@ -49,32 +49,47 @@
   %div(ng-controller="ResponseDetailsController" ng-show="show")
     .span4#response_details(style="position:fixed")
       .row-fluid
+        .span1
+        .span10
+          %strong EVALUATION RESPONSE DETAILS
+        .span1
+          .entypo.cross(ng-click="show = false")
+      .row-fluid
         .span3 
-          %h6 Name
-        .span9 {{bird.name}}
+          %h6 Case
+        .span9 
+          %img(ng-src="{{bird.thumbnail_100_url}}" ng-show="bird.thumbnail_100_url")
+          {{bird.name}}
       .row-fluid
         .span3 
           %h6 Question
         .span9 {{question.question}}
+      .row-fluid
+        .span3 
+          %h6 Responses
+        .span9 
+          Yes: {{answers_of_type('YES').length}},
+          No: {{answers_of_type('NO').length}},
+          N/A: {{answers_of_type('N/A').length}}
 
       .row-fluid(ng-show=" comments_for_answer_type('YES').length ")
         .span3
           %h6 YES Comments
         %ul.span9           
           %li(ng-repeat="a in comments_for_answer_type('YES') ")
-            {{a}}
+            "{{a}}"
 
       .row-fluid(ng-show=" comments_for_answer_type('NO').length ")
         .span3
           %h6 NO Comments
         %ul.span9           
           %li(ng-repeat="a in comments_for_answer_type('NO') ")
-            {{a}}
+            "{{a}}"
 
       .row-fluid(ng-show=" comments_for_answer_type('N/A').length ")
         .span3
           %h6 N/A Comments
         %ul.span9           
           %li(ng-repeat="a in comments_for_answer_type('N/A') ")
-            {{a}}
+            "{{a}}"
     

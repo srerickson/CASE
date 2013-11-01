@@ -189,9 +189,12 @@ app.controller "ResponseDetailsController", ["$scope",($scope)->
     $scope.show = true
   )
 
+  $scope.answers_of_type = (t)->
+    $scope.answers.filter( (a)-> a.answer == t)
+
   $scope.comments_for_answer_type = (t)->
-    answers = $scope.answers.filter( (a)-> a.answer == t and !!a.comment ) #
-    return answers.map( (a)-> a.comment )
+    answers = $scope.answers.filter( (a)-> a.answer == t and !!a.comment )
+    answers.map( (a)-> a.comment )
 
 
 
