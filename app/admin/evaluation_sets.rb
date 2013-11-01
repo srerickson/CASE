@@ -33,11 +33,8 @@ ActiveAdmin.register EvaluationSet do
       Bird.all.count.to_s
     end      
     column "" do |es|
-      div link_to("Results", results_table_admin_evaluation_set_path(es), :class=>"member_link")
-      div link_to("Two-axis Results", results_twoaxis_admin_evaluation_set_path(es), :class=>"member_link")
-
-      # div link_to("Result Groups", result_groups_admin_evaluation_set_path(es), :class=>"member_link")      
-
+      div link_to "\"Donut\" Results View", evaluation_set_path(es)
+      div "(Two Axis results are temporarily out of service)"
     end
   end
 
