@@ -1,7 +1,27 @@
+.evaluation_set section.overview {
+
+  padding: 25px;
+  margin-top: 20px;
+  background-color: #f0f0f0;
+
+  a[toggle-summary] {
+    display: block;
+    width:100%;
+    text-align: center;
+    margin: 0 auto;
+  }
+}
+
 div[case-result-pie] {
   width: 100px;
   height: 100px;
 }
+
+ul {
+  font-size: 0.9em;
+}
+
+
 
 // * Evaulation Results/Visualization */
 

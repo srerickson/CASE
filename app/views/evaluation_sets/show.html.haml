@@ -1,11 +1,35 @@
-%div.container(ng-app="boi" ng-controller="EvaluationSetController" ng-init="init(#{@id})")
+%div.container.evaluation_set(ng-app="boi" ng-controller="EvaluationSetController" ng-init="init(#{@id})")
 
-  %table.span7.evaluation_results(ng-class="{sort_asc: sort_order == 'asc', sort_desc: sort_order != 'asc' }")
+  .span8
+    %section.overview
+      %p
+        The table below presents the complete set of responses to each of the seven evaluation questions (and two sub-questions) for each of the 102 cases in the <a href="http://recursivepublic.net/">Part.Lab</a> study. Each evaluation question (displayed as columns) was answered ('yes', 'no', or 'na') for each case (displayed as rows) by between three and five members of our research group. The number of responses for each question/case pair is indicated by the number in the center of the 'donut' diagram. 
+        The evaluations questions were: 
+
+      %ul 
+        %li (1) Does participation in this entity produce an educative dividend?
+        %li (2) Does this entity allow participation in goals as well as tasks?
+        %li (2.1) If yes (#2), is participation in goals direct/ representative? Choose YES for direct and No for representative.
+        %li (3) Does this entity allow participants to maintain control or ownership of resources produced?
+        %li (3.1) If yes (#3), collective or individual control? YES for collective, NO for individual
+        %li (4) Is there the capacity for exit (with resources or without penalty)?
+        %li (5) Is there the capacity for effective voice (feedback, dissent or protest)?
+        %li (6) Are there metrics of participation? Can a participant see, measure or experience the outcome of their participation?
+        %li (7) Does the entity itself provide the capacity for communication (affective, subjective, rational or other meaningful intercourse) between participants in some form?
+
+      %p 
+        Move your mouse over the individual diagrams to see response details. Click the diagram to see evaluator comments. You can sort the table by case name (A-Z), question response, or case response similarity (as measured by the euclidean distance between case responses).
+
+      %a(toggle-summary)
+        %span.hidden show overview
+        %span hide
+
+  %table.span8.evaluation_results(ng-class="{sort_asc: sort_order == 'asc', sort_desc: sort_order != 'asc' }")
     %thead
       %tr
         %th(ng-class="{active_sort: sort_field == 'name' }") 
           %a.field_name(ng-click=" set_sort_field('name') ")
-            Name         
+            Case Name         
           %span.toggle_sort(ng-click="toggle_sort_order()")
             %span.entypo
         %th(ng-repeat="question in show_questions"
@@ -30,7 +54,7 @@
           {{ bird.name }}
           .hint
             %a.proximity_sort(ng-click=" set_sort_field(bird) ")
-              proximity sort
+              similarity sort
           .hint(ng-show="sort_type == 'proximity' ")
             distance: {{bird.distance | number:4}}
 

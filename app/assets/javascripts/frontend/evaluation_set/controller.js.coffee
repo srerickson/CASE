@@ -200,3 +200,11 @@ app.controller "ResponseDetailsController", ["$scope",($scope)->
 
 
 ]
+
+
+app.directive "toggleSummary", ()->
+  (scope,elem,attr)->
+    elem.bind("click",()->
+      elem.closest("section").find("p, ul").toggleClass("hidden", 250)
+      elem.children().toggleClass("hidden")
+    )
