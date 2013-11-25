@@ -25,6 +25,7 @@ namespace :deploy do
   task :link_shared_configs do
     run "ln -s #{deploy_to}/shared/config/database.yml #{deploy_to}/current/config/"
     run "ln -s #{deploy_to}/shared/config/initializers/secret_token.rb #{deploy_to}/current/config/initializers/"
+    run "cd #{deploy_to}/current && bundle exec rake assets:precompile"  
   end
   
 
