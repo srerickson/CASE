@@ -1,13 +1,11 @@
 %div.container.evaluation_set(ng-app="boi" ng-controller="EvaluationSetController" ng-init="init(#{@id})")
 
-  .span2
-    &nbsp;
   .span8
 
     %h4 Birds of the Internet: Evaluating participation
     %section.overview
       %p
-        The table below presents the responses to each of the seven evaluation questions (and two sub-questions) for each of the 102 cases in the <a href="http://recursivepublic.net/">Part.Lab</a> study. Each of the evaluation questions (displayed as columns) was answered with 'yes', 'no', or 'n/a' for each case (displayed as rows) by between three and five members of our research group. The number of responses for each question/case pair is indicated by the number in the center of the 'donut' diagram. 
+        The table below presents responses to seven evaluation questions (and two sub-questions) for the 102 participatory entities (cases) in the <a href="http://recursivepublic.net/">Part.Lab</a> study. Each of the evaluation questions (displayed as columns) was answered with 'yes', 'no', or 'n/a' for each case (displayed as rows) by between three and five members of our research group. The number of responses for each question/case pair is indicated by the number in the center of the 'donut' diagram. 
         The evaluation questions are: 
 
       %ul 
@@ -22,14 +20,12 @@
         %li (7) Does the entity itself provide the capacity for communication (affective, subjective, rational or other meaningful intercourse) between participants in some form?
 
       %p 
-        Move your mouse over the individual diagrams to see response details - click the diagram to see evaluator comments. You can sort the cases alphabetically by clicking "Case Name", by question response score (the average of the question responses for a particular question/case) by clicking the question number, or by response similarity by clicking "similarity sort" for a particular case. In the latter, cases are arranged by the (euclidean) distance between their response scores and that of the chosen case – cases with more similar evaluation "profiles" will appear at the top, closer to the chosen case. (<a href="http://www.uta.edu/faculty/sawasthi/Statistics/stcluan.html#d">Euclidean distance</a> is a popular metric used in clustering techniques such as hierarchical agglomeration).
+        Move your mouse over the individual diagrams to see response details - click the diagram to see evaluator comments. You can sort the cases alphabetically by clicking "Case Name", by question response score (the average of the question responses for a particular question/case) by clicking the question number, or by response similarity by clicking "similarity sort" for a particular case. In the latter, cases are arranged by the (euclidean) distance between their response score "profile" and that of the chosen case – similarly evaluated cases will appear near the top, closer to the chosen case. (<a href="http://www.uta.edu/faculty/sawasthi/Statistics/stcluan.html#d">Euclidean distance</a> is a popular metric used in clustering techniques such as hierarchical agglomeration).
 
       %a(toggle-summary)
         %span.hidden show overview
         %span hide
 
-  .span2
-    &nbsp;
   %table.span8.evaluation_results(ng-class="{sort_asc: sort_order == 'asc', sort_desc: sort_order != 'asc' }")
     %thead
       %tr
