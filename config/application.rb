@@ -40,7 +40,7 @@ module BoiCms20
     config.assets.enabled = true
 
     # prevents init and DB connection during precompile
-    config.assets.initialize_on_precompile = false
+    config.assets.initialize_on_precompile = true
 
 
     # Precompile fonts
