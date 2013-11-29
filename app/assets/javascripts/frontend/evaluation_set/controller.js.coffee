@@ -142,10 +142,11 @@ app.controller "EvaluationSetController", ["$scope","$http","$modal",($scope,$ht
       windowClass: "kase_popup"
       resolve:
         id: ()-> id
-      controller: ($scope,id)->
+      controller: ["$scope","id", ($scope,id)->
         $http.get("/birds/#{id}.json")
           .success (data, status, headers, config)->
-            $scope.kase = data  
+            $scope.kase = data 
+      ] 
 
     )
 
