@@ -12,7 +12,7 @@
     %tr
       %th= "#{I18n.translate!("boi_schema.fields.url.human")}"  
       %td
-        %a(ng-src="kase.url") {{a.url}}
+        %a(ng-href="{{kase.url}}" target="_blank") {{kase.url}}
     %tr
       %th="#{I18n.translate!("boi_schema.fields.habitat.human")}"  
       %td {{kase.habitat.name }} 
