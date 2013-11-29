@@ -1,4 +1,5 @@
 
+%h4 Basic Info
 %table 
   %tbody
     %tr
@@ -22,6 +23,7 @@
       %th="#{I18n.translate!("boi_schema.fields.brand.human")}"  
       %td {{kase.brand}}
 
+%h4 Structure
 %table
   %tbody
     %tr
@@ -55,7 +57,7 @@
       %th= "#{I18n.translate!("boi_schema.fields.foritself.human")}"  
       %td {{kase.foritself}}
      
-// Ontogeny 
+%h4 Ontogeny 
 %table
   %tbody
     %tr
@@ -69,7 +71,7 @@
       %td {{kase.lifespan}}
   
 
-// Behavior
+%h4 Behavior
 %table
   %tbody
     %tr
@@ -98,7 +100,7 @@
       %td {{kase.tangible_problem}}. {{kase.tangible_problem_detail}}
  
 
-// Mating
+%h4 Mating
 %table
   %tbody
     %tr
@@ -114,14 +116,20 @@
       %th= "#{I18n.translate!("boi_schema.fields.elites.human")}"  
       %td {{kase.elites}}
  
-// Summary
+%h4 Summary
 %table
   %tbody
     %tr
-      %th Summary 
+      %th &nbsp;
       %td {{kase.summary}}
  
 
+%h4 Case Credits
+%table
+  %tbody
+    %tr
+      %th &nbsp;
+      %td {{kase.birder_credits}}
 
 / %tr
 /   %th= "#{I18n.translate!("boi_schema.fields.birder_credits.human")}"  

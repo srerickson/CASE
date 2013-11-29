@@ -1,12 +1,40 @@
 .kase_popup{
+
+  &.fade.in{
+    top: 5%;
+  }
+
   height: 80%;
   overflow-y:scroll;
   width: 700px;
+  margin-left: -350px;
   padding:20px;
 
   font-family: 'Open Sans', sans-serif;
   font-size: 13px;
   line-height: 21px;
 
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+
+  h4,h5{
+    margin-top:40px;
+  }
+
+  table {
+    width:100%;
+    tr {
+      border-top: 1px solid #CCC;
+      
+      th {
+        width:150px;
+        font-weight: bold;
+      }
+      td{
+        padding: 10px;
+      }
+    }
+  }
 
 }
