@@ -53,7 +53,8 @@
            ng-class="{ active_sort: sort_field == bird }")
 
         %td 
-          {{ bird.name }}
+          %a(ng-click="load_kase(b.id)")
+            {{ bird.name }}
           .hint
             %a.proximity_sort(ng-click=" set_sort_field(bird) ")
               similarity sort

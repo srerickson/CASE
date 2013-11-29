@@ -155,7 +155,7 @@ ActiveAdmin.register Bird do
       end
     end    
     
-     panel "Summary" do
+    panel "Summary" do
       attributes_table_for bird do
         row " " do |b| 
           simple_format b.summary
@@ -163,7 +163,7 @@ ActiveAdmin.register Bird do
       end
     end     
     
-      panel "Metadata" do
+    panel "Metadata" do
       attributes_table_for bird do
         row "#{I18n.translate!("boi_schema.fields.birder_credits.human")}" do |b| 
           simple_format b.birder_credits

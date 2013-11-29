@@ -1,0 +1,141 @@
+
+%table 
+  %tbody
+    %tr
+      %th="#{I18n.translate!("boi_schema.fields.name.human")}" 
+      %td {{ kase.name }}
+    %tr
+      %th= "#{I18n.translate!("boi_schema.fields.logo.human")}"  
+      %td 
+        %img(ng-src="{{kase.thumbnail_100_url}}")
+    %tr
+      %th= "#{I18n.translate!("boi_schema.fields.url.human")}"  
+      %td
+        %a(ng-src="kase.url") {{a.url}}
+    %tr
+      %th="#{I18n.translate!("boi_schema.fields.habitat.human")}"  
+      %td {{kase.habitat.name }} 
+    %tr
+      %th="#{I18n.translate!("boi_schema.fields.genus_type.human")}"  
+      %td {{kase.genus_type.name}}
+    %tr
+      %th="#{I18n.translate!("boi_schema.fields.brand.human")}"  
+      %td {{kase.brand}}
+
+%table
+  %tbody
+    %tr
+      %th= "#{I18n.translate!("boi_schema.fields.fse_name.human")}"  
+      %td {{kase.fse_name}}
+    %tr
+      %th= "#{I18n.translate!("boi_schema.fields.fse_org_style.human")}"  
+      %td {{kase.fse_org_style.name}}
+    %tr
+      %th= "#{I18n.translate!("boi_schema.fields.fse_owner_founder.human")}"  
+      %td {{kase.fse_owner_founder}}
+    %tr
+      %th= "#{I18n.translate!("boi_schema.fields.fse_significant_member.human")}"  
+      %td {{kase.fse_significant_member}}
+    %tr
+      %th= "#{I18n.translate!("boi_schema.fields.fse_mission_statement.human")}"  
+      %td {{kase.fse_mission_statement}}
+    %tr
+      %th= "#{I18n.translate!("boi_schema.fields.op_name.human")}"  
+      %td {{kase.op_name}}
+    %tr
+      %th= "#{I18n.translate!("boi_schema.fields.op_org_style.human")}"  
+      %td {{kase.op_org_style.name}}
+    %tr
+      %th= "#{I18n.translate!("boi_schema.fields.op_vip_founders.human")}"  
+      %td {{kase.op_vip_founders}}
+    %tr
+      %th= "#{I18n.translate!("boi_schema.fields.op_typical_member.human")}"  
+      %td {{kase.op_typical_member}}
+    %tr
+      %th= "#{I18n.translate!("boi_schema.fields.foritself.human")}"  
+      %td {{kase.foritself}}
+     
+// Ontogeny 
+%table
+  %tbody
+    %tr
+      %th= "#{I18n.translate!("boi_schema.fields.formation.human")}"  
+      %td {{kase.formation}} 
+    %tr
+      %th= "#{I18n.translate!("boi_schema.fields.history.human")}"  
+      %td {{kase.history}}
+    %tr
+      %th= "#{I18n.translate!("boi_schema.fields.lifespan.human")}"  
+      %td {{kase.lifespan}}
+  
+
+// Behavior
+%table
+  %tbody
+    %tr
+      %th= "#{I18n.translate!("boi_schema.fields.resource.human")}"  
+      %td {{kase.resource}}      
+    %tr
+      %th= "#{I18n.translate!("boi_schema.fields.availability.human")}"  
+      %td {{kase.availability}}
+    %tr
+      %th= "#{I18n.translate!("boi_schema.fields.participation.human")}"  
+      %td {{kase.participation}}
+    %tr
+      %th= "#{I18n.translate!("boi_schema.fields.tasks.human")}"  
+      %td {{kase.tasks}}
+    %tr
+      %th= "#{I18n.translate!("boi_schema.fields.modularity.human")}"  
+      %td {{kase.modularity}}
+    %tr
+      %th= "#{I18n.translate!("boi_schema.fields.granularity.human")}"  
+      %td {{kase.granularity}}
+    %tr
+      %th= "#{I18n.translate!("boi_schema.fields.metrics.human")}"  
+      %td {{kase.metrics}}
+    %tr
+      %th= "#{I18n.translate!("boi_schema.fields.tangible_problem.human")}"  
+      %td {{kase.tangible_problem}}. {{kase.tangible_problem_detail}}
+ 
+
+// Mating
+%table
+  %tbody
+    %tr
+      %th= "#{I18n.translate!("boi_schema.fields.alliances.human")}"  
+      %td {{kase.alliances}}    
+    %tr
+      %th= "#{I18n.translate!("boi_schema.fields.clients.human")}"  
+      %td {{kase.clients}}
+    %tr
+      %th= "#{I18n.translate!("boi_schema.fields.sponsors.human")}"  
+      %td {{kase.sponsors}}
+    %tr
+      %th= "#{I18n.translate!("boi_schema.fields.elites.human")}"  
+      %td {{kase.elites}}
+ 
+// Summary
+%table
+  %tbody
+    %tr
+      %th Summary 
+      %td {{kase.summary}}
+ 
+
+
+/ %tr
+/   %th= "#{I18n.translate!("boi_schema.fields.birder_credits.human")}"  
+/   %td {{kase.birder_credits}}
+  
+/ %tr
+/   %th= :created_at 
+/     {{kase.created_at}}.localtime unless {{kase.created_at}}.nil?
+
+/ %tr
+/   %th= :updated_at 
+/     {{kase.updated_at}}.localtime unless {{kase.updated_at}}.nil?
+
+/ %tr
+/   %th= "Last Updated By"  
+/   {{kase.updated_by}}.email unless {{kase.updated_by}}.nil?
+ 

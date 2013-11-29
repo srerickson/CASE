@@ -1,4 +1,4 @@
-app.controller "EvaluationSetController", ["$scope","$http",($scope,$http)->
+app.controller "EvaluationSetController", ["$scope","$http","$modal",($scope,$http,$modal)->
 
   $scope.id  = false
   $scope.questions = []
@@ -134,6 +134,21 @@ app.controller "EvaluationSetController", ["$scope","$http",($scope,$http)->
 
   $scope.is_sub_question = (q)->
     q.id in $scope.sub_questions
+
+
+  $scope.load_kase = (id)->
+    $modal.open(
+      templateUrl: "/assets/frontend/evaluation_set/_kase_popup.html"
+      windowClass: "kase_popup"
+      resolve:
+        id: ()-> id
+      controller: ($scope,id)->
+        $http.get("/birds/#{id}.json")
+          .success (data, status, headers, config)->
+            $scope.kase = data  
+
+    )
+
 
   $scope.$watch('sort_field',()->
     if $scope.birds.length 
