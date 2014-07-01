@@ -6,5 +6,23 @@ module BOIExport
     end
   end
 
+  def self.export_evaluation_answers
+    Bird.all.each do |b| 
+      EvaluationQuestion.all.each do |q|
+        responses = UserEvaluationAnswer.for_evaluation_set(1)
+                                         .for_question(q.id)
+                                         .for_bird(b.id)
+                                         .to_a
+
+        j = JSON.pretty_generate(
+          ActiveModel::ArraySerializer.new(
+            responses, each_serializer: UserEvaluationAnswerSerializer
+          ).serializable_array
+        )
+        File.open("b_#{b.id}-q_#{q.id}.json","w").write(j)
+      end
+    end
+  end
+
 
 end
