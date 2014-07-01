@@ -19,7 +19,7 @@ module BOIExport
             responses, each_serializer: UserEvaluationAnswerSerializer
           ).serializable_array
         )
-        File.open("b_#{b.id}-q_#{q.id}.json","w").write(j)
+        File.open("export/evaluation_answers/b_#{b.id}-q_#{q.id}.json","w").write(j)
       end
     end
   end
