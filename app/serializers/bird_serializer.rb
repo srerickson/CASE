@@ -2,6 +2,7 @@ class BirdSerializer < ActiveModel::Serializer
 
   attributes :id,
              :name,
+             :logo,
              :thumbnail_100_url,
              :thumbnail_50_url,
              :url,
@@ -35,11 +36,20 @@ class BirdSerializer < ActiveModel::Serializer
              :tangible_problem,
              :tangible_problem_detail
 
+  has_many :images, serializer: AssetSerializer
   has_one :fse_org_style
   has_one :op_org_style
   has_one :genus_type
   has_one :habitat
   has_one :updated_by
+
+  def logo
+    begin
+      object.logo.asset.url()
+    rescue
+      nil
+    end
+  end
 
   def thumbnail_100_url
     begin
