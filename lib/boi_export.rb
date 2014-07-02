@@ -24,5 +24,12 @@ module BOIExport
     end
   end
 
+  def self.export_users 
+    users = User.all.map(&:attributes)
+    File.open("export/users.json","w") do |f|
+      f.write(JSON.pretty_generate(users))
+    end
+  end
+
 
 end
